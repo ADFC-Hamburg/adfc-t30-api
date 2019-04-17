@@ -54,5 +54,9 @@ Benutzer-Daten können nur einmal pro Benutzer gepostet werden. Um eine Patensch
 POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
 
 ``` json
-
+{
+	"institution": 6,
+	"relationship": "Lehrer"
+}
 ```
+Die Relation zum Beutzer wird automatisch gesetzt.
