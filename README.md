@@ -70,3 +70,8 @@ POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
 }
 ```
 Die Relation zum Beutzer wird automatisch gesetzt.
+
+# TODOS
+
+ * Pagination
+ * Sortierung
