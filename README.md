@@ -41,10 +41,18 @@ POST https://ben-steffen.de/t30/api/crud.php?entity=userdata
 	"lastName": "Rian",
 	"street": "Musterstr.",
 	"number": "11",
-	"city": "Ham burg",
+	"city": "Hamburg",
 	"zip": "22222",
 	"phone": "0212-22222"
 }
 ```
 
 Benutzer-Daten können nur einmal pro Benutzer gepostet werden. Um eine Patenschaft zu erstellen, müssen die Benutzerdaten gepostet sein.
+
+## Patenschaft posten
+
+POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
+
+``` json
+
+```
