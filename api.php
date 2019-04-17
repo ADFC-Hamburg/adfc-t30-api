@@ -18,9 +18,9 @@ FlexAPI::define(function() {
         FlexApi::set('resetSecret', 'reset!');
 
         $environment = FlexAPI::get('environment');
-        $connectionConfig = (array) json_decode(file_get_contents(__DIR__."/dbconnection.conf.json"), true);
-        $databaseConnection = new SqlConnection($connectionConfig[$environment]['data']);
-        $guard = new ACLGuard(new SqlConnection($connectionConfig[$environment]['guard']));
+        $connectionConfig = (array) json_decode(file_get_contents(__DIR__."/$environment.env.json"), true);
+        $databaseConnection = new SqlConnection($connectionConfig['data']);
+        $guard = new ACLGuard(new SqlConnection($connectionConfig['guard']));
         
         $modelFactory = new T30Factory($databaseConnection, $guard);
         $dataModel = $modelFactory->createDataModel();
