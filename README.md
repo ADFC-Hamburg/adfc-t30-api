@@ -29,4 +29,4 @@ POST https://ben-steffen.de/t30/api/portal.php
 }
 ```
 
-Für CRUD-Operationen, für die eine
+Für CRUD-Operationen, für die eine Authentifizierung benötigen, den JSON Web Token (JWT) im Response-Body kopieren und bei den Requests in den Request-Header "Access-Control-Allow-Credentials" schreiben.
