@@ -17,3 +17,16 @@ POST https://ben-steffen.de/t30/api/portal.php
 	"password": "123"
 }
 ```
+## User einloggen
+
+POST https://ben-steffen.de/t30/api/portal.php
+
+``` json
+{
+	"concern": "login",
+	"username": "floderflo@gmx.de",
+	"password": "123"
+}
+```
+
+Für CRUD-Operationen, für die eine
