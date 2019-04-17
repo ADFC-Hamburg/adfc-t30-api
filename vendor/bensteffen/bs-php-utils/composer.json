@@ -1,0 +1,17 @@
+{
+    "name": "bs-php-utils",
+    "description": "Ben-Steffen's PHP utility package",
+    "homepage": "https://github.com/bensteffen/bs-php-utils",
+    "authors": [
+        {
+            "name": "Florian Haeussinger",
+            "email": "me@ben-steffen.de",
+            "role": "Developer"
+        }
+    ],
+    "license": "none",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "version": "1.0.0"
+}

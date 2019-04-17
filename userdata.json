@@ -1,0 +1,20 @@
+[
+    {
+        "firstName": "Florian",
+        "lastName": "Häußinger",
+        "street": "Eifflerstr.",
+        "number": "10",
+        "city": "Hamburg",
+        "zip": "22769",
+        "phone": "0176/87639957"
+    },
+    {
+        "firstName": "Ben",
+        "lastName": "Steffen",
+        "street": "Frankenwaldstr.",
+        "number": "106",
+        "city": "Bayreuth",
+        "zip": "95448",
+        "phone": "0921-93551"
+    }
+]
