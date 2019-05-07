@@ -16,4 +16,3 @@ class PortalPermission extends DataEntity {
     }
 
 }
-?>

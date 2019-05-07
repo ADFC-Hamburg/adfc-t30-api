@@ -13,4 +13,3 @@ class Role extends DataEntity {
     }
 }
 
-?>

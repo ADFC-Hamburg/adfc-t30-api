@@ -24,4 +24,3 @@ function datediff2sec($date_diff) {
     return 3600*$date_diff->h + 60*$date_diff->i + $date_diff->s;
 }
 
-?>

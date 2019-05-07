@@ -19,4 +19,3 @@ abstract class DataModelFactory {
     public abstract function buildDataModel();
 }
 
-?>

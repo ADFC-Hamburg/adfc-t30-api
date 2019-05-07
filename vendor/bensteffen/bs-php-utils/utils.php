@@ -98,4 +98,3 @@ function assocIgnore($array, $keysToIgnore) {
     return $output;
 }
 
-?>

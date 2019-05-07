@@ -108,4 +108,3 @@ function smooth1d($x,$k) {
   }
   return $xsmooth;
 }
-?>

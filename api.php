@@ -80,4 +80,3 @@ FlexAPI::onEvent('after-user-unregistration', function($event) {
     $connection->deleteFromDatabase(FlexAPI::dataModel()->getEntity('userdata'), $filter);
 });
 
-?>

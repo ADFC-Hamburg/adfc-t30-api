@@ -109,4 +109,3 @@ function getReferenceParameters($query) {
     return $refParameters;
 }
 
-?>

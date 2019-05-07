@@ -570,4 +570,3 @@ class DataModel {
     }
 }
 
-?>

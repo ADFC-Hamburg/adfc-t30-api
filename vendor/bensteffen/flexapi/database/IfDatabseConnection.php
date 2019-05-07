@@ -20,4 +20,3 @@ interface IfDatabseConnection {
     function finishData($entity, $data);
 }
 
-?>

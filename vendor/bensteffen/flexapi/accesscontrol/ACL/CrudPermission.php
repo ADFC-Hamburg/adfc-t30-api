@@ -18,4 +18,3 @@ class CrudPermission extends DataEntity {
     }
 
 }
-?>

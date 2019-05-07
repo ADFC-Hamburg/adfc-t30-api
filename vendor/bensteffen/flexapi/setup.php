@@ -44,4 +44,3 @@ http_response_code(200);
 $response['code'] = 200;
 echo jsenc($response);
 
-?>
