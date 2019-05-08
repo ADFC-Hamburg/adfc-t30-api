@@ -6,7 +6,7 @@
             "type": "package",
             "package": {
                 "name": "bensteffen/bs-php-utils",
-                "version": "1.1",
+                "version": "1.0",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/bensteffen/bs-php-utils",
@@ -18,7 +18,7 @@
             "type": "package",
             "package": {
                 "name": "bensteffen/flexapi",
-                "version": "1.0",
+                "version": "1.1",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/bensteffen/flexapi",
@@ -30,7 +30,7 @@
     "require": {
         "firebase/php-jwt": "^5.0",
         "bensteffen/bs-php-utils": "^1.0",
-        "bensteffen/flexapi": "^1.0"
+        "bensteffen/flexapi": "^1.1"
     },
     "authors": [
         {
