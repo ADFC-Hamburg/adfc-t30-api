@@ -1,9 +1,9 @@
-userdata.json
-
 .gitignore
 
 .vscode
 
 one_dot_com.env.json
+
+composer.lock
 
 vendor
