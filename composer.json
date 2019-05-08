@@ -28,7 +28,7 @@
         }
     },
     "require": {
-        "firebase/php-jwt": "^5.1",
+        "firebase/php-jwt": "^5.0",
         "bensteffen/bs-php-utils": "^1.0",
         "bensteffen/flexapi": "^1.0"
     },
