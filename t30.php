@@ -121,4 +121,3 @@ class Patenschaft extends IdEntity {
     }
 }
 
-?>

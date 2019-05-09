@@ -28,4 +28,3 @@ if (!$jwt) {
 
 include_once __DIR__ . '/../vendor/bensteffen/flexapi/crud.php';
 
-?>

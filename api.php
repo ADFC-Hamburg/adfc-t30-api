@@ -38,11 +38,6 @@ FlexApi::onSetup(function() {
     FlexAPI::guard()->registerUser('guest', '');
     FlexAPI::guard()->assignRole('guest','guest');
 
-    // FlexAPI::guard()->allowPortal('admin', 'register');
-    // FlexAPI::guard()->allowPortal('admin', 'unregisterOthers');
-    // FlexAPI::guard()->allowPortal('guest', 'register');
-    // FlexAPI::guard()->allowPortal('registered', 'unregister');
-
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'institution');
 
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'userdata');
@@ -80,4 +75,3 @@ FlexAPI::onEvent('after-user-unregistration', function($event) {
     $connection->deleteFromDatabase(FlexAPI::dataModel()->getEntity('userdata'), $filter);
 });
 
-?>
