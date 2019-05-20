@@ -1,9 +1,9 @@
 <?php
 use Firebase\JWT\ExpiredException;
 
-include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataModelFactory.php';
-include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataModel.php';
-include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/IdEntity.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModelFactory.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModel.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/IdEntity.php';
 
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
