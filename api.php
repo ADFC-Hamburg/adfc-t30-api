@@ -1,10 +1,10 @@
 <?php
 
 
-include_once __DIR__ . '/vendor/bensteffen/flexapi/FlexAPI.php';
-include_once __DIR__ . '/vendor/bensteffen/flexapi/database/SqlConnection.php';
-include_once __DIR__ . '/vendor/bensteffen/flexapi/database/FilterParser.php';
-include_once __DIR__ . '/vendor/bensteffen/flexapi/accesscontrol/ACL/ACLGuard.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/SqlConnection.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
 include_once __DIR__ . '/t30.php';
 
 

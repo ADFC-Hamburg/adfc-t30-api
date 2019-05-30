@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__ . '/../api.php';
-include_once __DIR__ . '/../vendor/bensteffen/flexapi/requestutils/jwt.php';
+include_once __DIR__ . '/../vendor/ADFC-Hamburg/flexapi/requestutils/jwt.php';
 
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
@@ -26,5 +26,5 @@ if (!$jwt) {
 // FlexAPI::guard()->login(['username' => 'bensteffen', 'password' => 'abc']);
 // FlexAPI::guard()->login(['username' => 'admin', 'password' => 'pw']);
 
-include_once __DIR__ . '/../vendor/bensteffen/flexapi/crud.php';
+include_once __DIR__ . '/../vendor/ADFC-Hamburg/flexapi/crud.php';
 

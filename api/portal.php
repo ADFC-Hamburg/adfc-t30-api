@@ -1,5 +1,5 @@
 <?php
 
 include_once __DIR__ . '/../api.php';
-include_once __DIR__ . '/../vendor/bensteffen/flexapi/portal.php';
+include_once __DIR__ . '/../vendor/ADFC-Hamburg/flexapi/portal.php';
 
