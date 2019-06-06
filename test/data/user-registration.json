@@ -1,0 +1,71 @@
+{
+    "ok": [
+        {
+            "concern": "register",
+            "username": "floderflo@gmx.de",
+            "password": "123",
+            "userData": {
+                "firstName": "Florian",
+                "lastName": "Häußinger",
+                "street": "Fakestreet",
+                "number": "123",
+                "city": "Hamburg",
+                "zip": 54321
+            }
+        },
+        {
+            "concern": "register",
+            "username": "me@ben-steffen.de",
+            "password": "abc",
+                "userData": {
+                "firstName": "Ben",
+                "lastName": "Steffen",
+                "street": "Mockway",
+                "number": "99",
+                "city": "Hamburg",
+                "zip": 54322
+            }
+        }
+    ],
+    "badEmail": {
+        "concern": "register",
+        "username": "floderflo",
+        "password": "abc",
+        "userData": {
+            "firstName": "Ben",
+            "lastName": "Steffen",
+            "street": "Mockway",
+            "number": "99",
+            "city": "Hamburg",
+            "zip": 54322
+        }
+    },
+    "missing": [
+        {
+            "concern": "register",
+            "username": "no@user.name",
+            "password": "abc",
+            "userData": {
+                "firstName": "Ben",
+                "lastName": "Steffen",
+                "street": "Mockway",
+                "number": "99",
+                "city": "Hamburg",
+                "zip": 54322
+            }
+        },
+        {
+            "concern": "register",
+            "username": "floderflo",
+            "password": "abc",
+            "userData": {
+                "firstName": "Ben",
+                "lastName": "Steffen",
+                "street": "Mockway",
+                "number": "99",
+                "city": "Hamburg",
+                "zip": 54322
+            }
+        }
+    ]
+}
