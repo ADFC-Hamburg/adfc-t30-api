@@ -4,7 +4,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
 
-let server = 'http://localhost/adfc/adfc-t30-paten-backend';
+let server = 'http://localhost/adfc/adfc-t30-api';
 
 let setupPayload = {
 	resetSecret: "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy",
