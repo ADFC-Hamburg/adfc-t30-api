@@ -76,5 +76,6 @@ Die Relation zum Beutzer wird automatisch gesetzt.
  * Pagination
  * Sortierung
  * Validierung der Email
+ * Passwort vergessen
  * Wer darf Instiutionen anlegen?
  * Änderungen loggen (und Stände wiederherstellen)

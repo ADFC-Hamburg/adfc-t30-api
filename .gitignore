@@ -6,6 +6,14 @@ userdata.json
 
 one_dot_com.env.json
 
+
+mailtest.php
+
 composer.lock
 
-vendor
+vendor/composer
+vendor/firebase
+vendor/phpmailer
+vendor/autoload.php
+
+test/node_modules

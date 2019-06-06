@@ -1,0 +1,5 @@
+{
+    "environment": "example",
+    "maxUserNameLength": 32,
+    "jwtValidityDuration": 3600
+}
