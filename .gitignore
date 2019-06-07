@@ -11,9 +11,6 @@ mailtest.php
 
 composer.lock
 
-vendor/composer
-vendor/firebase
-vendor/phpmailer
-vendor/autoload.php
+vendor
 
 test/node_modules
