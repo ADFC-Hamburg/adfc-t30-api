@@ -47,10 +47,9 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->registerUser('guest', '', false);
     FlexAPI::guard()->assignRole('guest','guest');
 
-    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'institution');
+    FlexAPI::guard()->allowCRUD('guest', 'CRUd', 'institution', false);
 
     FlexAPI::guard()->allowCRUD('registered', 'cRud', 'userdata');
-    FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'institution');
     FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'patenschaft');
 
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'   , false);

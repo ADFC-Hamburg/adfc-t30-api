@@ -78,9 +78,7 @@ class Institution extends IdEntity {
     }
 
     public function observationUpdate($event) {
-        if ($event['subjectName'] === 'institution' && $event['context'] === 'onInsert') {
-            $this->dataModel->getGuard()->publishResource('guest', 'institution', $event['insertId'], 'R');
-        }
+
     }
 
 }
