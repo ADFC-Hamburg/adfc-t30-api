@@ -1,5 +1,4 @@
 <?php
-use Firebase\JWT\ExpiredException;
 
 include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataModelFactory.php';
 include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataModel.php';
