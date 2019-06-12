@@ -20,15 +20,11 @@ FlexAPI::define(function() {
         //         $url
         //     );
         // });
-        $verificationService = new MockVerificationService();
+        $verificationService = new MockVerificationService(); // for auto-testing
 
         $dbCredentials = FlexAPI::get('databaseCredentials');
         $databaseConnection = new SqlConnection($dbCredentials['data']);
         $guard = new ACLGuard(new SqlConnection($dbCredentials['guard']), null, $verificationService);
-
-
-        // $modelFactory = new T30Factory($databaseConnection, $guard);
-        // $dataModel = $modelFactory->createDataModel();
 
         return [
             'factory' => new T30Factory(),
@@ -47,9 +43,10 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->registerUser('guest', '', false);
     FlexAPI::guard()->assignRole('guest','guest');
 
-    FlexAPI::guard()->allowCRUD('guest', 'CRUd', 'institution', false);
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'institution', false);
 
-    FlexAPI::guard()->allowCRUD('registered', 'cRud', 'userdata');
+    FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'institution', false);
+    FlexAPI::guard()->allowCRUD('registered', 'cRUd', 'userdata');
     FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'patenschaft');
 
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'   , false);
@@ -90,7 +87,7 @@ FlexAPI::onEvent('after-user-registration', function($event) {
     $username = $event['request']['username'];
     $userData['user'] = $username;
     FlexAPI::superAccess()->insert('userdata', $userData);
-    FlexAPI::guard()->publishResource($username, 'userdata', $username , 'R');
+    FlexAPI::guard()->publishResource($username, 'userdata', $username , 'RU');
 });
 
 FlexAPI::onEvent('after-user-verification', function($event) {
