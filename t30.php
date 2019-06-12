@@ -86,7 +86,7 @@ class Patenschaft extends IdEntity {
     public function __construct() {
         parent::__construct('patenschaft');
         $this->addFields([
-            ['name' => 'user', 'type' => 'int', 'default' => 0],
+            ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength'), 'default' => 0],
             ['name' => 'institution', 'type' => 'int'],
             ['name' => 'relationship', 'type' => 'varchar', 'length' => 128],
         ]);
@@ -98,11 +98,11 @@ class Patenschaft extends IdEntity {
                 throw(new Exception('Field "user" cannot be set manually.', 400));
             }
         } elseif ($event['context'] === 'onInsert') {
-            $userDataId = $this->dataModel->idOf('userdata', [ 'username' => $event['user'] ]);
+            $userDataId = $this->dataModel->idOf('userdata', [ 'user' => $event['user'] ]);
             if (!$userDataId) {
                 throw(new Exception('No user data found.', 500));
             }
-            FlexAPI::dataModel()->getConnection()->updateDatabase($event['subjectEntity'], [
+            FlexAPI::superAccess()->update('patenschaft', [
                 'id' => $event['insertId'],
                 'user' => $userDataId
             ]);
