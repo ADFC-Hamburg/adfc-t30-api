@@ -63,6 +63,25 @@ FlexApi::onSetup(function($request) {
         $institutions = (array) json_decode(file_get_contents(__DIR__."/institutions.json"), true);
         FlexAPI::superAccess()->insert('institution', $institutions);
     }
+
+    if (array_key_exists('registerTestUser', $request) && $request['registerTestUser']) {
+        $username = 'max-muster@some-provider.de';
+        $password = 'geheim';
+        $userData = [
+            'user' => $username,
+            'firstName' => 'Max',
+            'lastName' => 'Muster',
+            'street' => 'Fakestreet',
+            'number' => '123',
+            'city' => 'Hamburg',
+            'zip' => 22666
+        ];
+        FlexAPI::guard()->registerUser($username, $password , false);
+        FlexAPI::superAccess()->insert('userdata', $userData);
+        FlexAPI::guard()->publishResource($username, 'userdata', $username , 'RU');
+        FlexAPI::guard()->assignRole('guest', $username);
+        FlexAPI::guard()->assignRole('registered', $username);
+    }
 });
 
 FlexAPI::onEvent('before-crud', function($event) {
