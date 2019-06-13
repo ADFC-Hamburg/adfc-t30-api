@@ -98,6 +98,18 @@ POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
 
 Die Relation zum Beutzer wird automatisch gesetzt.
 
+## Institut updaten
+
+PUT https://ben-steffen.de/t30/api/crud.php?entity=institution
+
+``` json
+{
+	"id": 1,
+	"number": "33",
+	"zip": "21078"
+}
+```
+
 # TODOS
 
  - [ ] Pagination
