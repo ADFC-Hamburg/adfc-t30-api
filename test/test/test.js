@@ -4,10 +4,12 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
 
-let server = 'http://localhost/adfc/adfc-t30-api';
+// let server = 'http://localhost/adfc/adfc-t30-api';
+let server = 'http://ben-steffen.de/t30';
 
 let setupPayload = {
-	resetSecret: "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy",
+    // resetSecret: "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy",
+    resetSecret: '<secret-for-ben-steffen-de>',
 	adminPassword: "pw"
 };
 
@@ -43,6 +45,7 @@ describe('API SETUP', function() {
 
 describe('USER SYSTEM', function() { 
     userRegistration.ok.forEach(user => {
+        let verifyToken = null;
         step('it should regsiter a user', function(done) {
             chai.request(server)
                 .post('/api/portal.php')
@@ -50,19 +53,20 @@ describe('USER SYSTEM', function() {
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
+                    verifyToken = res.body.token;
                     done();
             });
         });
         step('it should verify an account using a token', function(done) {
-            let tokenFile = '../api/' + user.username + '.json';
-            content = JSON.parse(fs.readFileSync(tokenFile));
+            // let tokenFile = '../api/' + user.username + '.json';
+            // content = JSON.parse(fs.readFileSync(tokenFile));
             chai.request(server)
                 .get('/api/portal.php')
                 .set('Content-Type', 'application/json')
-                .query({ verify: content.token })
+                .query({ verify: verifyToken })
                 .end((err, res) => {
                     res.should.have.status(200);
-                    fs.unlinkSync(tokenFile);
+                    // fs.unlinkSync(tokenFile);
                     done();
             });
         });
@@ -201,7 +205,7 @@ describe('CRUD userdata', function() {
             });
     });
 
-    step('admin should not be able to read all user data', function(done) {
+    step('admin should be able to read all user data', function(done) {
         chai.request(server)
             .get('/api/crud.php')
             .set('Access-Control-Allow-Credentials', adminToken)
