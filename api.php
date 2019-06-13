@@ -58,6 +58,11 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'   , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution', false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'patenschaft', false);
+
+    if (array_key_exists('fillInTestData', $request) && $request['fillInTestData']) {
+        $institutions = (array) json_decode(file_get_contents(__DIR__."/institutions.json"), true);
+        FlexAPI::superAccess()->insert('institution', $institutions);
+    }
 });
 
 FlexAPI::onEvent('before-crud', function($event) {
@@ -97,8 +102,11 @@ FlexAPI::onEvent('after-user-registration', function($event) {
 });
 
 FlexAPI::onEvent('after-user-verification', function($event) {
-    FlexAPI::guard()->assignRole('guest', $event['username']);
-    FlexAPI::guard()->assignRole('registered', $event['username']);
+    FlexAPI::guard()->assignRole('guest', $event['response']['username']);
+    FlexAPI::guard()->assignRole('registered', $event['response']['username']);
+    // if (array_key_exists('forwardTo', $event['response'])) {
+    //     FlexAPI::navigateTo($event['response']['forwardTo']);
+    // }
 });
 
 
