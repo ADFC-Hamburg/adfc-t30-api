@@ -1,6 +1,35 @@
 # Test Server
 
-http://ben-steffen.de/t30/api/
+Moin Leute,
+
+stand 13.6.2019 gibt es jetzt eine API-Version zum testen unter:
+
+ * http://ben-steffen.de/t30/api/
+ 
+## Setup
+
+Leert alle Tabellen, erzeugt Benutzer "admin" und "guest", setzt für admin das Passwort **adminPassword** und setzt CRUD-Berechtigungen.
+
+POST https://ben-steffen.de/t30/setup.php
+
+``` json
+{
+	"resetSecret": "<bekommt ihr per Mail>",
+	"adminPassword": "<enter admin password here>"
+}
+```
+
+Optional kann man Test-Daten (>2000 Institutionen) und/oder einen Test-User einfügen lassen:
+``` json
+{
+	"resetSecret": "<bekommt ihr per Mail>",
+	"adminPassword": "<enter admin password here>",
+	"fillInTestData": true,
+	"registerTestUser": true
+}
+```
+
+Für Produktion wäre meine Überlegung, die setup.php vom Server nach dem ersten Verwenden autom. löschen zu lassen.
 
 ## Alle Institutionen:
 
@@ -18,46 +47,43 @@ GET http://ben-steffen.de/t30/api/crud.php?entity=institution&filter=[zip,22769]
 
 ## User registrieren
 
+Um einen neuen Benutzer zu registieren:
+
 POST https://ben-steffen.de/t30/api/portal.php
 
 ``` json
 {
 	"concern": "register",
-	"username": "floderflo@gmx.de",
-	"password": "123"
+	"username": "max-muster@some-provider.de",
+	"password": "geheim"
+	"userData": {
+		"firstName": "Max",
+		"lastName": "Muster",
+		"street": "Fakestreet",
+		"number": "123",
+		"city": "Hamburg",
+		"zip": 22666
+	}
 }
 ```
+
+Nach diesem Request wird eine Email mit Aktivierungs-Link an die angegeben Email-Adresse geschickt. Einloggen ist erst nach klicken des Links möglich.
+
 ## User einloggen
+
+Folgender Request erzeugt ein JWT (JSON Web Token):
 
 POST https://ben-steffen.de/t30/api/portal.php
 
 ``` json
 {
 	"concern": "login",
-	"username": "floderflo@gmx.de",
-	"password": "123"
+	"username": "max-muster@some-provider.de",
+	"password": "geheim",
 }
 ```
 
-Für CRUD-Operationen, für die eine Authentifizierung benötigen, den JSON Web Token (JWT) im Response-Body kopieren und bei den Requests in den Request-Header "Access-Control-Allow-Credentials" schreiben.
-
-## Benutzerdaten posten
-
-POST https://ben-steffen.de/t30/api/crud.php?entity=userdata
-
-``` json
-{
-	"firstName": "Flo",
-	"lastName": "Rian",
-	"street": "Musterstr.",
-	"number": "11",
-	"city": "Hamburg",
-	"zip": "22222",
-	"phone": "0212-22222"
-}
-```
-
-Benutzer-Daten können nur einmal pro Benutzer gepostet werden. Um eine Patenschaft zu erstellen, müssen die Benutzerdaten gepostet sein.
+**Für CRUD-Operationen, für die eine Authentifizierung benötigen, den JSON Web Token (JWT) im Response-Body entnehmen und bei allen Requests, die eine Authentfizierung benötigen, in den Request-Header "Access-Control-Allow-Credentials" schreiben.**
 
 ## Patenschaft posten
 
@@ -69,12 +95,14 @@ POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
 	"relationship": "Lehrer"
 }
 ```
+
 Die Relation zum Beutzer wird automatisch gesetzt.
 
 # TODOS
 
- * Pagination
- * Sortierung
- * Validierung der Email
- * Wer darf Instiutionen anlegen?
- * Änderungen loggen (und Stände wiederherstellen)
+ - [ ] Pagination
+ - [ ] Sortierung
+ - [x] Validierung der Email 
+ - [x] Wer darf Instiutionen anlegen? -> Nur Admin und Registrierte
+ - [ ] Änderungen loggen (und Stände wiederherstellen)
+ - [ ] Tabelle mit austehenden Verify-Tokens autom. regelmäßig aufräumen.
