@@ -1,3 +1,27 @@
+# Mysql Datenbank Setup
+
+( später solltes das auf Postgresql umgestellt werden )
+
+mysql -u root
+
+```sql
+CREATE DATABASE t30;
+CREATE USER 't30'@'localhost' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON t30.* TO 't30'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Das Passwort und den User in der local.env.json anpassen.
+
+
+```bash
+cp local.env.json.example local.env.json
+# Change password in local.env.json
+php -S 127.0.0.1:1234
+curl -H "Content-Type: application/json" -d '{ "resetSecret": "reset!"}'  http:/127.0.0.1:1234/setup.php
+```
+
+
 # Test Server
 
 Moin Leute,
