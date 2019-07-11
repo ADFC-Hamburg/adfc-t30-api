@@ -136,6 +136,7 @@ PUT https://ben-steffen.de/t30/api/crud.php?entity=institution
 
 # TODOS
 
+
  - [ ] Pagination
  - [ ] Sortierung
  - [x] Validierung der Email 
