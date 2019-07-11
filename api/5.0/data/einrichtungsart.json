@@ -1,0 +1,18 @@
+[
+    {
+        "artnummer": 1,
+        "art": "Kindertagesheim"
+    },
+    {
+        "artnummer": 2,
+        "art": "Schule"
+    },
+    {
+        "artnummer": 3,
+        "art": "Alten- und Pflegeheim"
+    },
+    {
+        "artnummer": 4,
+        "art": "Krankenhaus"
+    }
+]

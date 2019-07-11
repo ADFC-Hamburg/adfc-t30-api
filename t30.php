@@ -1,9 +1,9 @@
 <?php
-use Firebase\JWT\ExpiredException;
 
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModelFactory.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModel.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/IdEntity.php';
+include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataModelFactory.php';
+include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataModel.php';
+include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/DataEntity.php';
+include_once __DIR__ . '/vendor/bensteffen/flexapi/datamodel/IdEntity.php';
 
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
@@ -40,32 +40,23 @@ class T30Factory extends DataModelFactory {
     }
 }
 
-class UserData extends IdEntity {
+class UserData extends DataEntity {
     public function __construct() {
         parent::__construct('userdata');
         $this->addFields([
+            ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength'), 'primary' => true] ,
             ['name' => 'firstName', 'type' => 'varchar', 'length' => 64],
             ['name' => 'lastName', 'type' => 'varchar', 'length' => 64],
-            ['name' => 'username', 'type' => 'varchar', 'length' => 64, 'notNull' => false],
             ['name' => 'street', 'type' => 'varchar', 'length' => 128],
             ['name' => 'number', 'type' => 'varchar', 'length' => 8],
             ['name' => 'city', 'type' => 'varchar', 'length' => 64],
             ['name' => 'zip', 'type' => 'int'],
-            ['name' => 'phone', 'type' => 'varchar', 'length' => 32]
+            ['name' => 'phone', 'type' => 'varchar', 'length' => 32, 'notNull' => false]
         ]);
     }
 
     public function observationUpdate($event) {
-        if ($event['context'] === 'beforeInsert') {
-            if ($this->dataModel->resourceExists('userdata')) {
-                throw(new Exception('User data already created.', 400));
-            }
-        } elseif ($event['context'] === 'onInsert') {
-            FlexAPI::dataModel()->getConnection()->updateDatabase($event['subjectEntity'], [
-                'id' => $event['insertId'],
-                'username' => $event['user']
-            ]);
-        }
+
     }
 }
 
@@ -86,9 +77,7 @@ class Institution extends IdEntity {
     }
 
     public function observationUpdate($event) {
-        if ($event['subjectName'] === 'institution' && $event['context'] === 'onInsert') {
-            $this->dataModel->getGuard()->publishResource('guest', 'institution', $event['insertId'], 'R');
-        }
+
     }
 
 }
@@ -97,7 +86,7 @@ class Patenschaft extends IdEntity {
     public function __construct() {
         parent::__construct('patenschaft');
         $this->addFields([
-            ['name' => 'user', 'type' => 'int', 'default' => 0],
+            ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength'), 'default' => 0],
             ['name' => 'institution', 'type' => 'int'],
             ['name' => 'relationship', 'type' => 'varchar', 'length' => 128],
         ]);
@@ -109,11 +98,11 @@ class Patenschaft extends IdEntity {
                 throw(new Exception('Field "user" cannot be set manually.', 400));
             }
         } elseif ($event['context'] === 'onInsert') {
-            $userDataId = $this->dataModel->idOf('userdata', [ 'username' => $event['user'] ]);
+            $userDataId = $this->dataModel->idOf('userdata', [ 'user' => $event['user'] ]);
             if (!$userDataId) {
-                throw(new ExpiredException('No user data found.', 500));
+                throw(new Exception('No user data found.', 500));
             }
-            FlexAPI::dataModel()->getConnection()->updateDatabase($event['subjectEntity'], [
+            FlexAPI::superAccess()->update('patenschaft', [
                 'id' => $event['insertId'],
                 'user' => $userDataId
             ]);
