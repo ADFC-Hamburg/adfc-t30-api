@@ -8,7 +8,7 @@ include_once __DIR__ . '/vendor/bensteffen/flexapi/accesscontrol/ACL/ACLGuard.ph
 include_once __DIR__ . '/vendor/bensteffen/flexapi/services/user-verification/EmailVerificationService.php';
 include_once __DIR__ . '/vendor/bensteffen/flexapi/services/user-verification/MockVerificationService.php';
 include_once __DIR__ . '/t30.php';
-include_once __DIR__ . '/EntityMonitor.php';
+include_once __DIR__ . '/vendor/bensteffen/flexapi/EntityMonitor.php';
 
 FlexAPI::onEvent('api-defined', function($event) {
     $entityMonitor = new EntityMonitor(FlexAPI::dataModel(), ['institution']);
