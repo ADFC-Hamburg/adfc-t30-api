@@ -73,9 +73,9 @@ Die Relation zum Beutzer wird automatisch gesetzt.
 
 # TODOS
 
- * Pagination
- * Sortierung
- * Validierung der Email
- * Passwort vergessen
- * Wer darf Instiutionen anlegen?
- * Änderungen loggen (und Stände wiederherstellen)
+ - [ ] Pagination
+ - [ ] Sortierung
+ - [x] Validierung der Email 
+ - [x] Wer darf Instiutionen anlegen? -> Nur Admin und Registrierte
+ - [ ] Änderungen loggen (und Stände wiederherstellen)
+ - [ ] Tabelle mit austehenden Verify-Tokens autom. regelmäßig aufräumen.
