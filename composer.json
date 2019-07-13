@@ -17,11 +17,11 @@
         "flexapi": {
             "type": "package",
             "package": {
-                "name": "ADFC-Hamburg/flexapi",
+                "name": "bensteffen/flexapi",
                 "version": "1.1",
                 "source": {
                     "type": "git",
-                    "url": "https://github.com/ADFC-Hamburg/flexapi",
+                    "url": "https://github.com/bensteffen/flexapi",
                     "reference": "origin/master"
                 }
             }
@@ -30,7 +30,8 @@
     "require": {
         "firebase/php-jwt": "^5.0",
         "bensteffen/bs-php-utils": "^1.0",
-        "ADFC-Hamburg/flexapi": "^1.1"
+        "bensteffen/flexapi": "@dev",
+        "phpmailer/phpmailer": "~6.0"
     },
     "authors": [
         {
