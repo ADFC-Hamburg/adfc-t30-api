@@ -1,67 +1,135 @@
-# Test Server
+# Mysql Datenbank Setup
 
-http://ben-steffen.de/t30/api/
+( später solltes das auf Postgresql umgestellt werden )
+
+mysql -u root
+
+```sql
+CREATE DATABASE t30;
+CREATE USER 't30'@'localhost' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON t30.* TO 't30'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+# Deployment
+
+## PHP-Packages installieren
+
+eventl. vendor/ und composer.lock löschen und "composer clear-cache" ausführen. Durch das Einbinden von flexapi in der Version "@dev" scheint die Caching-Problematik gelöst. Nicht von der Ausgabe, die das Gegenteil behauptet, verwirren lassen.
+
+```bash
+composer install
+```
+
+## Konfig Datei "api.conf.php" erzeugen
+
+Beispiel-Konfig: "api.conf.example.php"
+
+## Einstellung in "api.conf.php" anpassen
+
+"databaseCredentials": Der Einfachheit halber identisch "data" und "guard" identisch
+
+"mailing": smtp-Server Credentials anpassen
+
+"basePath": Pfad auf dem Server, wo die API liegt. Wird benötigt um korrekte URLs bauen zu können.
+
+"setupSecret":Setup Secret. Dieses muss dann auch beim Aufruf der setup.php zur Authorisierung des Setups mitgesendet werden.
+
+"jwtSecret": Secret zur erzeugen aller JWTs
+
+
+Das Passwort und den User in der local.env.json anpassen.
+
+```bash
+cp local.env.json.example local.env.json
+# Change password in local.env.json
+php -S 127.0.0.1:1234
+curl -H "Content-Type: application/json" -d '{ "resetSecret": "reset!"}'  http:/127.0.0.1:1234/setup.php
+```
+
+ 
+## Setup
+
+API wird durch aufruf der setup.php initialisiert. Der Code, der beim Setup ausgeführt wird, befindet sich in der "api.php" in der Methode "onSetup".
+
+POST /setup.php
+
+``` json
+{
+	"resetSecret": "<setup secret>",
+	"adminPassword": "<admin password>"
+}
+```
+
+Optional kann man Test-Daten (>2000 Institutionen) und/oder einen Test-User einfügen lassen:
+``` json
+{
+	"resetSecret": "<setup secret>",
+	"adminPassword": "<admin password>",
+	"fillInTestData": true,
+	"registerTestUser": true
+}
+```
+
+Für Produktion wäre meine Überlegung, die setup.php vom Server nach dem ersten Verwenden autom. löschen zu lassen.
 
 ## Alle Institutionen:
 
-GET http://ben-steffen.de/t30/api/crud.php?entity=institution
+GET /api/crud.php?entity=institution
 
 ### Filtern
 
 z.B. alle Institutionen im Bezirk Altona:
 
-GET http://ben-steffen.de/t30/api/crud.php?entity=institution&filter=[district,con,'altona']
+GET /api/crud.php?entity=institution&filter=[district,con,'altona']
 
 z.B. alle Institutionen mit PLZ 22769 UND mit "kita" (case-ins.) im Namen:
 
-GET http://ben-steffen.de/t30/api/crud.php?entity=institution&filter=[zip,22769]and[name,con,'kita']
+GET /api/crud.php?entity=institution&filter=[zip,22769]and[name,con,'kita']
 
 ## User registrieren
 
-POST https://ben-steffen.de/t30/api/portal.php
+Um einen neuen Benutzer zu registieren:
+
+POST /api/portal.php
 
 ``` json
 {
 	"concern": "register",
-	"username": "floderflo@gmx.de",
-	"password": "123"
+	"username": "max-muster@some-provider.de",
+	"password": "geheim",
+	"userData": {
+		"firstName": "Max",
+		"lastName": "Muster",
+		"street": "Fakestreet",
+		"number": "123",
+		"city": "Hamburg",
+		"zip": 22666
+	}
 }
 ```
+
+Nach diesem Request wird eine Email mit Aktivierungs-Link an die angegeben Email-Adresse geschickt. Einloggen ist erst nach klicken des Links möglich.
+
 ## User einloggen
 
-POST https://ben-steffen.de/t30/api/portal.php
+Folgender Request erzeugt ein JWT (JSON Web Token):
+
+POST /api/portal.php
 
 ``` json
 {
 	"concern": "login",
-	"username": "floderflo@gmx.de",
-	"password": "123"
+	"username": "max-muster@some-provider.de",
+	"password": "geheim",
 }
 ```
 
-Für CRUD-Operationen, für die eine Authentifizierung benötigen, den JSON Web Token (JWT) im Response-Body kopieren und bei den Requests in den Request-Header "Access-Control-Allow-Credentials" schreiben.
-
-## Benutzerdaten posten
-
-POST https://ben-steffen.de/t30/api/crud.php?entity=userdata
-
-``` json
-{
-	"firstName": "Flo",
-	"lastName": "Rian",
-	"street": "Musterstr.",
-	"number": "11",
-	"city": "Hamburg",
-	"zip": "22222",
-	"phone": "0212-22222"
-}
-```
-
-Benutzer-Daten können nur einmal pro Benutzer gepostet werden. Um eine Patenschaft zu erstellen, müssen die Benutzerdaten gepostet sein.
+**Für CRUD-Operationen, für die eine Authentifizierung benötigen, den JSON Web Token (JWT) im Response-Body entnehmen und bei allen Requests, die eine Authentfizierung benötigen, in den Request-Header "Access-Control-Allow-Credentials" schreiben.**
 
 ## Patenschaft posten
 
-POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
+POST /api/crud.php?entity=patenschaft
 
 ``` json
 {
@@ -69,12 +137,25 @@ POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
 	"relationship": "Lehrer"
 }
 ```
+
 Die Relation zum Beutzer wird automatisch gesetzt.
+
+## Institut updaten
+
+PUT /api/crud.php?entity=institution
+
+``` json
+{
+	"id": 1,
+	"number": "33",
+	"zip": "21078"
+}
+```
 
 # TODOS
 
- - [ ] Pagination
- - [ ] Sortierung
+ - [X] Pagination
+ - [X] Sortierung
  - [x] Validierung der Email 
  - [x] Wer darf Instiutionen anlegen? -> Nur Admin und Registrierte
  - [ ] Änderungen loggen (und Stände wiederherstellen)
