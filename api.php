@@ -16,16 +16,20 @@ FlexAPI::onEvent('api-defined', function($event) {
 });
 
 FlexAPI::define(function() {
-        FlexAPI::setConfig('api');
+        FlexAPI::config();
 
-        // $verificationService = new EmailVerificationService(function($address, $url) {
-        //     return sprintf(
-        //         'Hallo,<br><br>'.
-        //         'klicke <a href="%s">hier</a>, um Deinen Account zu aktivieren.<br><br>',
-        //         $url
-        //     );
-        // });
-        $verificationService = new MockVerificationService(); // for auto-testing
+        if (FlexAPI::$env === 'prod') {
+            $verificationService = new EmailVerificationService(function($address, $url) {
+                return sprintf(
+                    'Hallo,<br><br>'.
+                    'klicke <a href="%s">hier</a>, um Deinen Account zu aktivieren.<br><br>',
+                    $url
+                );
+            });
+        }
+        if (FlexAPI::$env === 'dev' || FlexAPI::$env === 'test') {
+            $verificationService = new MockVerificationService(); // for auto-testing
+        }
 
         $dbCredentials = FlexAPI::get('databaseCredentials');
         $databaseConnection = new SqlConnection($dbCredentials['data']);
