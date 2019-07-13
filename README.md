@@ -37,16 +37,6 @@ Beispiel-Konfig: "api.conf.example.php"
 
 "jwtSecret": Secret zur erzeugen aller JWTs
 
-
-Das Passwort und den User in der local.env.json anpassen.
-
-```bash
-cp local.env.json.example local.env.json
-# Change password in local.env.json
-php -S 127.0.0.1:1234
-curl -H "Content-Type: application/json" -d '{ "resetSecret": "reset!"}'  http:/127.0.0.1:1234/setup.php
-```
-
  
 ## Setup
 
@@ -69,6 +59,13 @@ Optional kann man Test-Daten (>2000 Institutionen) und/oder einen Test-User einf
 	"fillInTestData": true,
 	"registerTestUser": true
 }
+```
+
+```bash
+cp local.env.json.example local.env.json
+# Change password in local.env.json
+php -S 127.0.0.1:1234
+curl -H "Content-Type: application/json" -d '{ "resetSecret": "<setup secret>", "adminPassword": "<admin password>"}'  http:/127.0.0.1:1234/setup.php
 ```
 
 Für Produktion wäre meine Überlegung, die setup.php vom Server nach dem ersten Verwenden autom. löschen zu lassen.
