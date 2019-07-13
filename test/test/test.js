@@ -4,7 +4,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
 
-let server = 'http://localhost/adfc/adfc-t30-api';
+let server = 'http://localhost/adfc/api-2019-07/adfc-t30-api';
 // let server = 'http://ben-steffen.de/t30';
 
 let setupPayload = {
