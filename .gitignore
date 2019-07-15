@@ -7,3 +7,8 @@ one_dot_com.env.json
 composer.lock
 vendor
 
+node_modules
+
+api.env.php
+
+api.conf.php
