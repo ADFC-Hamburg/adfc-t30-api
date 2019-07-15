@@ -11,75 +11,90 @@ GRANT ALL PRIVILEGES ON t30.* TO 't30'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-Das Passwort und den User in der local.env.json anpassen.
+# Deployment
 
+## PHP-Packages installieren
+
+eventl. vendor/ und composer.lock löschen und "composer clear-cache" ausführen. Durch das Einbinden von flexapi in der Version "@dev" scheint die Caching-Problematik gelöst. Nicht von der Ausgabe, die das Gegenteil behauptet, verwirren lassen.
 
 ```bash
-cp local.env.json.example local.env.json
-# Change password in local.env.json
-php -S 127.0.0.1:1234
-curl -H "Content-Type: application/json" -d '{ "resetSecret": "reset!"}'  http:/127.0.0.1:1234/setup.php
+composer install
 ```
 
+## Konfig Datei "api.conf.php" erzeugen
 
-# Test Server
+Beispiel-Konfig: "api.conf.example.php"
 
-Moin Leute,
+## Einstellung in "api.conf.php" anpassen
 
-stand 13.6.2019 gibt es jetzt eine API-Version zum testen unter:
+"databaseCredentials": Der Einfachheit halber identisch "data" und "guard" identisch
 
- * http://ben-steffen.de/t30/api/
+"mailing": smtp-Server Credentials anpassen
+
+"basePath": Pfad auf dem Server, wo die API liegt. Wird benötigt um korrekte URLs bauen zu können.
+
+"setupSecret":Setup Secret. Dieses muss dann auch beim Aufruf der setup.php zur Authorisierung des Setups mitgesendet werden.
+
+"jwtSecret": Secret zur erzeugen aller JWTs
+
  
 ## Setup
 
-Leert alle Tabellen, erzeugt Benutzer "admin" und "guest", setzt für admin das Passwort **adminPassword** und setzt CRUD-Berechtigungen.
+API wird durch aufruf der setup.php initialisiert. Der Code, der beim Setup ausgeführt wird, befindet sich in der "api.php" in der Methode "onSetup".
 
-POST https://ben-steffen.de/t30/setup.php
+POST /setup.php
 
 ``` json
 {
-	"resetSecret": "<bekommt ihr per Mail>",
-	"adminPassword": "<enter admin password here>"
+	"resetSecret": "<setup secret>",
+	"adminPassword": "<admin password>"
 }
 ```
 
 Optional kann man Test-Daten (>2000 Institutionen) und/oder einen Test-User einfügen lassen:
 ``` json
 {
-	"resetSecret": "<bekommt ihr per Mail>",
-	"adminPassword": "<enter admin password here>",
+	"resetSecret": "<setup secret>",
+	"adminPassword": "<admin password>",
 	"fillInTestData": true,
 	"registerTestUser": true
 }
+```
+
+```bash
+cp local.env.json.example local.env.json
+# Change password in local.env.json
+php -S 127.0.0.1:1234
+curl -H "Content-Type: application/json" -d '{ "resetSecret": "<setup secret>", "adminPassword": "<admin password>"}'  http:/127.0.0.1:1234/setup.php
 ```
 
 Für Produktion wäre meine Überlegung, die setup.php vom Server nach dem ersten Verwenden autom. löschen zu lassen.
 
 ## Alle Institutionen:
 
-GET http://ben-steffen.de/t30/api/crud.php?entity=institution
+GET /api/crud.php?entity=institution
 
 ### Filtern
 
 z.B. alle Institutionen im Bezirk Altona:
 
-GET http://ben-steffen.de/t30/api/crud.php?entity=institution&filter=[district,con,'altona']
+GET /api/crud.php?entity=institution&filter=[district,con,'altona']
 
 z.B. alle Institutionen mit PLZ 22769 UND mit "kita" (case-ins.) im Namen:
 
-GET http://ben-steffen.de/t30/api/crud.php?entity=institution&filter=[zip,22769]and[name,con,'kita']
+GET /api/crud.php?entity=institution&filter=[zip,22769]and[name,con,'kita']
 
 ## User registrieren
 
 Um einen neuen Benutzer zu registieren:
 
-POST https://ben-steffen.de/t30/api/portal.php
+POST /api/portal.php
 
 ``` json
 {
 	"concern": "register",
 	"username": "max-muster@some-provider.de",
-	"password": "geheim"
+	"password": "geheim",
 	"userData": {
 		"firstName": "Max",
 		"lastName": "Muster",
@@ -97,7 +112,7 @@ Nach diesem Request wird eine Email mit Aktivierungs-Link an die angegeben Email
 
 Folgender Request erzeugt ein JWT (JSON Web Token):
 
-POST https://ben-steffen.de/t30/api/portal.php
+POST /api/portal.php
 
 ``` json
 {
@@ -111,7 +126,7 @@ POST https://ben-steffen.de/t30/api/portal.php
 
 ## Patenschaft posten
 
-POST https://ben-steffen.de/t30/api/crud.php?entity=patenschaft
+POST /api/crud.php?entity=patenschaft
 
 ``` json
 {
@@ -124,7 +139,7 @@ Die Relation zum Beutzer wird automatisch gesetzt.
 
 ## Institut updaten
 
-PUT https://ben-steffen.de/t30/api/crud.php?entity=institution
+PUT /api/crud.php?entity=institution
 
 ``` json
 {
@@ -136,8 +151,8 @@ PUT https://ben-steffen.de/t30/api/crud.php?entity=institution
 
 # TODOS
 
- - [ ] Pagination
- - [ ] Sortierung
+ - [X] Pagination
+ - [X] Sortierung
  - [x] Validierung der Email 
  - [x] Wer darf Instiutionen anlegen? -> Nur Admin und Registrierte
  - [ ] Änderungen loggen (und Stände wiederherstellen)
