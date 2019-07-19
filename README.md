@@ -124,6 +124,32 @@ POST /api/portal.php
 
 **Für CRUD-Operationen, für die eine Authentifizierung benötigen, den JSON Web Token (JWT) im Response-Body entnehmen und bei allen Requests, die eine Authentfizierung benötigen, in den Request-Header "Access-Control-Allow-Credentials" schreiben.**
 
+## Passwort ändern
+
+Falls User schon angemeldet (gültiger JWT wird mitgesendet), kann das Paswort direkt geändert werden:
+
+POST /api/portal.php
+
+``` json
+{
+	"concern": "passwordChange",
+	"newPassword": "sicherer"
+}
+```
+
+Falls User sein Passwort vergessen hat, wird ein JWT mit dem neuen Passwort erzeugt und an die Email-Adresse gesendet.
+
+POST /api/portal.php
+
+``` json
+{
+	"concern": "passwordChange",
+	"email": "floderflo@gmx.de",
+	"newPassword": "unvergesslich"
+}
+```
+
+
 ## Patenschaft posten
 
 POST /api/crud.php?entity=patenschaft
