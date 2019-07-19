@@ -32,6 +32,7 @@ return [
             ]
         ]
     ],
+    "defaultUrlScheme" => 'http',
     "basePath" => "/adfc/api-2019-07/adfc-t30-api",
     "apiPath" => "/api",
     "appRoot" => "./..",
@@ -40,5 +41,6 @@ return [
     "userVerification" => [
         "enabled" => true,
         "validityDuration" => 86000
-    ]
+    ],
+    "passwordChangeValidityDuration" => 24*3600
 ];
