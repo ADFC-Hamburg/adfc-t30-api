@@ -175,6 +175,13 @@ PUT /api/crud.php?entity=institution
 }
 ```
 
+## Änderungsverlauf ("Monitoring")
+
+Alle Änderungen für die Entität 'Institution' werden aufgezeichnet. Der Admin (JWT des Admins wird mitgeschickt) kann den gesamten Verlauf (hier für Id = 1) folgendermaßen abgerufen:
+
+GET /api/monitor.php?entity=institution&id=1
+
+
 # TODOS
 
  - [X] Pagination
