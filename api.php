@@ -75,10 +75,9 @@ FlexApi::onSetup(function($request) {
             'user' => $username,
             'firstName' => 'Max',
             'lastName' => 'Muster',
-            'street' => 'Fakestreet',
-            'number' => '123',
+            'street' => 'Fakestreet 123',
             'city' => 'Hamburg',
-            'zip' => 22666
+            'zip' => '22666'
         ];
         FlexAPI::guard()->registerUser($username, $password , false);
         FlexAPI::superAccess()->insert('userdata', $userData);

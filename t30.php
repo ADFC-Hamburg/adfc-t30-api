@@ -48,9 +48,8 @@ class UserData extends DataEntity {
             ['name' => 'firstName', 'type' => 'varchar', 'length' => 64],
             ['name' => 'lastName', 'type' => 'varchar', 'length' => 64],
             ['name' => 'street', 'type' => 'varchar', 'length' => 128],
-            ['name' => 'number', 'type' => 'varchar', 'length' => 8],
             ['name' => 'city', 'type' => 'varchar', 'length' => 64],
-            ['name' => 'zip', 'type' => 'int'],
+            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'phone', 'type' => 'varchar', 'length' => 32, 'notNull' => false]
         ]);
     }
