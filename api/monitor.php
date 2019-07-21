@@ -32,4 +32,5 @@ try {
     ];
 }
 
+http_response_code($response['code']);
 echo json_encode($response);
