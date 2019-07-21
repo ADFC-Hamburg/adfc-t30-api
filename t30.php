@@ -50,7 +50,7 @@ class UserData extends DataEntity {
             ['name' => 'street', 'type' => 'varchar', 'length' => 128],
             ['name' => 'number', 'type' => 'varchar', 'length' => 8],
             ['name' => 'city', 'type' => 'varchar', 'length' => 64],
-            ['name' => 'zip', 'type' => 'int'],
+            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'phone', 'type' => 'varchar', 'length' => 32, 'notNull' => false]
         ]);
     }
@@ -69,7 +69,7 @@ class Institution extends IdEntity {
             ['name' => 'tempo30', 'type' => 'int'],
             ['name' => 'street', 'type' => 'varchar', 'length' => 128],
             ['name' => 'number', 'type' => 'varchar', 'length' => 8],
-            ['name' => 'zip', 'type' => 'int'],
+            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'district', 'type' => 'varchar', 'length' => 64, 'notNull' => false],
             ['name' => 'lat', 'type' => 'decimal', 'length' => '8,6'],
             ['name' => 'lon', 'type' => 'decimal', 'length' => '8,6'],
