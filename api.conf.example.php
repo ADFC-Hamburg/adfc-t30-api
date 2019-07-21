@@ -7,15 +7,15 @@ return [
     "databaseCredentials" => [
         "data" => [
             "host" => "localhost",
-            "database" => "t30",
-            "username" => "root",
-            "password" => ""
+            "database" => "t30-db-name",
+            "username" => "t30-db-user",
+            "password" => "t30-db-password"
         ],
         "guard" => [
             "host" => "localhost",
-            "database" => "t30",
-            "username" => "root",
-            "password" => ""
+            "database" => "t30-db-name",
+            "username" => "t30-db-user",
+            "password" => "t30-db-password"
         ]
     ],
     "mailing" => [

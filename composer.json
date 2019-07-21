@@ -1,6 +1,7 @@
 {
-    "name": "ADFC-Hamburg/adfc-t30-paten-frontend",
-    "type": "api",
+    "name": "ADFC-Hamburg/adfc-t30-api",
+    "type": "project",
+    "version": "0.1.1",
     "repositories": {
         "bs-php-utils": {
             "type": "package",
