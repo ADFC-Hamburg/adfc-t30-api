@@ -8,9 +8,9 @@
                 "firstName": "Florian",
                 "lastName": "Häußinger",
                 "street": "Fakestreet",
-                "number": 123,
+                "number": "123",
                 "city": "Hamburg",
-                "zip": 54321
+                "zip": "54321"
             }
         },
         {
@@ -21,9 +21,9 @@
                 "firstName": "Ben",
                 "lastName": "Steffen",
                 "street": "Mockway",
-                "number": 99,
+                "number": "99",
                 "city": "Hamburg",
-                "zip": 54322
+                "zip": "54322"
             }
         }
     ],
@@ -35,9 +35,9 @@
             "firstName": "Ben",
             "lastName": "Steffen",
             "street": "Mockway",
-            "number": 99,
+            "number": "99",
             "city": "Hamburg",
-            "zip": 54322
+            "zip": "54322"
         }
     },
     "missing": [
@@ -49,9 +49,9 @@
                 "firstName": "Ben",
                 "lastName": "Steffen",
                 "street": "Mockway",
-                "number": 99,
+                "number": "99",
                 "city": "Hamburg",
-                "zip": 54322
+                "zip": "54322"
             }
         },
         {
@@ -62,9 +62,9 @@
                 "firstName": "Ben",
                 "lastName": "Steffen",
                 "street": "Mockway",
-                "number": 99,
+                "number": "99",
                 "city": "Hamburg",
-                "zip": 54322
+                "zip": "54322"
             }
         }
     ]
