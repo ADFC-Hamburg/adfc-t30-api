@@ -188,5 +188,5 @@ GET /api/monitor.php?entity=institution&id=1
  - [X] Sortierung
  - [x] Validierung der Email 
  - [x] Wer darf Instiutionen anlegen? -> Nur Admin und Registrierte
- - [ ] Änderungen loggen (und Stände wiederherstellen)
+ - [x] Änderungen loggen (und Stände wiederherstellen)
  - [ ] Tabelle mit austehenden Verify-Tokens autom. regelmäßig aufräumen.
