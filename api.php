@@ -107,7 +107,7 @@ FlexAPI::onEvent('before-user-registration', function($event) {
         throw(new Exception('Missing user data.', 400));
     }
     $userData = (array) $event['request']['userData'];
-    $mandatory = ['lastName', 'firstName', 'street', 'number', 'city', 'zip'];
+    $mandatory = ['lastName', 'firstName', 'street', 'city', 'zip'];
     foreach ($mandatory as $key) {
         if (!array_key_exists($key, $userData) && !$userData[$key]) {
             throw(new Exception('Bad user data field "'.$key.'".', 400));
