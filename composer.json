@@ -1,7 +1,7 @@
 {
   "name": "ADFC-Hamburg/adfc-t30-api",
   "type": "project",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "repositories": {
     "bs-php-utils": {
       "type": "package",
