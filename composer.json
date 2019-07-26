@@ -15,23 +15,15 @@
         }
       }
     },
-    "flexapi": {
-      "type": "package",
-      "package": {
-        "name": "ADFC-Hamburg/flexapi",
-        "version": "1.1",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/ADFC-Hamburg/flexapi",
-          "reference": "origin/master"
-        }
-      }
+    "ADFC-Hamburg/flexapi": {
+       "type": "git",
+       "url": "https://github.com/ADFC-Hamburg/flexapi"
     }
   },
   "require": {
     "firebase/php-jwt": "^5.0",
     "bensteffen/bs-php-utils": "^1.0",
-    "ADFC-Hamburg/flexapi": "@dev",
+    "ADFC-Hamburg/flexapi": "^0.1.5",
     "phpmailer/phpmailer": "~6.0"
   },
   "authors": [
