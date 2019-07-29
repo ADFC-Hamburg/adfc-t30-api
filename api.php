@@ -100,7 +100,7 @@ FlexAPI::onEvent('before-crud', function($event) {
 });
 
 FlexAPI::onEvent('before-user-registration', function($event) {
-    if (!preg_match('/^[\w-\.]+@[-\w]+\.[\w]+$/', $event['request']['username'])) {
+    if (!filter_var($event['request']['username'], FILTER_VALIDATE_EMAIL)) {
         throw(new Exception('User name must be a valid email address.', 400));
     }
     if (!array_key_exists('userData', $event['request'])) {
