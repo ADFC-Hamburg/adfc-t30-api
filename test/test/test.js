@@ -4,7 +4,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
 
-let server = 'http://localhost/adfc/api-2019-07/adfc-t30-api';
+let server = 'http://localhost/adfc/adfc-t30-api';
 // let server = 'http://ben-steffen.de/t30';
 
 let setupPayload = {
@@ -26,7 +26,7 @@ let token2 = null;
 let adminToken = null;
 
 let institutionsSlice0 = institutions.slice(0,5);
-let institutionIds0 = null;
+var institutionIds0 = null;
 let institutionsSlice1 = institutions.slice(5,12);
 let institutionsSlice2 = institutions.slice(12,20);
 
@@ -247,6 +247,18 @@ describe('CRUD institution', function() {
             });
     });
 
+    step('it should not be possible for reg. users to update (put) institution', function(done) {
+        chai.request(server)
+            .put('/api/crud.php')
+            .set('Access-Control-Allow-Credentials', token1)
+            .send({ id: institutionIds0[1], street: 'change no. 1' })
+            .query({ entity: 'institution' })
+            .end(function(err, res) {
+                res.should.have.status(200);
+                done();
+            });
+    });
+
     step('it should not be possible for no-admins to delete institutions', function(done) {
         chai.request(server)
             .delete('/api/crud.php')
@@ -268,6 +280,45 @@ describe('CRUD institution', function() {
                 done();
             });
     })
+
+    step('non-admins should not get history', function(done) {
+        chai.request(server)
+            .get('/api/monitor.php')
+            .query({ entity: 'institution', id: institutionIds0[2] })
+            // .set('Access-Control-Allow-Credentials', token1)
+            .end(function(err, res) {
+                res.should.have.status(403);
+                done();
+            });
+    });
+    step('history of unchanged resource should be have length 1', function(done) {
+        chai.request(server)
+            .get('/api/monitor.php')
+            .query({ entity: 'institution', id: institutionIds0[2] })
+            .set('Access-Control-Allow-Credentials', adminToken)
+            .end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('history');
+                res.body.history.should.be.a('array');
+                res.body.history.length.should.be.eql(1);
+                done();
+            });
+    });
+
+    step('history of resource changed 1 time should be have length 2', function(done) {
+        chai.request(server)
+            .get('/api/monitor.php')
+            .query({ entity: 'institution', id: institutionIds0[1] })
+            .set('Access-Control-Allow-Credentials', adminToken)
+            .end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('history');
+                res.body.history.should.be.a('array');
+                res.body.history.length.should.be.eql(2);
+                done();
+            });
+    });
+
 });
 
 describe('CRUD patenschaft', function() {

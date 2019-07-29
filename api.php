@@ -5,6 +5,7 @@ include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/SqlConnection.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/pipes/StripHtmlPipe.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/EmailVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/MockVerificationService.php';
 include_once __DIR__ . '/t30.php';
@@ -17,6 +18,8 @@ FlexAPI::onEvent('api-defined', function($event) {
 
 FlexAPI::define(function() {
         FlexAPI::config();
+
+        FlexAPI::addPipe('input', new StripHtmlPipe());
 
         if (FlexAPI::$env === 'prod') {
             $verificationService = new EmailVerificationService(function($address, $url) {
