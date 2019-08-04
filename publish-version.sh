@@ -11,6 +11,7 @@ if [ -n "${DIFF}" ] ; then
     exit 1
 fi
 
+
 cd vendor/ADFC-Hamburg/flexapi
 git fetch
 DIFF=$(git diff origin/master)
@@ -23,15 +24,20 @@ pwd
 git tag v${OLD_VERSION}
 git push origin v${OLD_VERSION}
 jq ".version=\"$NEW_VERSION\"" <composer.json >composer.json.new
-mv composer.json.new composer.json 
+mv composer.json.new composer.json
 git commit -m "published version $OLD_VERSION begining work for version $NEW_VERSION" composer.json
 git push origin master
 cd ../../..
 pwd
+jq ".require[\"ADFC-Hamburg/flexapi\"]=\"^${OLD_VERSION}\"" composer.json >composer.json.new
+
+mv composer.json.new composer.json
+git commit -m 'Set flexapi Version to ${OLD_VERSION}' composer.json
+
 git tag v${OLD_VERSION}
 git push origin v${OLD_VERSION}
 jq ".version=\"${NEW_VERSION}\"" <composer.json >composer.json.new
-jq ".require[\"ADFC-Hamburg/flexapi\"]=\"^${NEW_VERSION}\"" composer.json.new >composer.json
+jq ".require[\"ADFC-Hamburg/flexapi\"]=\"dev-master\"" composer.json.new >composer.json
 rm composer.json.new
 git commit -m "published version $OLD_VERSION begining work for version $NEW_VERSION" composer.json
 git push origin master
