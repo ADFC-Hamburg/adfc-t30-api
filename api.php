@@ -145,3 +145,17 @@ FlexAPI::onEvent('before-user-unregistration', function($event) {
 FlexAPI::onEvent('after-user-unregistration', function($event) {
     FlexAPI::superAccess()->delete('userdata', ['user' => $event['username']]);
 });
+
+FlexAPI::onEvent('before-role-change', function($event) {
+    $jwt = getJWT();
+    if (!$jwt) {
+        throw(new Exception('Not permitted', 403));
+    }
+    FlexAPI::guard()->login($jwt);
+    if (!in_array('admin', FlexAPI::guard()->getUserRoles())) {
+        throw(new Exception('Not permitted', 403));
+    }
+    if (array_key_exists('withdrawFrom', $event['request']) && $event['request']['withdrawFrom'] === 'admin') {
+        throw(new Exception('Admin roles cannot be withdrawn.', 400));
+    }
+});
