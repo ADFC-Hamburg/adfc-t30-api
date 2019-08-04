@@ -37,7 +37,7 @@ Beispiel-Konfig: "api.conf.example.php"
 
 "jwtSecret": Secret zur erzeugen aller JWTs
 
- 
+
 ## Setup
 
 API wird durch aufruf der setup.php initialisiert. Der Code, der beim Setup ausgeführt wird, befindet sich in der "api.php" in der Methode "onSetup".
@@ -65,7 +65,7 @@ Optional kann man Test-Daten (>2000 Institutionen) und/oder einen Test-User einf
 cp local.env.json.example local.env.json
 # Change password in local.env.json
 php -S 127.0.0.1:1234
-curl -H "Content-Type: application/json" -d '{ "resetSecret": "<setup secret>", "adminPassword": "<admin password>"}'  http:/127.0.0.1:1234/setup.php
+curl -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword":"geheim", "fillInTestData": true, "registerTestUser":true}' http:/127.0.0.1:1234/setup.php
 ```
 
 Für Produktion wäre meine Überlegung, die setup.php vom Server nach dem ersten Verwenden autom. löschen zu lassen.
@@ -186,7 +186,7 @@ GET /api/monitor.php?entity=institution&id=1
 
  - [X] Pagination
  - [X] Sortierung
- - [x] Validierung der Email 
+ - [x] Validierung der Email
  - [x] Wer darf Instiutionen anlegen? -> Nur Admin und Registrierte
  - [x] Änderungen loggen (und Stände wiederherstellen)
  - [ ] Tabelle mit austehenden Verify-Tokens autom. regelmäßig aufräumen.
