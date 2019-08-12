@@ -35,6 +35,8 @@ sed -i -e "s/t30-db-password/${T30_PW}/" api.conf.php
 sed -i -e "s/t30-db-user/t30/" api.conf.php
 sed -i -e "s/t30-db-name/${DATABASE}/" api.conf.php
 
+composer install
+
 echo 'Call setup.php'
 
 curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "${T30_ADMIN}", "fillInTestData": true, "registerTestUser": true}'  "https://tools.adfc-hamburg.de/t30-paten/api/version${VERSION}/setup.php"
