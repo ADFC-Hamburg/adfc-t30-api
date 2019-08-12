@@ -139,6 +139,32 @@ POST /api/portal.php
 
 Falls User sein Passwort vergessen hat, wird ein JWT mit dem neuen Passwort erzeugt und an die Email-Adresse gesendet.
 
+## Rolle zuordnen/entziehen
+
+Admins (= User mit Rolle "admin") sind können Rollen beliebigen User-Namen zuordnen:
+
+POST /api/portal.php
+
+``` json
+{
+	"concern": "roleAdministration",
+	"role": "admin",
+	"assignTo": "<username>"
+}
+```
+
+Zum entziehen einer Rolle:
+
+POST /api/portal.php
+
+``` json
+{
+	"concern": "roleAdministration",
+	"role": "admin",
+	"withdrawFrom": "<username>"
+}
+```
+
 POST /api/portal.php
 
 ``` json
