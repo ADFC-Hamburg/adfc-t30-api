@@ -1,5 +1,10 @@
 #!/bin/bash
-T30_SEC_DIR=".t30-secret"
+#
+# git clone --single-branch -b v0.1.10 https://github.com/ADFC-Hamburg/adfc-t30-api  version0.1.10
+# cd version0.1.10
+# ./deploy.sh
+
+T30_SEC_DIR="/root/.t30-secret"
 
 function get_secret {
     DESCR=$1
@@ -13,28 +18,41 @@ function get_secret {
 mkdir -p $T30_SEC_DIR
 
 VERSION=$(jq -r '.version' composer.json)
-MYSQL_ROOT_PW="$(cat ~/${T30_SEC_DIR}/mysql.root.secret)"
+MYSQL_ROOT_PW="$(cat ${T30_SEC_DIR}/mysql.root.secret)"
 T30_PW=$(get_secret t30.db)
 T30_ADMIN=$(get_secret t30.admin)
-DATABASE="t30paten_$(echo $OLD_VERSION |sed -e 's/\./_/g')"
+DATABASE="t30paten_$(echo $VERSION |sed -e 's/\./_/g')"
 
+echo DB: $DATABASE
 echo "== Drop Database =="
 echo "DROP DATABASE IF EXISTS $DATABASE; " | mysql -u root -p"${MYSQL_ROOT_PW}"
+echo "DROP USER IF EXISTS '$DATABASE'@'localhost'; " | mysql -u root -p"${MYSQL_ROOT_PW}"
 
 echo "== Create Database =="
 mysql -u root -p"${MYSQL_ROOT_PW}" <<EOF
 CREATE DATABASE ${DATABASE};
-CREATE USER IF NOT EXISTS 't30'@'localhost' IDENTIFIED BY '$T30_PW';
-GRANT ALL PRIVILEGES ON ${DATABASE}.* TO 't30'@'localhost';
+CREATE USER '${DATABASE}'@'localhost' IDENTIFIED BY '$T30_PW';
+GRANT ALL PRIVILEGES ON ${DATABASE}.* TO '${DATABASE}'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+cat  <<EOF
+CREATE DATABASE ${DATABASE};
+CREATE USER '${DATABASE}'@'localhost' IDENTIFIED BY '$T30_PW';
+GRANT ALL PRIVILEGES ON ${DATABASE}.* TO '${DATABASE}'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 
 echo "== Create Config File =="
 cp api.conf.example.php api.conf.php
 sed -i -e "s/t30-db-password/${T30_PW}/" api.conf.php
-sed -i -e "s/t30-db-user/t30/" api.conf.php
+sed -i -e "s/t30-db-user/${DATABASE}/" api.conf.php
 sed -i -e "s/t30-db-name/${DATABASE}/" api.conf.php
-
+# Use Sendmail
+sed -i -e "s/send.one.com//" api.conf.php
+sed -i -e "s/adfc@ben-steffen.de/tempo30sozial@hamburg.adfc.de/" api.conf.php
+sed -i -e "s/http/https/" api.conf.php
+sed -i -e "s/ADFC Hamburg/ADFC Hamburg Tempo30 vor sozialen Einrichtungen/" api.conf.php
+sed -i -e "s/\/adfc\/api-2019-07\/adfc-t30-api/\/t30-paten\/api\/version${VERSION}/" api.conf.php
 composer install
 
 echo 'Call setup.php'
