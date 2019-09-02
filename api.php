@@ -49,7 +49,7 @@ FlexApi::onSetup(function($request) {
 
     FlexAPI::guard()->registerUser('admin', $request['adminPassword'], false);
     FlexAPI::guard()->assignRole('admin','admin');
-    
+
     FlexAPI::guard()->registerUser('guest', '', false);
     FlexAPI::guard()->assignRole('guest','guest');
 
@@ -59,7 +59,8 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'demandedstreetsection', false);
 
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'institution', false);
-    
+    FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'demandedstreetsection', false);
+
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'street'               , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'             , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution'          , false);
@@ -73,7 +74,15 @@ FlexApi::onSetup(function($request) {
 
     if (array_key_exists('fillInTestData', $request) && $request['fillInTestData']) {
         $institutions = (array) json_decode(file_get_contents(__DIR__."/test/data/institutions.json"), true);
-        FlexAPI::superAccess()->insert('institution', $institutions);
+        $new_institutions= [];
+        foreach ($institutions as $value) {
+          $value['city']='Hamburg';
+          $value['street_house_no']=$value['street'].' '.$value['number'];
+          $value['position']=[$value['lon'],$value['lat']];
+          array_push($new_institutions, $value);
+          // code...
+        }
+        FlexAPI::superAccess()->insert('institution', $new_institutions);
     }
 
     if (array_key_exists('registerTestUser', $request) && $request['registerTestUser']) {
@@ -108,14 +117,14 @@ FlexAPI::onEvent('before-crud', function($event) {
 });
 
 FlexAPI::onEvent('before-user-registration', function($event) {
-    if (!preg_match('/^[\w-\.]+@[-\w]+\.[\w]+$/', $event['request']['username'])) {
+    if (!filter_var($event['request']['username'], FILTER_VALIDATE_EMAIL)) {
         throw(new Exception('User name must be a valid email address.', 400));
     }
     if (!array_key_exists('userData', $event['request'])) {
         throw(new Exception('Missing user data.', 400));
     }
     $userData = (array) $event['request']['userData'];
-    $mandatory = ['lastName', 'firstName', 'street', 'number', 'city', 'zip'];
+    $mandatory = ['lastName', 'firstName'];
     foreach ($mandatory as $key) {
         if (!array_key_exists($key, $userData) && !$userData[$key]) {
             throw(new Exception('Bad user data field "'.$key.'".', 400));
