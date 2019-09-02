@@ -75,8 +75,11 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'lng', 'type' => 'decimal', 'length' => '8,6'],
-            ['name' => 'lat', 'type' => 'decimal', 'length' => '8,6'],
+            ['name' => 'lon', 'type' => 'decimal', 'length' => '10,8'],
+            ['name' => 'lat', 'type' => 'decimal', 'length' => '10,8'],
+            ['name' => 'streetsection_complete', 'type' => 'boolean'],
+            ['name' => 'status', 'type' => 'smallint']
+            // FIXME ['name' => 'position', 'type' => 'point'],
         ]);
     }
 }
@@ -92,7 +95,7 @@ class PoliceDepartment extends IdEntity {
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
             ['name' => 'phone', 'type' => 'varchar', 'length' => 20],
             ['name' => 'email', 'type' => 'varchar', 'length' => 255],
-            // ['name' => 'polygon', 'type' => 'polygon']
+            // ['name' => 'area', 'type' => 'polygon']
         ]);
     }
 }
@@ -137,12 +140,11 @@ class DemandedStreetSection extends IdEntity {
             ['name' => 'street', 'type' => 'varchar', 'length' => 255],
             ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
             ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
-            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
-            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'entrance', 'type' => 'smallint'],
             ['name' => 'user_note', 'type' => 'text'],
-            ['name' => 'multilane', 'type' => 'boolean'],
+            ['name' => 'multilane', 'type' => 'smallint'],
             ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'much_bus_traffic', 'type' => 'boolean'],
+            ['name' => 'much_bus_traffic', 'type' => 'smallint'],
             ['name' => 'reason_slower_buses', 'type' => 'text'],
             ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
             ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
