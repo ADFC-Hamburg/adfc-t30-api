@@ -57,4 +57,4 @@ composer install
 
 echo 'Call setup.php'
 
-curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "${T30_ADMIN}", "fillInTestData": true, "registerTestUser": true}'  "https://tools.adfc-hamburg.de/t30-paten/api/version${VERSION}/setup.php"
+curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "https://tools.adfc-hamburg.de/t30-paten/api/version${VERSION}/setup.php"
