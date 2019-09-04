@@ -70,8 +70,7 @@ class Institution extends IdEntity {
             ['name' => 'number', 'type' => 'varchar', 'length' => 8],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'district', 'type' => 'varchar', 'length' => 64, 'notNull' => false],
-            ['name' => 'lat', 'type' => 'decimal', 'length' => '8,6'],
-            ['name' => 'lon', 'type' => 'decimal', 'length' => '8,6'],
+            ['name' => 'position', 'type' => 'point']
         ]);
     }
 
