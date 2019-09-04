@@ -56,15 +56,23 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->registerUser('guest', '', false);
     FlexAPI::guard()->assignRole('guest','guest');
 
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'street', false);
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'institution', false);
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'policedepartment', false);
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'demandedstreetsection', false);
 
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'institution', false);
-    FlexAPI::guard()->allowCRUD('registered', 'cRUd', 'userdata');
-    FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'patenschaft');
+    
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'street'               , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'             , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution'          , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'policedepartment'     , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'email'                , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'demandedstreetsection', false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'districthamburg'      , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'relationtoinstitution', false);
 
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'   , false);
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution', false);
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'patenschaft', false);
+    FlexAPI::superAccess()->insert('districthamburg', include('./data/districtshamburg.php'));
 
     if (array_key_exists('fillInTestData', $request) && $request['fillInTestData']) {
         $institutions = (array) json_decode(file_get_contents(__DIR__."/test/data/institutions.json"), true);
@@ -78,7 +86,7 @@ FlexApi::onSetup(function($request) {
             'user' => $username,
             'firstName' => 'Max',
             'lastName' => 'Muster',
-            'street' => 'Fakestreet 123',
+            'street_house_no' => 'Fakestreet 123',
             'city' => 'Hamburg',
             'zip' => '22666'
         ];

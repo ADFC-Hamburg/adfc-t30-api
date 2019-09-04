@@ -10,13 +10,25 @@ class T30Factory extends DataModelFactory {
         $dataModel = new DataModel();
 
         $dataModel->addEntities([
+            new Street(),
             new UserData(),
             new Institution(),
-            new Patenschaft()
+            new PoliceDepartment(),
+            new Email(),
+            new DemandedStreetSection(),
+            new DistrictHamburg(),
+            new RelationToInstitution(),
         ]);
 
-        $dataModel->addReference('patenschaft.user -> userdata');
-        $dataModel->addReference('patenschaft.institution -> institution');
+        $dataModel->addReference('relationtoinstitution.person -> userdata');
+        $dataModel->addReference('relationtoinstitution.institution -> institution');
+
+        $dataModel->addReference('demandedstreetsection.person -> userdata');
+        $dataModel->addReference('demandedstreetsection.institution -> institution');
+
+        $dataModel->addReference('email.person -> userdata');
+        $dataModel->addReference('email.police_department -> policedepartment');
+        $dataModel->addReference('email.demanded_street_section -> demandedstreetsection');
 
         $dataModel->addObservation([
             'observerName' => 'userdata',
@@ -24,70 +36,161 @@ class T30Factory extends DataModelFactory {
             'context' => ['beforeInsert', 'onInsert']
         ]);
 
-        $dataModel->addObservation([
-            'observerName' => 'institution',
-            'subjectName' => 'institution',
-            'context' => ['onInsert', 'onDelete']
-        ]);
-
-        $dataModel->addObservation([
-            'observerName' => 'patenschaft',
-            'subjectName' => 'patenschaft',
-            'context' => ['beforeInsert', 'onInsert']
-        ]);
-
         return $dataModel;
     }
 }
 
-class UserData extends DataEntity {
+class Street extends DataEntity {
+    public function __construct() {
+        parent::__construct('street');
+        $this->addFields([
+            ['name' => 'street_name', 'type' => 'varchar', 'length' => 255]
+        ]);
+    }
+}
+
+class UserData extends IdEntity {
     public function __construct() {
         parent::__construct('userdata');
         $this->addFields([
-            ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength'), 'primary' => true] ,
-            ['name' => 'firstName', 'type' => 'varchar', 'length' => 64],
-            ['name' => 'lastName', 'type' => 'varchar', 'length' => 64],
-            ['name' => 'street', 'type' => 'varchar', 'length' => 128],
-            ['name' => 'city', 'type' => 'varchar', 'length' => 64],
+            ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength')],
+            ['name' => 'street_house_no', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
-            ['name' => 'phone', 'type' => 'varchar', 'length' => 32, 'notNull' => false]
+            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'phone', 'type' => 'varchar', 'length' => 20, 'notNull' => false],
+            ['name' => 'mobile', 'type' => 'varchar', 'length' => 20, 'notNull' => false]
         ]);
     }
 
-    public function observationUpdate($event) {
-
-    }
+    public function observationUpdate($event) {}
 }
 
 class Institution extends IdEntity {
     public function __construct() {
         parent::__construct('institution');
         $this->addFields([
-            ['name' => 'name', 'type' => 'varchar', 'length' => 256],
-            ['name' => 'type', 'type' => 'int'],
-            ['name' => 'tempo30', 'type' => 'int'],
-            ['name' => 'street', 'type' => 'varchar', 'length' => 128],
-            ['name' => 'number', 'type' => 'varchar', 'length' => 8],
+            ['name' => 'name', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'type', 'type' => 'smallint'],
+            ['name' => 'street_house_no', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
-            ['name' => 'district', 'type' => 'varchar', 'length' => 64, 'notNull' => false],
+            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'lng', 'type' => 'decimal', 'length' => '8,6'],
             ['name' => 'lat', 'type' => 'decimal', 'length' => '8,6'],
-            ['name' => 'lon', 'type' => 'decimal', 'length' => '8,6'],
+        ]);
+    }
+}
+
+class PoliceDepartment extends IdEntity {
+    public function __construct() {
+        parent::__construct('policedepartment');
+        $this->addFields([
+            // ['name' => 'department_number', 'type' => 'int', 'primary' => true],
+            ['name' => 'region', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'street_house_no', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
+            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'phone', 'type' => 'varchar', 'length' => 20],
+            ['name' => 'email', 'type' => 'varchar', 'length' => 255],
+            // ['name' => 'polygon', 'type' => 'polygon']
+        ]);
+    }
+}
+
+// class Tempo30 extends IdEntity {
+//     public function __construct() {
+//         parent::__construct('tempo30');
+//         $this->addFields([
+//             ['name' => 'established on', 'type' => 'boolean'],
+//             ['name' => 'angeordnet_in', 'type' => 'boolean'],
+//             ['name' => 'eingerichtet_am', 'type' => 'date'],
+//             ['name' => 'angeordnet_am', 'type' => 'date'],
+//             ['name' => 'grund_tempo30', 'type' => 'varchar', 'length' => 1000],
+//             ['name' => 'ablehnungsgrund_tempo30', 'type' => 'varchar', 'length' => 1000],
+//             ['name' => 'zeitliche_beschraenkung', 'type' => 'smallint'],
+//             ['name' => 'abgelehnt_in', 'type' => 'boolean'],
+//         ]);
+//     }
+// }
+
+class Email extends IdEntity {
+    public function __construct() {
+        parent::__construct('email');
+        $this->addFields([
+            ['name' => 'draft', 'type' => 'text'],
+            ['name' => 'text', 'type' => 'text'],
+            ['name' => 'anonymised_text', 'type' => 'text'],
+            ['name' => 'sent_on', 'type' => 'timestamp'],
+            ['name' => 'person', 'type' => 'int'],
+            ['name' => 'police_department', 'type' => 'int'],
+            ['name' => 'demanded_street_section', 'type' => 'int'],
         ]);
     }
 
-    public function observationUpdate($event) {
-
-    }
-
+    public function observationUpdate($event) { }
 }
 
-class Patenschaft extends IdEntity {
+class DemandedStreetSection extends IdEntity {
     public function __construct() {
-        parent::__construct('patenschaft');
+        parent::__construct('demandedstreetsection');
         $this->addFields([
-            ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength'), 'default' => 0],
+            ['name' => 'street', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
+            ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
+            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
+            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'user_note', 'type' => 'text'],
+            ['name' => 'multilane', 'type' => 'boolean'],
+            ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'much_bus_traffic', 'type' => 'boolean'],
+            ['name' => 'reason_slower_buses', 'type' => 'text'],
+            ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
+            ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
+            ['name' => 'person', 'type' => 'int'],
             ['name' => 'institution', 'type' => 'int'],
-            ['name' => 'relationship', 'type' => 'varchar', 'length' => 128],
+            ['name' => 'status', 'type' => 'int']
+        ]);
+    }
+}
+
+// class Status extends DataEntity {
+//     public function __construct() {
+//         parent::__construct('status');
+//         $this->addFields([
+//             ['name' => 'status_id', 'type' => 'smallint', 'primary' => true],
+//             ['name' => 'denotation', 'type' => 'varchar', 'length' => 1000],
+//         ]);
+//     }
+// }
+
+// class InstitutionType extends DataEntity {
+//     public function __construct() {
+//         parent::__construct('institutiontype');
+//         $this->addFields([
+//             ['name' => 'type_id', 'type' => 'smallint', 'primary' => true],
+//             ['name' => 'type', 'type' => 'varchar', 'length' => 255],
+//         ]);
+//     }
+// }
+
+class DistrictHamburg extends DataEntity {
+    public function __construct() {
+        parent::__construct('districthamburg');
+        $this->addFields([
+            ['name' => 'district_id', 'type' => 'smallint', 'primary' => true],
+            ['name' => 'district', 'type' => 'varchar', 'length' => 255],
+            // ['name' => 'polygon', 'type' => 'polygon']
+        ]);
+    }
+}
+
+class RelationToInstitution extends IdEntity {
+    public function __construct() {
+        parent::__construct('relationtoinstitution');
+        $this->addFields([
+            ['name' => 'relation_type', 'type' => 'varchar', 'length' => 1000],
+            ['name' => 'person', 'type' => 'int'],
+            ['name' => 'institution', 'type' => 'int'],
         ]);
     }
 
@@ -108,4 +211,3 @@ class Patenschaft extends IdEntity {
         }
     }
 }
-
