@@ -35,7 +35,11 @@ class T30Factory extends DataModelFactory {
             'subjectName' => 'userdata',
             'context' => ['beforeInsert', 'onInsert']
         ]);
-
+        $dataModel->addObservation([
+            'observerName' => 'institution',
+            'subjectName' => 'demandedstreetsection',
+            'context' => ['onUpdate', 'onInsert', 'onDelete']
+        ]);
         return $dataModel;
     }
 }
@@ -81,6 +85,78 @@ class Institution extends IdEntity {
             ['name' => 'status', 'type' => 'smallint']
             // FIXME ['name' => 'position', 'type' => 'point'],
         ]);
+    }
+    public function observationUpdate($event) {
+        if ($event['subjectName'] == 'demandedstreetsection') {
+          //$userDataId = $this->dataModel->idOf('userdata', [ 'user' => $event['user'] ]);
+          $instId= $event['data']['institution'];
+          $this->calcAndSetStatus($instId);
+        }
+    }
+    public function calcAndSetStatus($id) {
+        $d_result = $this->dataModel->read('demandedstreetsection',
+          [
+            'filter' => ['institution' => $id],
+            'selection' => ['status']
+          ]
+        );
+        $i_result = $this->dataModel->read('institution',
+          [
+            'filter' => ['id' => $id],
+            'selection' => ['status', 'streetsection_complete']
+          ]
+        );
+
+        if ($i_result[0]['streetsection_complete'] == 1) {
+          $newstatus=DemandedStreetSection::STATUS_T30_OK;
+        } else {
+          $newstatus=DemandedStreetSection::STATUS_T30_UNKLAR;
+        };
+        foreach($d_result as $value) {
+            switch($value['status']) {
+              case DemandedStreetSection::STATUS_T30_FEHLT:
+                $newstatus = DemandedStreetSection::STATUS_T30_FEHLT;
+                break;
+              case DemandedStreetSection::STATUS_T30_UNKLAR:
+                if ($newstatus != DemandedStreetSection::STATUS_T30_FEHLT) {
+                  $newstatus = DemandedStreetSection::STATUS_T30_UNKLAR;
+                }
+                break;
+              case DemandedStreetSection::STATUS_T30_FORDERUNG:
+                if (!(in_array($newstatus, [
+                  DemandedStreetSection::STATUS_T30_FEHLT,
+                  DemandedStreetSection::STATUS_T30_UNKLAR,
+                ]))) {
+                  $newstatus = DemandedStreetSection::STATUS_T30_FORDERUNG;
+                }
+                break;
+              case DemandedStreetSection::STATUS_T30_ANGEORDNET:
+                if (in_array($newstatus, [
+                  DemandedStreetSection::STATUS_T30_ABGELEHNT,
+                  DemandedStreetSection::STATUS_T30_OK,
+                  ])) {
+                    $newstatus = DemandedStreetSection::STATUS_T30_ANGEORDNET;
+                }
+                break;
+              case DemandedStreetSection::STATUS_T30_ABGELEHNT:
+                if (in_array($newstatus, [
+                  DemandedStreetSection::STATUS_T30_OK,
+                  ])) {
+                    $newstatus = DemandedStreetSection::STATUS_T30_ABGELEHNT;
+                }
+                break;
+              case DemandedStreetSection::STATUS_T30_OK:
+                // do nothing
+                break;
+            }
+        }
+        if ($i_result[0]['status'] !=$newstatus) {
+            $this->dataModel->update('institution',
+            [
+              'id' =>$id,
+              'status' => $newstatus
+            ]);
+        }
     }
 }
 
@@ -134,6 +210,12 @@ class Email extends IdEntity {
 }
 
 class DemandedStreetSection extends IdEntity {
+  const STATUS_T30_UNKLAR=0;
+  const STATUS_T30_FEHLT=3;
+  const STATUS_T30_FORDERUNG=1;
+  const STATUS_T30_OK=2;
+  const STATUS_T30_ABGELEHNT=4;
+  const STATUS_T30_ANGEORDNET=5;
     public function __construct() {
         parent::__construct('demandedstreetsection');
         $this->addFields([
