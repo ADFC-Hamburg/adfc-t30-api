@@ -5,7 +5,6 @@ include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/SqlConnection.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/pipes/StripHtmlPipe.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/EmailVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/MockVerificationService.php';
 include_once __DIR__ . '/t30.php';
@@ -18,8 +17,6 @@ FlexAPI::onEvent('api-defined', function($event) {
 
 FlexAPI::define(function() {
         FlexAPI::config();
-
-        FlexAPI::addPipe('input', new StripHtmlPipe());
 
         if (FlexAPI::$env === 'prod') {
             $verificationService = new EmailVerificationService(function($address, $url) {
@@ -52,23 +49,40 @@ FlexApi::onSetup(function($request) {
 
     FlexAPI::guard()->registerUser('admin', $request['adminPassword'], false);
     FlexAPI::guard()->assignRole('admin','admin');
-    
+
     FlexAPI::guard()->registerUser('guest', '', false);
     FlexAPI::guard()->assignRole('guest','guest');
 
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'street', false);
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'institution', false);
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'policedepartment', false);
+    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'demandedstreetsection', false);
 
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'institution', false);
-    FlexAPI::guard()->allowCRUD('registered', 'cRUd', 'userdata');
-    FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'patenschaft');
+    FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'demandedstreetsection', false);
 
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'   , false);
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution', false);
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'patenschaft', false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'street'               , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'             , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution'          , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'policedepartment'     , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'email'                , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'demandedstreetsection', false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'districthamburg'      , false);
+    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'relationtoinstitution', false);
+
+    FlexAPI::superAccess()->insert('districthamburg', include('./data/districtshamburg.php'));
 
     if (array_key_exists('fillInTestData', $request) && $request['fillInTestData']) {
         $institutions = (array) json_decode(file_get_contents(__DIR__."/test/data/institutions.json"), true);
-        FlexAPI::superAccess()->insert('institution', $institutions);
+        $new_institutions= [];
+        foreach ($institutions as $value) {
+          $value['city']='Hamburg';
+          $value['street_house_no']=$value['street'].' '.$value['number'];
+          $value['position']=[$value['lon'],$value['lat']];
+          array_push($new_institutions, $value);
+          // code...
+        }
+        FlexAPI::superAccess()->insert('institution', $new_institutions);
     }
 
     if (array_key_exists('registerTestUser', $request) && $request['registerTestUser']) {
@@ -78,9 +92,9 @@ FlexApi::onSetup(function($request) {
             'user' => $username,
             'firstName' => 'Max',
             'lastName' => 'Muster',
-            'street' => 'Fakestreet 123',
+            'street_house_no' => 'Fakestreet 123',
             'city' => 'Hamburg',
-            'zip' => '22666'
+            'zip' => 22666
         ];
         FlexAPI::guard()->registerUser($username, $password , false);
         FlexAPI::superAccess()->insert('userdata', $userData);
@@ -110,7 +124,7 @@ FlexAPI::onEvent('before-user-registration', function($event) {
         throw(new Exception('Missing user data.', 400));
     }
     $userData = (array) $event['request']['userData'];
-    $mandatory = ['lastName', 'firstName', 'street', 'city', 'zip'];
+    $mandatory = ['lastName', 'firstName'];
     foreach ($mandatory as $key) {
         if (!array_key_exists($key, $userData) && !$userData[$key]) {
             throw(new Exception('Bad user data field "'.$key.'".', 400));
@@ -143,18 +157,4 @@ FlexAPI::onEvent('before-user-unregistration', function($event) {
 
 FlexAPI::onEvent('after-user-unregistration', function($event) {
     FlexAPI::superAccess()->delete('userdata', ['user' => $event['username']]);
-});
-
-FlexAPI::onEvent('before-role-change', function($event) {
-    $jwt = getJWT();
-    if (!$jwt) {
-        throw(new Exception('Not permitted', 403));
-    }
-    FlexAPI::guard()->login($jwt);
-    if (!in_array('admin', FlexAPI::guard()->getUserRoles())) {
-        throw(new Exception('Not permitted', 403));
-    }
-    if (array_key_exists('withdrawFrom', $event['request']) && $event['request']['withdrawFrom'] === 'admin') {
-        throw(new Exception('Admin roles cannot be withdrawn.', 400));
-    }
 });
