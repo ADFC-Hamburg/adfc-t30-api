@@ -5,7 +5,10 @@ include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/SqlConnection.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/mail/SmtpMailService.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/RandomBytesTokenService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/EmailVerificationService.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/TokenVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/MockVerificationService.php';
 include_once __DIR__ . '/t30.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/EntityMonitor.php';
@@ -19,13 +22,12 @@ FlexAPI::define(function() {
         FlexAPI::config();
 
         if (FlexAPI::$env === 'prod') {
-            $verificationService = new EmailVerificationService(function($address, $url) {
-                return sprintf(
-                    'Hallo,<br><br>'.
-                    'klicke <a href="%s">hier</a>, um Deinen Account zu aktivieren.<br><br>',
-                    $url
-                );
-            });
+            $mailConfig = FlexAPI::get('mailing');
+            $verificationService = new TokenVerificationService(
+                FlexAPI::get('userVerification'),
+                new SmtpMailService($mailConfig['smtp'], $mailConfig['from']['verification']),
+                new RandomBytesTokenService()
+            );
         }
         if (FlexAPI::$env === 'dev' || FlexAPI::$env === 'test') {
             $verificationService = new MockVerificationService(); // for auto-testing
