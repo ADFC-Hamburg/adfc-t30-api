@@ -4,6 +4,7 @@ return [
     "environment" => "example",
     "maxUserNameLength" => 128,
     "jwtValidityDuration" => 3600,
+    "jwtValidityExtension" => 600,
     "databaseCredentials" => [
         "data" => [
             "host" => "localhost",
