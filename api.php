@@ -7,6 +7,7 @@ include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/mail/SmtpMailService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/RandomBytesTokenService.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/AlphaNumericTokenService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/EmailVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/TokenVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/MockVerificationService.php';
@@ -23,10 +24,13 @@ FlexAPI::define(function() {
 
         if (FlexAPI::$env === 'prod') {
             $mailConfig = FlexAPI::get('mailing');
+            // $tokenService = new RandomBytesTokenService();
+            $tokenService = new AlphaNumericTokenService(); // produziert besser zu merkende Tokens
             $verificationService = new TokenVerificationService(
                 FlexAPI::get('userVerification'),
+                function($token) { return "Hallo,<br>Ihr Aktivierungs-Code lautet: $token<br>"; },
                 new SmtpMailService($mailConfig['smtp'], $mailConfig['from']['verification']),
-                new RandomBytesTokenService()
+                $tokenService
             );
         }
         if (FlexAPI::$env === 'dev' || FlexAPI::$env === 'test') {
