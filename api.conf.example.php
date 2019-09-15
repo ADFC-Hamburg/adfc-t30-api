@@ -44,5 +44,6 @@ return [
         "enabled" => true,
         "validityDuration" => 86000
     ],
-    "passwordChangeValidityDuration" => 24*3600
+    "passwordChangeValidityDuration" => 24*3600,
+    "reportDataChangesTo" => ["projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"]
 ];
