@@ -82,6 +82,7 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'policedepartment', false);
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'demandedstreetsection', false);
 
+    FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'userdata', true);
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'institution', false);
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'demandedstreetsection', false);
 
@@ -128,8 +129,8 @@ FlexApi::onSetup(function($request) {
             'zip' => 22666
         ];
         FlexAPI::guard()->registerUser($username, $password , false);
-        FlexAPI::superAccess()->insert('userdata', $userData);
-        FlexAPI::guard()->publishResource($username, 'userdata', $username , 'RU');
+        $id = FlexAPI::superAccess()->insert('userdata', $userData);
+        FlexAPI::guard()->publishResource($username, 'userdata', $id , 'RU');
         FlexAPI::guard()->assignRole('guest', $username);
         FlexAPI::guard()->assignRole('registered', $username);
     }
@@ -167,8 +168,8 @@ FlexAPI::onEvent('after-user-registration', function($event) {
     $userData = (array) $event['request']['userData'];
     $username = $event['request']['username'];
     $userData['user'] = $username;
-    FlexAPI::superAccess()->insert('userdata', $userData);
-    FlexAPI::guard()->publishResource($username, 'userdata', $username , 'RU');
+    $id = FlexAPI::superAccess()->insert('userdata', $userData);
+    FlexAPI::guard()->publishResource($username, 'userdata', $id , 'RU');
 });
 
 FlexAPI::onEvent('after-user-verification', function($event) {
