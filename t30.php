@@ -79,11 +79,9 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'lon', 'type' => 'decimal', 'length' => '10,8'],
-            ['name' => 'lat', 'type' => 'decimal', 'length' => '10,8'],
+            ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint']
-            // FIXME ['name' => 'position', 'type' => 'point'],
         ]);
     }
     public function observationUpdate($event) {
