@@ -12,19 +12,19 @@ const bezirk2number = {
     'Wandsbek': 7
 }
 
-const einrichtungen = institutions.map(inst => {
+const einrichtungen = institutions.map(i => {
     return {
-        name: inst.name,
-        art: inst.type,
-        strasse: inst.street + ' ' + inst.number,
-        adresszusatz: ' ',
-        plz: inst.zip,
-        ort: 'Hamburg',
-        quelle: 3,
-        bezirk: bezirk2number[inst.district],
-        laengengrad: inst.lat.toFixed(6),
-        breitengrad: inst.lon.toFixed(6)
+        name: i.name,
+        type: i.type,
+        street_house_no: i.street + ' ' + i.number,
+        address_supplement: '',
+        zip: i.zip,
+        city: 'Hamburg',
+        district: '',
+        position: [parseFloat(i.lon.toFixed(6)), parseFloat(i.lat.toFixed(6))],
+        streetsection_complete: 0,
+        status: 0
     };
 });
 
-fs.writeFileSync('einrichtungen.json', JSON.stringify(einrichtungen));
+fs.writeFileSync('institutions_reshaped.json', JSON.stringify(einrichtungen));

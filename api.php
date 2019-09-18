@@ -98,7 +98,7 @@ FlexApi::onSetup(function($request) {
     FlexAPI::superAccess()->insert('districthamburg', include('./data/districtshamburg.php'));
 
     if (array_key_exists('fillInTestData', $request) && $request['fillInTestData']) {
-        $institutions = (array) json_decode(file_get_contents(__DIR__."/test/data/institutions.json"), true);
+        $institutions = (array) json_decode(file_get_contents(__DIR__."/test/data/institutions_reshaped.json"), true);
         if ($request['fillInTestData'] === true) {
             $size = count($institutions);
         } else {
@@ -109,9 +109,6 @@ FlexApi::onSetup(function($request) {
             if ($index >= $size) {
                 break;
             }
-            $value['city']='Hamburg';
-            $value['street_house_no']=$value['street'].' '.$value['number'];
-            $value['position']=[$value['lon'],$value['lat']];
             array_push($new_institutions, $value);
         }
         FlexAPI::superAccess()->insert('institution', $new_institutions);
