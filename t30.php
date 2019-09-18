@@ -5,14 +5,19 @@ include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModel.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataEntity.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/IdEntity.php';
 
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
+
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
+        $institution = new Institution();
+        $institution->registerQueryFactory('sql', 'read', new InstitutionSqlReadQueryFactory());
+
         $dataModel = new DataModel();
 
         $dataModel->addEntities([
             new Street(),
             new UserData(),
-            new Institution(),
+            $institution,
             new PoliceDepartment(),
             new Email(),
             new DemandedStreetSection(),
@@ -79,6 +84,7 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'district', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint']
@@ -156,6 +162,49 @@ class Institution extends IdEntity {
             ]);
         }
     }
+}
+
+class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
+  public function makeQuery($filter = [], $fieldSelection = [], $distinct = false, $order = [], $pagination = []) {
+    if (count($fieldSelection) === 0) {
+      $fieldSelection = $this->entity->fieldNames();
+    }
+    $addDistrict = false;
+    if (in_array('district', $fieldSelection)) {
+      $addDistrict = true;
+      $index = array_search('district', $fieldSelection);
+      if ($index !== false) {
+        unset($fieldSelection[$index]);
+      }
+    }
+    $fieldSequence = Sql::Sequence($fieldSelection, function($f) {
+      return Sql::Column($f, 'institution', null, $this->entity->getField($f)['type']);
+    });
+    if ($addDistrict) {
+      $fieldSequence->addItem(Sql::Column('name', 'township', null, 'string', 'district'));
+      // $fieldSequence->addItem(Sql::Column('district', 'township', null, 'string'));
+    }
+    
+    $select = 'SELECT';
+    if ($distinct) {
+        $select .= ' DISTINCT';
+    }
+    $orderQuery = '';
+    if (count($order) > 0) {
+        $orderQuery = ' '.Sql::Order($order)->toQuery();
+    }
+    $paginationQuery = '';
+    if (count($pagination) > 0) {
+        $paginationQuery = ' '.Sql::Pagination($pagination)->toQuery();
+    }
+    return sprintf("%s %s FROM `institution` JOIN `township` ON ST_CONTAINS(`township`.`geom`,`institution`.`position`) WHERE %s%s%s",
+        $select,
+        $fieldSequence->toQuery(),
+        Sql::attachCreator($filter['tree'])->toQuery(),
+        $orderQuery,
+        $paginationQuery
+    );
+  }
 }
 
 class PoliceDepartment extends IdEntity {
