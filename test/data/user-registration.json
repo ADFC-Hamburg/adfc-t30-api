@@ -6,9 +6,8 @@
             "password": "123",
             "userData": {
                 "firstName": "Florian",
-                "lastName": "Häußinger",
-                "street": "Fakestreet",
-                "number": "123",
+                "lastName": "Haeussinger",
+                "street_house_no": "Fakestreet 123",
                 "city": "Hamburg",
                 "zip": "54321"
             }
@@ -20,8 +19,7 @@
                 "userData": {
                 "firstName": "Ben",
                 "lastName": "Steffen",
-                "street": "Mockway",
-                "number": "99",
+                "street_house_no": "Mockway 99",
                 "city": "Hamburg",
                 "zip": "54322"
             }
@@ -34,8 +32,7 @@
         "userData": {
             "firstName": "Ben",
             "lastName": "Steffen",
-            "street": "Mockway",
-            "number": "99",
+            "street_house_no": "Mockway 99",
             "city": "Hamburg",
             "zip": "54322"
         }
@@ -48,8 +45,7 @@
             "userData": {
                 "firstName": "Ben",
                 "lastName": "Steffen",
-                "street": "Mockway",
-                "number": "99",
+                "street_house_no": "Mockway 99",
                 "city": "Hamburg",
                 "zip": "54322"
             }
@@ -61,8 +57,7 @@
             "userData": {
                 "firstName": "Ben",
                 "lastName": "Steffen",
-                "street": "Mockway",
-                "number": "99",
+                "street_house_no": "Mockway 99",
                 "city": "Hamburg",
                 "zip": "54322"
             }

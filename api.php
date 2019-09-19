@@ -15,24 +15,27 @@ include_once __DIR__ . '/t30.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/EntityMonitor.php';
 
 FlexAPI::onEvent('api-defined', function($event) {
-    $notification = [
-        'from' => 'monitor',
-        'to' => FlexAPI::get('reportDataChangesTo'),
-        'subject' => function($entityName) { return utf8_decode("T30-Paten: Änderung von '$entityName'"); },
-        'body' => function($entityName, $entityId, $metaData, $fieldChanges) {
-            $changes = array_map(function($change) {
-                return "   * Attribut '".$change['fieldName']."': ".$change['oldValue']." => ".$change['newValue'];
-            }, $fieldChanges);
-            $at = $metaData['timeStamp'];
-            return utf8_decode("".
-                "<br><br>Hallo,".
-                "<br><br>am ".date('d.m.Y', $at)." um ".date('H:i:s', $at).
-                "<br><br>wurde(n) durch '".$metaData['user']."'".
-                "<br><br>im Datensatz '$entityName' mit ID ".$entityId." folgendende Änderung(en) durchgeführt:".
-                "<br><br><br>".implode('<br><br>', $changes).
-                "<br><br>");
-        }
-    ];
+    $notification = null;
+    if (FlexAPI::$env === 'prod') {
+        $notification = [
+            'from' => 'monitor',
+            'to' => FlexAPI::get('reportDataChangesTo'),
+            'subject' => function($entityName) { return utf8_decode("T30-Paten: Änderung von '$entityName'"); },
+            'body' => function($entityName, $entityId, $metaData, $fieldChanges) {
+                $changes = array_map(function($change) {
+                    return "   * Attribut '".$change['fieldName']."': ".$change['oldValue']." => ".$change['newValue'];
+                }, $fieldChanges);
+                $at = $metaData['timeStamp'];
+                return utf8_decode("".
+                    "<br><br>Hallo,".
+                    "<br><br>am ".date('d.m.Y', $at)." um ".date('H:i:s', $at).
+                    "<br><br>wurde(n) durch '".$metaData['user']."'".
+                    "<br><br>im Datensatz '$entityName' mit ID ".$entityId." folgendende Änderung(en) durchgeführt:".
+                    "<br><br><br>".implode('<br><br>', $changes).
+                    "<br><br>");
+            }
+        ];
+    }
     $entityMonitor = new EntityMonitor(FlexAPI::dataModel(), ['institution'], $notification);
     FlexAPI::set('entityMonitor', $entityMonitor);
 });
