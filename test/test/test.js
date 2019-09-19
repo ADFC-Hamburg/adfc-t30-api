@@ -3,6 +3,9 @@ let fs = require('fs');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
+let mocha_steps = require('mocha-steps');
+let step = mocha_steps.step;
+
 
 let server = 'http://localhost/adfc/adfc-t30-api';
 // let server = 'http://ben-steffen.de/t30';
@@ -15,8 +18,18 @@ let setupPayload = {
 
 chai.use(chaiHttp);
 
-let userRegistration = JSON.parse(fs.readFileSync('./data/user-registration.json'));
-let institutions = JSON.parse(fs.readFileSync('./data/institutions.json'));
+let userRegistration;
+let institutions;
+
+if (fs.existsSync('./test/data')) {
+    userRegistration = JSON.parse(fs.readFileSync('./test/data/user-registration.json'));
+    institutions = JSON.parse(fs.readFileSync('./test/data/institutions_reshaped.json'));
+} else {
+    userRegistration = JSON.parse(fs.readFileSync('./data/user-registration.json'));
+    institutions = JSON.parse(fs.readFileSync('./data/institutions_reshaped.json'));
+}
+
+
 
 let user1 = userRegistration.ok[0];
 let token1 = null;
@@ -154,6 +167,7 @@ describe('CRUD userdata', function() {
                 res.body.should.be.a('array');
                 res.body.length.should.be.eql(1);
                 res.body[0].should.include(user1.userData);
+                user1.userData.id = res.body[0].id;
                 done();
             });
     });
@@ -176,7 +190,7 @@ describe('CRUD userdata', function() {
         chai.request(server)
             .put('/api/crud.php')
             .set('Access-Control-Allow-Credentials', token1)
-            .send({ user: user1.username, street: 'Quatschstr.', number: 69 })
+            .send({ id: user1.userData.id , street_house_no: 'Quatschstr. 69' })
             .query({ entity: 'userdata' })
             .end(function(err, res) {
                 res.should.have.status(200);
@@ -248,10 +262,11 @@ describe('CRUD institution', function() {
     });
 
     step('it should not be possible for reg. users to update (put) institution', function(done) {
+        let instUpdate = { id: institutionIds0[1], street_house_no: 'change no. 1' };
         chai.request(server)
             .put('/api/crud.php')
             .set('Access-Control-Allow-Credentials', token1)
-            .send({ id: institutionIds0[1], street: 'change no. 1' })
+            .send(instUpdate)
             .query({ entity: 'institution' })
             .end(function(err, res) {
                 res.should.have.status(200);
@@ -321,64 +336,3 @@ describe('CRUD institution', function() {
 
 });
 
-describe('CRUD patenschaft', function() {
-    let patenschaftId = null;
-    step('it should be possible for registered users to create (post) patenschaft', function(done) {
-        chai.request(server)
-            .post('/api/crud.php')
-            .set('Access-Control-Allow-Credentials', token1)
-            .send({ institution: 2, relationship: 'Betreuer' })
-            .query({ entity: 'patenschaft' })
-            .end(function(err, res) {
-                res.should.have.status(200);
-                patenschaftId = res.body.id;
-                done();
-            });
-    });
-
-    step('it should be possible for registered users to create (post) patenschaft', function(done) {
-        chai.request(server)
-            .post('/api/crud.php')
-            .set('Access-Control-Allow-Credentials', token2)
-            .send({ institution: 3, relationship: 'Lehrer' })
-            .query({ entity: 'patenschaft' })
-            .end(function(err, res) {
-                res.should.have.status(200);
-                done();
-            });
-    });
-
-    step('created Patenschaft should have correct user assigned', function(done) {
-        chai.request(server)
-            .get('/api/crud.php')
-            .set('Access-Control-Allow-Credentials', token1)
-            .query({ entity: 'patenschaft', filter: `[id,${patenschaftId}]`, refs: '(format,key)' })
-            .end(function(err, res) {
-                res.should.have.status(200);
-                res.body[0].should.have.property('user');
-                res.body[0].user.should.be.eql(user1.username)
-                done();
-            });
-    });
-
-    step('guests should not be able to read Patenschaft', function(done) {
-        chai.request(server)
-            .get('/api/crud.php')
-            .query({ entity: 'patenschaft', filter: `[id,${patenschaftId}]` })
-            .end(function(err, res) {
-                res.should.have.status(403);
-                done();
-            });
-    });
-
-    step('registered should not be able to read other Patenschaft', function(done) {
-        chai.request(server)
-            .get('/api/crud.php')
-            .set('Access-Control-Allow-Credentials', token2)
-            .query({ entity: 'patenschaft', filter: `[id,${patenschaftId}]` })
-            .end(function(err, res) {
-                res.should.have.status(404);
-                done();
-            });
-    });
-});
