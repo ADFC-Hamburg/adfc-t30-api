@@ -7,12 +7,14 @@ return [
     "jwtValidityExtension" => 600,
     "databaseCredentials" => [
         "data" => [
+            "driver" => "mysql",
             "host" => "localhost",
             "database" => "t30-db-name",
             "username" => "t30-db-user",
             "password" => "t30-db-password"
         ],
         "guard" => [
+            "driver" => "mysql",
             "host" => "localhost",
             "database" => "t30-db-name",
             "username" => "t30-db-user",

@@ -1,7 +1,11 @@
 #!/bin/bash
 #
-# git clone --single-branch -b v0.1.10 https://github.com/ADFC-Hamburg/adfc-t30-api  version0.1.10
-# cd version0.1.10
+
+VERSION=$1
+
+cd /var/www/html/t30-paten/api
+git clone --single-branch -b v${VERSION} https://github.com/ADFC-Hamburg/adfc-t30-api  version${VERSION}
+cd version{VERSION}
 # ./deploy.sh
 
 T30_SEC_DIR="/root/.t30-secret"
@@ -53,6 +57,7 @@ sed -i -e "s/adfc@ben-steffen.de/tempo30sozial@hamburg.adfc.de/" api.conf.php
 sed -i -e "s/http/https/" api.conf.php
 sed -i -e "s/ADFC Hamburg/ADFC Hamburg Tempo30 vor sozialen Einrichtungen/" api.conf.php
 sed -i -e "s/\/adfc\/api-2019-07\/adfc-t30-api/\/t30-paten\/api\/version${VERSION}/" api.conf.php
+sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"/ "t30changes2019@sven.anders.hamburg" /' api.conf.php
 composer install
 
 echo 'Call setup.php'

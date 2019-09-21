@@ -63,6 +63,8 @@ class UserData extends IdEntity {
         parent::__construct('userdata');
         $this->addFields([
             ['name' => 'user', 'type' => 'varchar', 'length' => FlexAPI::get('maxUserNameLength')],
+            ['name' => 'firstName', 'type' => 'varchar', 'length' => 128],
+            ['name' => 'lastName', 'type' => 'varchar', 'length' => 128],
             ['name' => 'street_house_no', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
@@ -84,6 +86,7 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'district', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint']
