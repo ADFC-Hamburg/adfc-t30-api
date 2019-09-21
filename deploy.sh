@@ -59,7 +59,7 @@ sed -i -e "s/ADFC Hamburg/ADFC Hamburg Tempo30 vor sozialen Einrichtungen/" api.
 sed -i -e "s/\/adfc\/api-2019-07\/adfc-t30-api/\/t30-paten\/api\/version${VERSION}/" api.conf.php
 sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"/ "t30changes2019@sven.anders.hamburg" /' api.conf.php
 composer install
-projekt-leiterin-t30@adfc-hamburg.de
+
 echo 'Call setup.php'
 
 curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "https://tools.adfc-hamburg.de/t30-paten/api/version${VERSION}/setup.php"
