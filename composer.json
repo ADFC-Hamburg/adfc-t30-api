@@ -23,7 +23,7 @@
   "require": {
     "firebase/php-jwt": "^5.0",
     "bensteffen/bs-php-utils": "^1.0",
-    "ADFC-Hamburg/flexapi": "dev-master",
+    "ADFC-Hamburg/flexapi": "^0.1.12",
     "phpmailer/phpmailer": "~6.0"
   },
   "authors": [
