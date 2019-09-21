@@ -2,9 +2,10 @@
 
 
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/SqlConnection.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/PdoPreparedConnection.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/pipes/StripHtmlPipe.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/mail/SmtpMailService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/RandomBytesTokenService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/AlphaNumericTokenService.php';
@@ -43,6 +44,8 @@ FlexAPI::onEvent('api-defined', function($event) {
 FlexAPI::define(function() {
         FlexAPI::config();
 
+        FlexAPI::addPipe('input', new StripHtmlPipe());
+
         if (FlexAPI::$env === 'prod') {
             $mailConfig = FlexAPI::get('mailing');
             // $tokenService = new RandomBytesTokenService();
@@ -59,8 +62,8 @@ FlexAPI::define(function() {
         }
 
         $dbCredentials = FlexAPI::get('databaseCredentials');
-        $databaseConnection = new SqlConnection($dbCredentials['data']);
-        $guard = new ACLGuard(new SqlConnection($dbCredentials['guard']), null, $verificationService);
+        $databaseConnection = new PdoPreparedConnection($dbCredentials['data']);
+        $guard = new ACLGuard(new PdoPreparedConnection($dbCredentials['guard']), null, $verificationService);
 
         return [
             'factory' => new T30Factory(),
