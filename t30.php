@@ -84,7 +84,6 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'district', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint']
@@ -168,6 +167,7 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
   public function makeQuery($filter = [], $fieldSelection = [], $distinct = false, $order = [], $pagination = []) {
     if (count($fieldSelection) === 0) {
       $fieldSelection = $this->entity->fieldNames();
+      array_push($fieldSelection, 'district');
     }
     $addDistrict = false;
     if (in_array('district', $fieldSelection)) {
