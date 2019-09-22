@@ -86,12 +86,12 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'district', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint']
         ]);
     }
+
     public function observationUpdate($event) {
         if ($event['subjectName'] == 'demandedstreetsection') {
           //$userDataId = $this->dataModel->idOf('userdata', [ 'user' => $event['user'] ]);
@@ -184,10 +184,10 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
       return Sql::Column($f, 'institution', null, $this->entity->getField($f)['type']);
     });
     if ($addDistrict) {
-      $fieldSequence->addItem(Sql::Column('name', 'township', null, 'string', 'district'));
-      // $fieldSequence->addItem(Sql::Column('district', 'township', null, 'string'));
+      $fieldSequence->addItem(Sql::Column('district', 'township', null, 'string', 'district'));
+      //$fieldSequence->addItem(Sql::Column('name', 'township', null, 'string', 'township));
     }
-    
+
     $select = 'SELECT';
     if ($distinct) {
         $select .= ' DISTINCT';
