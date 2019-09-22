@@ -170,6 +170,7 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
   public function makeQuery($filter = [], $fieldSelection = [], $distinct = false, $order = [], $pagination = []) {
     if (count($fieldSelection) === 0) {
       $fieldSelection = $this->entity->fieldNames();
+      array_push($fieldSelection, 'district');
     }
     $addDistrict = false;
     if (in_array('district', $fieldSelection)) {
