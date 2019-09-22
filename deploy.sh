@@ -5,7 +5,7 @@ VERSION=$1
 
 cd /var/www/html/t30-paten/api
 git clone --single-branch -b v${VERSION} https://github.com/ADFC-Hamburg/adfc-t30-api  version${VERSION}
-cd version{VERSION}
+cd version${VERSION}
 # ./deploy.sh
 
 T30_SEC_DIR="/root/.t30-secret"
