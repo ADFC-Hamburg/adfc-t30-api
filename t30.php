@@ -171,11 +171,20 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
     if (count($fieldSelection) === 0) {
       $fieldSelection = $this->entity->fieldNames();
       array_push($fieldSelection, 'district');
+      //array_push($fieldSelection, 'policedepartment');
     }
     $addDistrict = false;
+    $addPK = false;
     if (in_array('district', $fieldSelection)) {
       $addDistrict = true;
       $index = array_search('district', $fieldSelection);
+      if ($index !== false) {
+        unset($fieldSelection[$index]);
+      }
+    }
+    if (in_array('policedepartment', $fieldSelection)) {
+      $addPK = true;
+      $index = array_search('policedepartment', $fieldSelection);
       if ($index !== false) {
         unset($fieldSelection[$index]);
       }
@@ -187,7 +196,11 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
       $fieldSequence->addItem(Sql::Column('district', 'township', null, 'string', 'district'));
       //$fieldSequence->addItem(Sql::Column('name', 'township', null, 'string', 'township));
     }
+    if ($addPK) {
+        $fieldSequence->addItem(Sql::Column('name', 'polzeikommiseriate', null, 'string', 'policedepartment'));
+        //$fieldSequence->addItem(Sql::Column('policedepartment_email', 'email', null, 'string', 'polzeikommiseriate'));
 
+    }
     $select = 'SELECT';
     if ($distinct) {
         $select .= ' DISTINCT';
@@ -200,7 +213,9 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
     if (count($pagination) > 0) {
         $paginationQuery = ' '.Sql::Pagination($pagination)->toQuery();
     }
-    return sprintf("%s %s FROM `institution` JOIN `township` ON ST_CONTAINS(`township`.`geom`,`institution`.`position`) WHERE %s%s%s",
+    return sprintf("%s %s FROM `institution` JOIN `township` ON ST_CONTAINS(`township`.`geom`,`institution`.`position`) ".
+                                            //"JOIN `polzeikommiseriate` ON ST_CONTAINS(`polzeikommiseriate`.`geom`,`institution`.`position`) ".
+                                            "WHERE %s%s%s",
         $select,
         $fieldSequence->toQuery(),
         Sql::attachCreator($filter['tree'])->toQuery(),
@@ -246,9 +261,12 @@ class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
         $this->addFields([
-            ['name' => 'draft', 'type' => 'text'],
-            ['name' => 'text', 'type' => 'text'],
-            ['name' => 'anonymised_text', 'type' => 'text'],
+            ['name' => 'status_text', 'type' => 'text'],
+            ['name' => 'mail_subject', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'mail_start', 'type' => 'text'],
+            ['name' => 'mail_body', 'type' => 'text'],
+            ['name' => 'mail_end', 'type' => 'text'],
+            ['name' => 'mail_send', 'type' => 'boolean'],
             ['name' => 'sent_on', 'type' => 'timestamp'],
             ['name' => 'person', 'type' => 'int'],
             ['name' => 'police_department', 'type' => 'int'],
