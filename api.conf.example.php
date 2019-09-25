@@ -35,6 +35,10 @@ return [
             ]
         ]
     ],
+    "defaultFrom" => [
+      "address" => "adfc@ben-steffen.de",
+      "name" => "ADFC Hamburg"
+    ],
     "defaultUrlScheme" => 'http',
     "basePath" => "/adfc/api-2019-07/adfc-t30-api",
     "apiPath" => "/api",
