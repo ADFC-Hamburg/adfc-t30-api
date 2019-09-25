@@ -52,7 +52,56 @@ FlexAPI::define(function() {
             $tokenService = new AlphaNumericTokenService(); // produziert besser zu merkende Tokens
             $verificationService = new TokenVerificationService(
                 FlexAPI::get('userVerification'),
-                function($token) { return "Hallo,<br>Ihr Aktivierungs-Code lautet: $token<br>"; },
+                'Deine T30 Registrierung',
+                function($token, $url) { return "Hallo,<br>
+bitte klicke <a href=\"".$url."\">hier</a>, um deinen Account bei der Kampagne des ADFC Hamburg \"Tempo 30 an sozialen Einrichtungen\" zu aktivieren.<br>
+Oder gebe das Token <b>".$token."</b> in das Forumlar ein.
+<br>
+Viel Spaß!<p>
+<p>
+--<br>
+Tempo 30 an sozialen Einrichtungen<br>
+Eine Kampagne des ADFC Hamburg<br>
+<br>
+www.hamburg.adfc.de/tempo30sozial<br>
+tempo30sozial@hamburg.adfc.de<br>
+<br>
+Allgemeiner Deutscher Fahrrad-Club<br>
+Landesverband Hamburg e. V.<br>
+Koppel 34 - 36<br>
+20099 Hamburg<br>
+<br>
+Ansprechpartnerin<br>
+Wiebke Hansen<br>
+Tel: (040) 32 90 41 15"; },
+function($token, $url) { return "Hallo,
+bitte besuche:
+
+".$url."
+
+um deinen Account bei der Kampagne des ADFC Hamburg \"Tempo 30 an sozialen Einrichtungen\" zu aktivieren, oder gibt das Token:
+
+".$token."
+
+in das Forumlar ein.
+
+Viel Spaß!
+
+--
+Tempo 30 an sozialen Einrichtungen
+Eine Kampagne des ADFC Hamburg
+
+www.hamburg.adfc.de/tempo30sozial
+tempo30sozial@hamburg.adfc.de
+
+Allgemeiner Deutscher Fahrrad-Club
+Landesverband Hamburg e. V.
+Koppel 34 - 36
+20099 Hamburg
+
+Ansprechpartnerin
+Wiebke Hansen
+Tel: (040) 32 90 41 15"; },
                 new SmtpMailService($mailConfig['smtp'], $mailConfig['from']['verification']),
                 $tokenService
             );
