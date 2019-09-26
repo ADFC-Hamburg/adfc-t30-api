@@ -1,6 +1,4 @@
 <?php
-
-
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/PdoPreparedConnection.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
@@ -37,7 +35,7 @@ FlexAPI::onEvent('api-defined', function($event) {
             }
         ];
     }
-    $entityMonitor = new EntityMonitor(FlexAPI::dataModel(), ['institution'], $notification);
+    $entityMonitor = new EntityMonitor(FlexAPI::dataModel(), ['institution','demandedstreetsection'], $notification);
     FlexAPI::set('entityMonitor', $entityMonitor);
 });
 
