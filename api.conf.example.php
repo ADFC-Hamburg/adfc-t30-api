@@ -43,7 +43,7 @@ return [
     "basePath" => "/adfc/api-2019-07/adfc-t30-api",
     "apiPath" => "/api",
     "appRoot" => "./..",
-    "frontendBaseUrl" => "https://tools.adfc-hamburg.de/t30-paten/latest",
+    "frontendBaseUrl" => "http://tools.adfc-hamburg.de/t30-paten/latest",
     "setupSecret" => "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy",
     "jwtSecret" => "rtgTWs]N;)%Bz^,z1?SH2 =>9su=AOq2.<Q&FhJ!yOMR|J8ox5$2QCH6HP!Q.R!)8n",
     "userVerification" => [
