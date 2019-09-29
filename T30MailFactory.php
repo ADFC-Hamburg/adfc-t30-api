@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ . '/vendor/bensteffen/bs-php-utils/Array2Table.php';
+
 class T30MailFactory {
     public static function makeVerificationMailGenerator($format) {
         if ($format === 'html') {
