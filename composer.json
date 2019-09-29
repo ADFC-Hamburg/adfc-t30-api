@@ -3,19 +3,19 @@
   "type": "project",
   "version": "0.1.16",
   "repositories": {
-      "bensteffen/bs-php-utils": {
-          "type": "git",
-          "url": "https://github.com/bensteffen/bs-php-utils"
-      },
-      "ADFC-Hamburg/flexapi": {
-          "type": "git",
-          "url": "https://github.com/ADFC-Hamburg/flexapi"
-      }
+    "bensteffen/bs-php-utils": {
+      "type": "git",
+      "url": "https://github.com/bensteffen/bs-php-utils"
+    },
+    "ADFC-Hamburg/flexapi": {
+      "type": "git",
+      "url": "https://github.com/ADFC-Hamburg/flexapi"
+    }
   },
   "require": {
     "firebase/php-jwt": "^5.0",
     "bensteffen/bs-php-utils": "dev-master",
-    "ADFC-Hamburg/flexapi": "dev-master",
+    "ADFC-Hamburg/flexapi": "^0.1.16",
     "phpmailer/phpmailer": "~6.0"
   },
   "authors": [
