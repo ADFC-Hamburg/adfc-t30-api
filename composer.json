@@ -1,13 +1,21 @@
 {
   "name": "ADFC-Hamburg/adfc-t30-api",
   "type": "project",
-  "version": "0.1.19",
-  "repositories": {
-    "bensteffen/bs-php-utils": {
-      "type": "git",
-      "url": "https://github.com/bensteffen/bs-php-utils"
+    "version": "0.1.19",
+    "repositories": {
+    "bs-php-utils": {
+      "type": "package",
+      "package": {
+        "name": "bensteffen/bs-php-utils",
+        "version": "1.1",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/bensteffen/bs-php-utils",
+          "reference": "origin/master"
+        }
+      }
     },
-    "ADFC-Hamburg/flexapi": {
+      "ADFC-Hamburg/flexapi": {
       "type": "git",
       "url": "https://github.com/ADFC-Hamburg/flexapi"
     }
