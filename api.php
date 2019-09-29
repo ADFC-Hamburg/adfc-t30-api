@@ -10,8 +10,10 @@ include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/AlphaNumeric
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/EmailVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/TokenVerificationService.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/MockVerificationService.php';
-include_once __DIR__ . '/t30.php';
 include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/EntityMonitor.php';
+include_once __DIR__ . '/t30.php';
+include_once __DIR__ . '/T30MailFactory.php';
+
 
 FlexAPI::onEvent('api-defined', function($event) {
     $notification = null;
@@ -20,19 +22,8 @@ FlexAPI::onEvent('api-defined', function($event) {
             'from' => 'monitor',
             'to' => FlexAPI::get('reportDataChangesTo'),
             'subject' => function($entityName) { return utf8_decode("T30-Paten: Änderung von '$entityName'"); },
-            'body' => function($entityName, $entityId, $metaData, $fieldChanges) {
-                $changes = array_map(function($change) {
-                    return "   * Attribut '".$change['fieldName']."': ".$change['oldValue']." => ".$change['newValue'];
-                }, $fieldChanges);
-                $at = $metaData['timeStamp'];
-                return utf8_decode("".
-                    "<br><br>Hallo,".
-                    "<br><br>am ".date('d.m.Y', $at)." um ".date('H:i:s', $at).
-                    "<br><br>wurde(n) durch '".$metaData['user']."'".
-                    "<br><br>im Datensatz '$entityName' mit ID ".$entityId." folgendende Änderung(en) durchgeführt:".
-                    "<br><br><br>".implode('<br><br>', $changes).
-                    "<br><br>");
-            }
+            'body' => T30MailFactory::makeChangeNotificationMailGenerator('html'),
+            'altBody' => T30MailFactory::makeChangeNotificationMailGenerator('plain')
         ];
     }
     $entityMonitor = new EntityMonitor(FlexAPI::dataModel(), ['institution','demandedstreetsection'], $notification);
@@ -51,55 +42,8 @@ FlexAPI::define(function() {
             $verificationService = new TokenVerificationService(
                 FlexAPI::get('userVerification'),
                 'Deine T30 Registrierung',
-                function($token, $url) { return "Hallo,<br>
-bitte klicke <a href=\"".$url."\">hier</a>, um deinen Account bei der Kampagne des ADFC Hamburg \"Tempo 30 an sozialen Einrichtungen\" zu aktivieren.<br>
-Oder gebe das Token <b>".$token."</b> in das Forumlar ein.
-<br>
-Viel Spaß!<p>
-<p>
---<br>
-Tempo 30 an sozialen Einrichtungen<br>
-Eine Kampagne des ADFC Hamburg<br>
-<br>
-www.hamburg.adfc.de/tempo30sozial<br>
-tempo30sozial@hamburg.adfc.de<br>
-<br>
-Allgemeiner Deutscher Fahrrad-Club<br>
-Landesverband Hamburg e. V.<br>
-Koppel 34 - 36<br>
-20099 Hamburg<br>
-<br>
-Ansprechpartnerin<br>
-Wiebke Hansen<br>
-Tel: (040) 32 90 41 15"; },
-function($token, $url) { return "Hallo,
-bitte besuche:
-
-".$url."
-
-um deinen Account bei der Kampagne des ADFC Hamburg \"Tempo 30 an sozialen Einrichtungen\" zu aktivieren, oder gibt das Token:
-
-".$token."
-
-in das Forumlar ein.
-
-Viel Spaß!
-
---
-Tempo 30 an sozialen Einrichtungen
-Eine Kampagne des ADFC Hamburg
-
-www.hamburg.adfc.de/tempo30sozial
-tempo30sozial@hamburg.adfc.de
-
-Allgemeiner Deutscher Fahrrad-Club
-Landesverband Hamburg e. V.
-Koppel 34 - 36
-20099 Hamburg
-
-Ansprechpartnerin
-Wiebke Hansen
-Tel: (040) 32 90 41 15"; },
+                T30MailFactory::makeVerificationMailGenerator('html'),
+                T30MailFactory::makeVerificationMailGenerator('plain'),
                 new SmtpMailService($mailConfig['smtp'], $mailConfig['from']['verification']),
                 $tokenService
             );
