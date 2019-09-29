@@ -111,6 +111,10 @@ FlexApi::onSetup(function($request) {
             array_push($new_institutions, $value);
         }
         FlexAPI::superAccess()->insert('institution', $new_institutions);
+
+        $streets = explode("\n",file_get_contents(__DIR__."/data/strassenliste.txt"));
+        $streets = array_map(function ($s) { return [ "street_name"=> $s]; }, $streets);
+        FlexAPI::superAccess()->insert('street', $streets);
     }
 
     if (array_key_exists('registerTestUser', $request) && $request['registerTestUser']) {
