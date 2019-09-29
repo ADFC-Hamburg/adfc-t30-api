@@ -1,8 +1,8 @@
 {
   "name": "ADFC-Hamburg/adfc-t30-api",
   "type": "project",
-    "version": "0.1.19",
-    "repositories": {
+  "version": "0.1.19",
+  "repositories": {
     "bs-php-utils": {
       "type": "package",
       "package": {
@@ -15,7 +15,7 @@
         }
       }
     },
-      "ADFC-Hamburg/flexapi": {
+    "ADFC-Hamburg/flexapi": {
       "type": "git",
       "url": "https://github.com/ADFC-Hamburg/flexapi"
     }
@@ -23,7 +23,7 @@
   "require": {
     "firebase/php-jwt": "^5.0",
     "bensteffen/bs-php-utils": "dev-master",
-    "ADFC-Hamburg/flexapi": "dev-master",
+    "ADFC-Hamburg/flexapi": "^0.1.19",
     "phpmailer/phpmailer": "~6.0"
   },
   "authors": [
