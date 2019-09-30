@@ -7,7 +7,7 @@ local.env.json
 one_dot_com.env.json
 composer.lock
 vendor
-
+test/test/testConfig.json
 node_modules
 
 api.env.php
