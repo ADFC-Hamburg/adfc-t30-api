@@ -5,15 +5,13 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 let mocha_steps = require('mocha-steps');
 let step = mocha_steps.step;
-
-
-let server = 'http://localhost/adfc/adfc-t30-api';
-// let server = 'http://ben-steffen.de/t30';
+let config = require('./testConfig.json');
+console.log(config);
+let server =  config.url;
 
 let setupPayload = {
-    resetSecret: "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy",
-    // resetSecret: '<secret-for-ben-steffen-de>',
-	adminPassword: "pw"
+    resetSecret: config.resetSecret,
+    adminPassword: "pw"
 };
 
 chai.use(chaiHttp);
@@ -56,7 +54,7 @@ describe('API SETUP', function() {
     });
 });
 
-describe('USER SYSTEM', function() { 
+describe('USER SYSTEM', function() {
     userRegistration.ok.forEach(user => {
         let verifyToken = null;
         step('it should regsiter a user', function(done) {
@@ -335,4 +333,3 @@ describe('CRUD institution', function() {
     });
 
 });
-
