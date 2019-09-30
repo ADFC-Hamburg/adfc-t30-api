@@ -12,7 +12,7 @@ if [ -n "${DIFF}" ] ; then
 fi
 
 
-cd vendor/ADFC-Hamburg/flexapi
+cd vendor/adfc-hamburg/flexapi
 git fetch
 DIFF=$(git diff origin/master)
 if [ -n "${DIFF}" ] ; then
