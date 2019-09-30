@@ -1,7 +1,13 @@
 <?php
 header("Content-type: application/json; charset=utf-8");
 
-$aktion_date=mktime(59,59,23,10,20,2019);
+$type = filter_input(INPUT_GET, 'type',FILTER_VALIDATE_INT);
+
+if (($type == 1) || ($type == 2)) {
+    $aktion_date=mktime(59,59,23,10,20,2019);
+} else {
+    $aktion_date=mktime(0,0,0,1,1,2000);
+}
 $now=time();
 $format="Y-m-d";
 $data = [
