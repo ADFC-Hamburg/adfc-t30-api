@@ -332,4 +332,26 @@ describe('CRUD institution', function() {
             });
     });
 
+    step('it should not be possible for reg. users to update (put) institution with full data', function(done) {
+        let instUpdate={"id":institutionIds0[1],
+                        "position":[10.184035567714226,53.496844354475336],
+                        "name":"KiTa Sportini, Sport- und Bewegungskindertagesstätte",
+                        "street_house_no":"Billwerder Billdeich 609",
+                        "zip":"21033",
+                        "city":"Hamburg",
+                        "type":"1",
+                        "streetsection_complete":true};
+
+
+        chai.request(server)
+            .put('/api/crud.php')
+            .set('Access-Control-Allow-Credentials', token1)
+            .send(instUpdate)
+            .query({ entity: 'institution' })
+            .end(function(err, res) {
+                res.should.have.status(200);
+                done();
+            });
+    });
+
 });
