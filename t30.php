@@ -1,11 +1,11 @@
 <?php
 
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataModelFactory.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataModel.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataEntity.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/IdEntity.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModelFactory.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModel.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataEntity.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/IdEntity.php';
 
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
 
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
