@@ -29,7 +29,7 @@ git commit -m "published version $OLD_VERSION begining work for version $NEW_VER
 git push origin master
 cd ../../..
 pwd
-jq ".require[\"ADFC-Hamburg/flexapi\"]=\"^${OLD_VERSION}\"" composer.json >composer.json.new
+jq ".require[\"adfc-hamburg/flexapi\"]=\"^${OLD_VERSION}\"" composer.json >composer.json.new
 
 mv composer.json.new composer.json
 git commit -m 'Set flexapi Version to ${OLD_VERSION}' composer.json
@@ -37,7 +37,7 @@ git commit -m 'Set flexapi Version to ${OLD_VERSION}' composer.json
 git tag v${OLD_VERSION}
 git push origin v${OLD_VERSION}
 jq ".version=\"${NEW_VERSION}\"" <composer.json >composer.json.new
-jq ".require[\"ADFC-Hamburg/flexapi\"]=\"dev-master\"" composer.json.new >composer.json
+jq ".require[\"adfc-hamburg/flexapi\"]=\"dev-master\"" composer.json.new >composer.json
 rm composer.json.new
 git commit -m "published version $OLD_VERSION begining work for version $NEW_VERSION" composer.json
 git push origin master
