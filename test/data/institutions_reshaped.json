@@ -25592,7 +25592,10 @@
         "by_the_records": "kein Tempo 30 am 30.11.16\nVerkehrsunfallauswertung erstellt unter laufender Nummer: 47\nBustaktung weniger als 6 Fahrten\/Std. in wenigstens einer Fahrtrichtung zur Hauptverkehrszeit\nEinspurig"
     },
     {
-        "position": null,
+        "position": [
+            "9.890553",
+            "53.5746407"
+        ],
         "type": 1,
         "name": "DRK-Kita Albert-Einstein-Ring",
         "street_house_no": "Albert-Einstein-Ring 1",
@@ -25603,7 +25606,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9648976",
+            "53.562042"
+        ],
         "type": 1,
         "name": "Kinderstube Altona",
         "street_house_no": "Bartelsstraße 12",
@@ -25614,7 +25620,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.8730478",
+            "53.5927568"
+        ],
         "type": 1,
         "name": "KiTa am Eckhoffplatz",
         "street_house_no": "Eckhoffplatz 28",
@@ -25625,7 +25634,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9362365",
+            "53.5559037"
+        ],
         "type": 1,
         "name": "Ev. KiTa Mitte Altona",
         "street_house_no": "Harkortstraße 93",
@@ -25636,7 +25648,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9166458",
+            "53.5624683"
+        ],
         "type": 1,
         "name": "KiTa Kidspace Bahrenpark",
         "street_house_no": "Paul-Dessau-Straße 3g",
@@ -25647,7 +25662,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.92737837272727",
+            "53.5628608454545"
+        ],
         "type": 1,
         "name": "Kinderstadt Kita Altona",
         "street_house_no": "Ruhrstraße 18b",
@@ -25658,7 +25676,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.8985211",
+            "53.5707768"
+        ],
         "type": 1,
         "name": "KiTa KMK Kinderzimmer Villa Bonnepark",
         "street_house_no": "Theodorstraße 50",
@@ -25669,7 +25690,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.75778135",
+            "53.5819651"
+        ],
         "type": 1,
         "name": "Beau Jardin",
         "street_house_no": "Wedeler Landstraße 32",
@@ -25680,7 +25704,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.221094",
+            "53.488288"
+        ],
         "type": 1,
         "name": "KiTa Integratives Kinderhaus Kunterbunt",
         "street_house_no": "Am Baum 12",
@@ -25691,7 +25718,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.131939",
+            "53.4944497"
+        ],
         "type": 1,
         "name": "KiTa Am Gleisdreieck",
         "street_house_no": "Am Gleisdreieck 16a",
@@ -25702,7 +25732,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.131939",
+            "53.4944497"
+        ],
         "type": 1,
         "name": "KiTa Frosch",
         "street_house_no": "Am Gleisdreieck 19a",
@@ -25713,7 +25746,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.131939",
+            "53.4944497"
+        ],
         "type": 1,
         "name": "KiTa Frosch",
         "street_house_no": "Am Gleisdreieck 4a",
@@ -25724,7 +25760,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.131939",
+            "53.4944497"
+        ],
         "type": 1,
         "name": "KiTa Kinderhaus MiLa",
         "street_house_no": "Am Gleisdreieck 7a",
@@ -25735,7 +25774,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.94323376484459",
+            "53.60078765"
+        ],
         "type": 1,
         "name": "KiTa Amsinck-Villa",
         "street_house_no": "Beim Amsinckpark 18",
@@ -25746,7 +25788,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.91966237832468",
+            "53.63368475"
+        ],
         "type": 1,
         "name": "KiTa Kindsköpfe",
         "street_house_no": "Frohmestraße 28",
@@ -25757,7 +25802,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9522442",
+            "53.5719474"
+        ],
         "type": 1,
         "name": "KiTa Sonnenkinder",
         "street_house_no": "Fruchtallee 106",
@@ -25768,7 +25816,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9443254575492",
+            "53.60525395"
+        ],
         "type": 1,
         "name": "KiTa la petite maison GmbH",
         "street_house_no": "Hagendeel 37",
@@ -25779,7 +25830,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.8853296",
+            "53.6163696"
+        ],
         "type": 1,
         "name": "Krippenhaus Martin-Luther",
         "street_house_no": "Halstenbeker Weg 22a",
@@ -25790,7 +25844,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.98659208281935",
+            "53.5740147"
+        ],
         "type": 1,
         "name": "Enfantine Hochallee 18",
         "street_house_no": "Hochallee 18",
@@ -25801,7 +25858,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9430994",
+            "53.6061787"
+        ],
         "type": 1,
         "name": "KiTa Waldforscher gGmbH Hagendeel",
         "street_house_no": "Hagendeel ",
@@ -25812,7 +25872,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9435442",
+            "53.6098247"
+        ],
         "type": 1,
         "name": "KiTa Waldforscher gGmbH Schmiedekoppel",
         "street_house_no": "Schmiedekoppel ",
@@ -25823,7 +25886,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.96710385565507",
+            "53.59355375"
+        ],
         "type": 1,
         "name": "KiTa Kinderstadt Kita Lokstedt",
         "street_house_no": "Lokstedter Steindamm 51",
@@ -25834,7 +25900,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.92587956217948",
+            "53.5892917"
+        ],
         "type": 1,
         "name": "Bewegungs-Kita Molli",
         "street_house_no": "Molkenbuhrstraße 2",
@@ -25845,7 +25914,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.90197",
+            "53.6203103"
+        ],
         "type": 1,
         "name": "KiTa Kita für Alle",
         "street_house_no": "Oliver-Lißy-Straße 44",
@@ -25856,7 +25928,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9346209",
+            "53.583984"
+        ],
         "type": 1,
         "name": "KiTa elbzwerge Kita Privatweg",
         "street_house_no": "Privatweg 14a",
@@ -25867,7 +25942,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.940465",
+            "53.632829"
+        ],
         "type": 1,
         "name": "KiTa Käptn Kaninchen",
         "street_house_no": "Quedlinburger Weg 34",
@@ -25878,7 +25956,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.92460251659828",
+            "53.62764765"
+        ],
         "type": 1,
         "name": "KiTa Röthmoorweg",
         "street_house_no": "Röthmoorweg 9",
@@ -25889,7 +25970,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9641194",
+            "53.5681083"
+        ],
         "type": 1,
         "name": "KiTa Kita Fliegenpilze",
         "street_house_no": "Weidenallee 59",
@@ -25900,7 +25984,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.000501112851",
+            "53.49788865"
+        ],
         "type": 1,
         "name": "KiTa KMK Kinderzimmer Inselpark",
         "street_house_no": "Am Inselpark 1",
@@ -25911,7 +25998,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.992563",
+            "53.5061023"
+        ],
         "type": 1,
         "name": "KiTa Fantasie Kinderhaus - Georg-Wilhelm-Straße",
         "street_house_no": "Georg-Wilhelm-Straße 104a",
@@ -25922,7 +26012,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9964441",
+            "53.5405083"
+        ],
         "type": 1,
         "name": "KiTa Grasbrook",
         "street_house_no": "Grasbrookpark 1",
@@ -25933,7 +26026,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0234925",
+            "53.5475513"
+        ],
         "type": 1,
         "name": "KiTa Kinderzimmer Hammerbrookstraße",
         "street_house_no": "Hammerbrookstraße 65",
@@ -25944,7 +26040,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9908005",
+            "53.514264"
+        ],
         "type": 1,
         "name": "Ev. KiTa Emmaus",
         "street_house_no": "Mannesallee 21",
@@ -25955,7 +26054,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1218788350309",
+            "53.538204"
+        ],
         "type": 1,
         "name": "KiTa Spielpilot",
         "street_house_no": "Möllner Landstraße 118",
@@ -25966,7 +26068,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9775152",
+            "53.5512068"
+        ],
         "type": 1,
         "name": "KiTa Villa Vivendi",
         "street_house_no": "Neanderstraße 21",
@@ -25977,7 +26082,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.001025",
+            "53.498077"
+        ],
         "type": 1,
         "name": "KiTa Kita Wilma",
         "street_house_no": "Neuenfelder Straße 16d",
@@ -25988,7 +26096,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1264989",
+            "53.5617024"
+        ],
         "type": 1,
         "name": "KiTa  Kinderhaus Rispengrasweg",
         "street_house_no": "Rispengrasweg 1",
@@ -25999,7 +26110,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0422398994849",
+            "53.5563997"
+        ],
         "type": 1,
         "name": "KiGa Hort 1816 e.V.",
         "street_house_no": "Sievekingdamm 1",
@@ -26010,7 +26124,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0177198",
+            "53.5564461"
+        ],
         "type": 1,
         "name": "KiTa QuatierKinder",
         "street_house_no": "Stiftstraße 51",
@@ -26021,7 +26138,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0163428572868",
+            "53.61828665"
+        ],
         "type": 1,
         "name": "KiTa Am Weißenberge",
         "street_house_no": "Am Weißenberge 10",
@@ -26032,7 +26152,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0316434957515",
+            "53.67156025"
+        ],
         "type": 1,
         "name": "KiTa Heidberg",
         "street_house_no": "Anita-Sellenschloh-Ring 6",
@@ -26043,7 +26166,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.04613",
+            "53.5824999"
+        ],
         "type": 1,
         "name": "KiTa Alsterstürmer",
         "street_house_no": "Bramfelder Straße 16",
@@ -26054,7 +26180,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0070025553994",
+            "53.58502085"
+        ],
         "type": 1,
         "name": "KiTa KMK Kinderzimmer Goldbek GmbH",
         "street_house_no": "Dorotheenstraße 82",
@@ -26065,7 +26194,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9397571",
+            "53.5607749"
+        ],
         "type": 1,
         "name": "KiTa Sandvika",
         "street_house_no": "Emma-Poel-Straße 2",
@@ -26076,7 +26208,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.019095",
+            "53.6393857"
+        ],
         "type": 1,
         "name": "KiTa Flughafenstraße 74",
         "street_house_no": "Flughafenstraße 74",
@@ -26087,7 +26222,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0544544243378",
+            "53.5791625"
+        ],
         "type": 1,
         "name": "KiTa LumiGarten",
         "street_house_no": "Grete-Zabe-Weg 2",
@@ -26098,7 +26236,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0001422226761",
+            "53.59117105"
+        ],
         "type": 1,
         "name": "KiTa Kinderhaus Gryphiusstraße",
         "street_house_no": "Gryphiusstraße 1",
@@ -26109,7 +26250,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0337819",
+            "53.6507989"
+        ],
         "type": 1,
         "name": "KiGa Waldkindergarten \"Die Schlaufüchse\"",
         "street_house_no": "Raakmoorgrund  ",
@@ -26120,7 +26264,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0261942",
+            "53.5589642"
+        ],
         "type": 1,
         "name": "KiTa Glücksnoten",
         "street_house_no": "Lübecker Straße 129",
@@ -26131,7 +26278,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0042268",
+            "53.5981642"
+        ],
         "type": 1,
         "name": "ASB-Kita Ohlsdorfer Straße",
         "street_house_no": "Ohlsdorfer Straße 37a",
@@ -26142,7 +26292,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0116029",
+            "53.61731415"
+        ],
         "type": 1,
         "name": "KiTa KMK Rotbuchenhain GmbH",
         "street_house_no": "Rotbuchenhain 11",
@@ -26153,7 +26306,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0491771",
+            "53.63189"
+        ],
         "type": 1,
         "name": "KiTa Stübeheide",
         "street_house_no": "Stübeheide 138",
@@ -26164,7 +26320,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.026754528225",
+            "53.6047226"
+        ],
         "type": 1,
         "name": "KiTa KMK Kinderzimmer Rübenkamp GmbH",
         "street_house_no": "Überseering 10",
@@ -26175,7 +26334,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0380264",
+            "53.5876334"
+        ],
         "type": 1,
         "name": "KiTa Mouse House",
         "street_house_no": "Wiesendamm 24",
@@ -26186,7 +26348,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.9554382622978",
+            "53.46288545"
+        ],
         "type": 1,
         "name": "Ev. KiTa St.Petrus Harburg",
         "street_house_no": "Haakestraße 98",
@@ -26197,7 +26362,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.97404274287262",
+            "53.45740865"
+        ],
         "type": 1,
         "name": "KiTa Kunterbunt",
         "street_house_no": "Haeckelstraße 2",
@@ -26208,7 +26376,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.8606989",
+            "53.4687462"
+        ],
         "type": 1,
         "name": "KiTa Glückskinder",
         "street_house_no": "Haferacker 14",
@@ -26219,7 +26390,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.84273064151292",
+            "53.4781129"
+        ],
         "type": 1,
         "name": "KiTa Storchenwiese",
         "street_house_no": "Plaggenmoor 60",
@@ -26230,7 +26404,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "9.987961",
+            "53.4647614"
+        ],
         "type": 1,
         "name": "Kinderstadt Kita Hafencampus",
         "street_house_no": "Theodor-Yorck-Straße 23a",
@@ -26241,7 +26418,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1559810101967",
+            "53.58808355"
+        ],
         "type": 1,
         "name": "KiTa Leuchtturm",
         "street_house_no": "Am Friedhof 92",
@@ -26252,7 +26432,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0757267",
+            "53.5806078"
+        ],
         "type": 1,
         "name": "KiGa Die Königsknirpse",
         "street_house_no": "Auf dem Königslande 24",
@@ -26263,7 +26446,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.128032613044",
+            "53.67229655"
+        ],
         "type": 1,
         "name": "Ev. KiGa Bergstedt",
         "street_house_no": "Bergstedter Kirchenstraße 7",
@@ -26274,7 +26460,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1179094",
+            "53.6003971"
+        ],
         "type": 1,
         "name": "KiTa Berner Heerweg",
         "street_house_no": "Berner Heerweg 115",
@@ -26285,7 +26474,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1283101",
+            "53.6972591"
+        ],
         "type": 1,
         "name": "Waldkindergarten Wohldorf",
         "street_house_no": "Bredenbekstraße 61",
@@ -26296,7 +26488,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0566262",
+            "53.6492327"
+        ],
         "type": 1,
         "name": "KiTa Butterbauernstieg 30",
         "street_house_no": "Butterbauernstieg 30",
@@ -26307,7 +26502,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1350258745757",
+            "53.57545995"
+        ],
         "type": 1,
         "name": "KiTa KMK Kinderzimmer Jenfelder Bach",
         "street_house_no": "Charlottenburger Straße 2",
@@ -26318,7 +26516,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1421429",
+            "53.5858314"
+        ],
         "type": 1,
         "name": "KiTa Dahlemer Ring",
         "street_house_no": "Dahlemer Ring 3",
@@ -26329,7 +26530,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1120998387287",
+            "53.70564595"
+        ],
         "type": 1,
         "name": "KiTa Duvenstedter Berg",
         "street_house_no": "Duvenstedter Berg 58",
@@ -26340,7 +26544,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1601866",
+            "53.6464283"
+        ],
         "type": 1,
         "name": "KiTa Tonradsmoor",
         "street_house_no": "Eulenkrugstraße 199k",
@@ -26351,7 +26558,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0215943",
+            "53.6400409"
+        ],
         "type": 1,
         "name": "KiGa MaNi Kids",
         "street_house_no": "Gerckensplatz 12a",
@@ -26362,7 +26572,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.15656645",
+            "53.58242535"
+        ],
         "type": 1,
         "name": "KiTa Grunewaldstraße",
         "street_house_no": "Grunewaldstraße 78a",
@@ -26373,7 +26586,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0928661",
+            "53.6889185"
+        ],
         "type": 1,
         "name": "AWO Krippe Huulkamp",
         "street_house_no": "Huulkamp 8",
@@ -26384,7 +26600,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1308787318104",
+            "53.57946275"
+        ],
         "type": 1,
         "name": "KiTa Kelloggstraße",
         "street_house_no": "Kelloggstraße 35",
@@ -26395,7 +26614,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1308907",
+            "53.58165415"
+        ],
         "type": 1,
         "name": "KiTa Jenfelder Au",
         "street_house_no": "Kuehnbachring 6",
@@ -26406,7 +26628,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            null,
+            null
+        ],
         "type": 1,
         "name": "KiTa Jim Knopf",
         "street_house_no": "Ohlendieckshöhe 30",
@@ -26417,7 +26642,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0527142",
+            "53.5648053"
+        ],
         "type": 1,
         "name": "KiTa Kindertraum",
         "street_house_no": "Papenstraße 148",
@@ -26428,7 +26656,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1221585",
+            "53.6052065"
+        ],
         "type": 1,
         "name": "Hort in der Rudolf-Steiner-Schule",
         "street_house_no": "Rahlstedter Weg  60",
@@ -26439,7 +26670,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1221585",
+            "53.6052065"
+        ],
         "type": 1,
         "name": "Waldorfkindergarten Farmsen",
         "street_house_no": "Rahlstedter Weg  60",
@@ -26450,7 +26684,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1223045932372",
+            "53.67469145"
+        ],
         "type": 1,
         "name": "KiTa Rodenbeker Straße",
         "street_house_no": "Rodenbeker Straße 28",
@@ -26461,7 +26698,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.122611",
+            "53.570773"
+        ],
         "type": 1,
         "name": "Bunte Biene Ost",
         "street_house_no": "Rodigallee 234",
@@ -26472,7 +26712,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.11003145",
+            "53.6570423"
+        ],
         "type": 1,
         "name": "KiTa Mikuteit",
         "street_house_no": "Saseler Chaussee 239",
@@ -26483,7 +26726,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1673491",
+            "53.6057701"
+        ],
         "type": 1,
         "name": "KiTa Kleine Sterne",
         "street_house_no": "Stapelfelder Straße 120",
@@ -26494,7 +26740,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1558648472827",
+            "53.61525775"
+        ],
         "type": 1,
         "name": "KiTa Wölkchen",
         "street_house_no": "Stolper Straße 4a",
@@ -26505,7 +26754,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.077822",
+            "53.5795882"
+        ],
         "type": 1,
         "name": "KiTa \"Hänsel und Gretel\" - Junior",
         "street_house_no": "Walddörferstraße 120",
@@ -26516,7 +26768,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0775007465546",
+            "53.57875905"
+        ],
         "type": 1,
         "name": "Walddörferstraße 91 ",
         "street_house_no": "Walddörferstraße 91",
@@ -26527,7 +26782,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1281483278765",
+            "53.6551958"
+        ],
         "type": 1,
         "name": "Julian und Marie, Kita Waldweg",
         "street_house_no": "Waldweg 99",
@@ -26538,7 +26796,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.0715697",
+            "53.6429591"
+        ],
         "type": 1,
         "name": "KiGa Don Chamäleon II",
         "street_house_no": "Wellingsbüttler Weg 71",
@@ -26549,7 +26810,10 @@
         "by_the_records": "Einrichtung von der LEA gemeldet Aug 2019"
     },
     {
-        "position": null,
+        "position": [
+            "10.1707910651848",
+            "53.62816265"
+        ],
         "type": 1,
         "name": "KiGa Kim Bim",
         "street_house_no": "Wildschwanbrook 9",

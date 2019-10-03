@@ -2,11 +2,37 @@
 $url = "https://github.com/ADFC-Hamburg/adfc-t30-paten-frontend/files/3520913/Daten.T30.alle.soz.Einr.Mai.2018.2019-08-20.xlsx";
 $localFileName="Daten_T30_Alle_sozEinr.xlsx";
 
-
 require('vendor/autoload.php');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
+function getLatLon($zip,$street) {
+  $context = stream_context_create(
+    array(
+        "http" => array(
+            "header" => "User-Agent: ADFC Hamburg, tempo30@hamburg.adfc.de"
+        )
+    )
+);
+  $nUrl="https://nominatim.openstreetmap.org/search?format=json&country=DE&city=Hamburg&";
+  // postalcode=21147&street=Neehusenstra%C3%9Fe+11a
+  $content = file_get_contents($nUrl.'postalcode='. urlencode($zip). "&street=".urlencode($street),false,$context);
+  $json=json_decode($content,true);
+  // Nominatim Usage policy
+  sleep(2);
+  return [$json[0]['lon'], $json[0]['lat']];
+}
+
+function getLatLonCached($zip,$street) {
+  $cacheFile='nominatim.cache/'.md5($zip.$street);
+  if (file_exists($cacheFile)) {
+    return json_decode(file_get_contents($cacheFile),true);
+  } else {
+    $rtn = getLatLon($zip, $street);
+    file_put_contents($cacheFile, json_encode($rtn));
+    return $rtn;
+  }
+}
 function download($url, $localName) {
     if (!file_exists($localName)) {
         $content = file_get_contents($url);
@@ -26,8 +52,9 @@ $colToField= [
     "position" => function ($w,$i) {
         $val=getVal($w,'A',$i);
         if ($val == "") {
-            // FIXME geocode
-            return null;
+            $zip= getVal($w,'F',$i);
+            $street=getVal($w,'D',$i)." ".getVal($w,'E',$i);
+            return getLatLonCached($zip, $street);
         }
         return array_map("floatval",explode(",",preg_replace('/Point \((\S*) (\S*)\)/','$1,$2',$val)));
     },
