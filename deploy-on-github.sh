@@ -1,26 +1,11 @@
 #!/bin/bash
 #
 
-VERSION=$1
-T30_SEC_DIR="~/.t30-secret"
-sudo apt update
-sudo apt install pwgen
-
-function get_secret {
-    DESCR=$1
-    PW_FILE="${T30_SEC_DIR}/${DESCR}.secret"
-    if [ ! -f "${PW_FILE}" ] ; then
-	pwgen -s1 16 > $PW_FILE
-    fi
-    cat $PW_FILE
-}
-
-mkdir -p $T30_SEC_DIR
 
 VERSION=$(jq -r '.version' composer.json)
 MYSQL_ROOT_PW="root"
-T30_PW=$(get_secret t30.db)
-T30_ADMIN=$(get_secret t30.admin)
+T30_PW="t30pw"
+T30_ADMIN="t30adminpw"
 DATABASE="t30paten"
 
 echo DB: $DATABASE
@@ -54,15 +39,13 @@ sed -i -e "s/ADFC Hamburg/ADFC Hamburg Tempo30 vor sozialen Einrichtungen/" api.
 sed -i -e "s/\/adfc\/api-2019-07\/adfc-t30-api/\/t30-paten\/api\/version${VERSION}/" api.conf.php
 sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"/ "t30-changes@hamburg.adfc.de" /' api.conf.php
 
-
-cat api.conf.php
 cd vendor
 ln -s adfc-hamburg ADFC-Hamburg
 cd ..
 ls -la vendor
-echo 'Call setup.php'
 mkdir ~/.screen ; chmod 700 ~/.screen
 export SCREENDIR=~/.screen
+exit
 screen -L -d -m /usr/bin/php -S 127.0.0.1:1234
 # every second flush log
 screen -X logfile flush 1
@@ -75,20 +58,3 @@ echo == Log ==
 cat screenlog.*
 echo == Log ENDE ==
 mysql "-u${DATABASE}" "-p${T30_PW}" "${DATABASE}" < geodaten.sql
-
-exit 0
-echo "== Run Tests =="
-cd test
-cp test/testConfig.example.json test/testConfig.json
-npm install
-npm test
-
-cd ..
-screen -X stuff ^C
-sleep 1
-screen -X quit
-echo == Log ==
-cat screenlog.*
-echo == Log ENDE ==
-
-# Delete screen

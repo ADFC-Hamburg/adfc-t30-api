@@ -22,6 +22,27 @@ jobs:
       run: wget https://tools.adfc-hamburg.de/t30-paten/daten/geodaten.sql
     - name: deploy
       run: ./deploy-on-github.sh
+    - name: run php in screenlog
+      env:
+       SCREENDIR: /home/runner/.screen
+      run: |
+       screen -L -d -m /usr/bin/php -S 127.0.0.1:1234
+       # every second flush log
+       screen -X logfile flush 1
+       sleep 2
+    - name: Setup
+      run: curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "t30adminpw", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
+    - name: show log
+      env:
+       SCREENDIR: /home/runner/.screen
+      run: |
+       screen -X stuff "$(printf '%b' 'this into input\015')"
+       sleep 1
+       echo == Log ==
+       cat screenlog.*
+       echo == Log ENDE ==
+    - name: import geodaten
+      run: mysql -ut30paten -pt30pw t30paten < geodaten.sql
     - name: Run Test
       continue-on-error: true
       run: |
