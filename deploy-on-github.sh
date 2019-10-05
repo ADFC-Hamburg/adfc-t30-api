@@ -60,12 +60,13 @@ cat api.conf.php
 echo 'Call setup.php'
 mkdir ~/.screen ; chmod 700 ~/.screen
 export SCREENDIR=~/.screen
-screen -d -m ./run-php-server.sh
+screen -L -d -m /usr/bin/php -S 127.0.0.1:1234
 sleep 2
 curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
 echo $?
+screen -X stuff "$(printf '%b' 'this into input\015')"
 echo == Log ==
-cat php-screen.log
+cat screenlog.*
 echo == Log ENDE ==
 wget https://tools.adfc-hamburg.de/t30-paten/daten/geodaten.sql
 mysql "-u${DATABASE}" "-p${T30_PW}" "${DATABASE}" < geodaten.sql
@@ -77,9 +78,11 @@ npm install
 npm test
 
 cd ..
+screen -X stuff ^C
+sleep 1
 screen -X quit
 echo == Log ==
-cat php-screen.log
+cat screenlog.*
 echo == Log ENDE ==
 
 # Delete screen
