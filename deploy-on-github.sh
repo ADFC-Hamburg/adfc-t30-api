@@ -45,9 +45,13 @@ cd ..
 ls -la vendor
 mkdir ~/.screen ; chmod 700 ~/.screen
 
-sudo cat >/usr/sbin/sendmail <<EOF
+cat >~/sendmail <<EOF
 #!/bin/bash
 echo $@ >> /tmp/sendmail.log
 EOF
+pwd
+cat sendmail
+sudo cat /home/runner/sendmail
+sudo mv /home/runner/sendmail /usr/sbin/sendmail
 sudo chmod 755 /usr/sbin/sendmail
 exit
