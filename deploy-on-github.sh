@@ -44,17 +44,12 @@ ln -s adfc-hamburg ADFC-Hamburg
 cd ..
 ls -la vendor
 mkdir ~/.screen ; chmod 700 ~/.screen
-export SCREENDIR=~/.screen
+
+cat sendmail <<EOF
+#!/bin/bash
+echo $@ >> /tmp/sendmail.log
+EOF
+chmod 755 sendmail
+sudo mv /home/runner/sendmail /usr/sbin/sendmail
+sudo chown 755 /usr/sbin/sendmail
 exit
-screen -L -d -m /usr/bin/php -S 127.0.0.1:1234
-# every second flush log
-screen -X logfile flush 1
-sleep 2
-curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
-echo $?
-screen -X stuff "$(printf '%b' 'this into input\015')"
-sleep 1
-echo == Log ==
-cat screenlog.*
-echo == Log ENDE ==
-mysql "-u${DATABASE}" "-p${T30_PW}" "${DATABASE}" < geodaten.sql
