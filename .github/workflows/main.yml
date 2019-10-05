@@ -31,7 +31,8 @@ jobs:
        screen -X logfile flush 1
        sleep 2
     - name: Setup
-      run: curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "t30adminpw", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
+      run: |
+       curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "t30adminpw", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
     - name: show log
       env:
        SCREENDIR: /home/runner/.screen
