@@ -45,7 +45,6 @@ jobs:
     - name: import geodaten
       run: mysql -ut30paten -pt30pw t30paten < geodaten.sql
     - name: Run Test
-      continue-on-error: true
       run: |
        cd test
        cp test/testConfig.example.json test/testConfig.json

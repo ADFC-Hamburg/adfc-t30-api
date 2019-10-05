@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-
 
 VERSION=$(jq -r '.version' composer.json)
 MYSQL_ROOT_PW="root"
@@ -42,15 +40,13 @@ sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamb
 cd vendor
 ln -s adfc-hamburg ADFC-Hamburg
 cd ..
-ls -la vendor
+
 mkdir ~/.screen ; chmod 700 ~/.screen
 
 cat >~/sendmail <<EOF
 #!/bin/bash
 echo $@ >> /tmp/sendmail.log
 EOF
-pwd
-cat sendmail
 sudo cat /home/runner/sendmail
 sudo mv /home/runner/sendmail /usr/sbin/sendmail
 sudo chmod 755 /usr/sbin/sendmail
