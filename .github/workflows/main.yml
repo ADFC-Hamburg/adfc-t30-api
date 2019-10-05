@@ -18,15 +18,21 @@ jobs:
     - uses: actions/checkout@v1
     - name: php composer
       run: composer install
-    - name: run deploy-on-github.sh
+    - name: get geodaten
+      run: wget https://tools.adfc-hamburg.de/t30-paten/daten/geodaten.sql
+    - name: deploy
       run: ./deploy-on-github.sh
     - name: Run Test
+      continue-on-error: true
       run: |
        cd test
        cp test/testConfig.example.json test/testConfig.json
        npm install
-       #npm test
+       npm test
     - name: Kill screen
+      continue-on-error: true
+      env:
+       SCREENDIR=/home/runner/.screen
       run: |
        screen -X stuff ^C
        sleep 1
