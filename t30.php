@@ -95,7 +95,7 @@ class Institution extends IdEntity {
             ['name' => 'address_supplement', 'type' => 'varchar', 'length' => 255],
             ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'position', 'type' => 'point'],
+            ['name' => 'position', 'type' => 'point', 'notNull' => false],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint'],
             ['name' => 'by_the_records', 'type' => 'text']
