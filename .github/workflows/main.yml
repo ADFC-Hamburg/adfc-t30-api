@@ -32,7 +32,7 @@ jobs:
     - name: Kill screen
       continue-on-error: true
       env:
-       SCREENDIR=/home/runner/.screen
+       SCREENDIR:/home/runner/.screen
       run: |
        screen -X stuff ^C
        sleep 1
