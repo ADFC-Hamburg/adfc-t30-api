@@ -4,7 +4,7 @@ return [
     "environment" => "example",
     "maxUserNameLength" => 128,
     "jwtValidityDuration" => 3600,
-    "jwtValidityExtension" => 600,
+    "jwtValidityExtension" => 3600,
     "databaseCredentials" => [
         "data" => [
             "driver" => "mysql",
