@@ -76,9 +76,10 @@ cp test/testConfig.example.json test/testConfig.json
 npm install
 npm test
 
+cd ..
+screen -X quit
 echo == Log ==
 cat php-screen.log
 echo == Log ENDE ==
 
 # Delete screen
-screen -X quit
