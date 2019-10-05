@@ -4,7 +4,7 @@
 VERSION=$1
 
 
-T30_SEC_DIR="/root/.t30-secret"
+T30_SEC_DIR="~/.t30-secret"
 
 function get_secret {
     DESCR=$1
@@ -58,7 +58,8 @@ sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamb
 cat api.conf.php
 
 echo 'Call setup.php'
-
+mkdir ~/.screen ; chmod 700 ~/.screen
+export SCREENDIR=~/.screen
 screen -d -m /usr/bin/php -S 127.0.0.1:1234
 
 curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
