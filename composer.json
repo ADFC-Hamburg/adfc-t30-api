@@ -7,7 +7,7 @@
       "type": "package",
       "package": {
         "name": "bensteffen/bs-php-utils",
-        "version": "1.0",
+        "version": "1.1",
         "source": {
           "type": "git",
           "url": "https://github.com/bensteffen/bs-php-utils",
@@ -22,7 +22,7 @@
   },
   "require": {
     "firebase/php-jwt": "^5.0",
-    "bensteffen/bs-php-utils": "1.0",
+    "bensteffen/bs-php-utils": "1.1",
     "adfc-hamburg/flexapi": "dev-master",
     "phpmailer/phpmailer": "~6.0"
   },
@@ -31,8 +31,5 @@
       "name": "Florian Haeussinger",
       "email": "floderflo@gmx.de"
     }
-  ],
-  "require-dev": {
-    "overtrue/phplint": "^1.1"
-  }
+  ]
 }
