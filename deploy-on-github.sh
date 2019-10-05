@@ -56,15 +56,18 @@ sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamb
 
 
 cat api.conf.php
-
+ls -la vendor
 echo 'Call setup.php'
 mkdir ~/.screen ; chmod 700 ~/.screen
 export SCREENDIR=~/.screen
 screen -L -d -m /usr/bin/php -S 127.0.0.1:1234
+# every second flush log
+screen -X logfile flush 1
 sleep 2
 curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
 echo $?
 screen -X stuff "$(printf '%b' 'this into input\015')"
+sleep 1
 echo == Log ==
 cat screenlog.*
 echo == Log ENDE ==
