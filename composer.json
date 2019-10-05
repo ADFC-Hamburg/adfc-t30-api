@@ -31,8 +31,5 @@
       "name": "Florian Haeussinger",
       "email": "floderflo@gmx.de"
     }
-  ],
-  "require-dev": {
-    "overtrue/phplint": "^1.1"
-  }
+  ]
 }
