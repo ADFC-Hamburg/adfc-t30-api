@@ -45,7 +45,7 @@ cd ..
 ls -la vendor
 mkdir ~/.screen ; chmod 700 ~/.screen
 
-cat sendmail <<EOF
+cat >sendmail <<EOF
 #!/bin/bash
 echo $@ >> /tmp/sendmail.log
 EOF
