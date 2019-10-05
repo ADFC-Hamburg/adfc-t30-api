@@ -267,7 +267,7 @@ class Email extends IdEntity {
             ['name' => 'mail_body', 'type' => 'text', 'notNull' => false],
             ['name' => 'mail_end', 'type' => 'text', 'notNull' => false],
             ['name' => 'mail_send', 'type' => 'boolean'],
-            ['name' => 'sent_on', 'type' => 'timestamp'],
+            ['name' => 'sent_on', 'type' => 'timestamp', 'notNull' => false],
             ['name' => 'person', 'type' => 'int'],
             ['name' => 'police_department', 'type' => 'int'],
             ['name' => 'demanded_street_section', 'type' => 'int'],
