@@ -74,7 +74,6 @@ sleep 1
 echo == Log ==
 cat screenlog.*
 echo == Log ENDE ==
-wget https://tools.adfc-hamburg.de/t30-paten/daten/geodaten.sql
 mysql "-u${DATABASE}" "-p${T30_PW}" "${DATABASE}" < geodaten.sql
 
 exit 0
