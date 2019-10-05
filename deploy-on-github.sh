@@ -30,6 +30,7 @@ cp api.conf.example.php api.conf.php
 sed -i -e "s/t30-db-password/${T30_PW}/" api.conf.php
 sed -i -e "s/t30-db-user/${DATABASE}/" api.conf.php
 sed -i -e "s/t30-db-name/${DATABASE}/" api.conf.php
+sed -i -e "s/example/test/" api.conf.php
 # Use Sendmail
 sed -i -e "s/send.one.com//" api.conf.php
 sed -i -e "s/adfc@ben-steffen.de/tempo30sozial@hamburg.adfc.de/" api.conf.php
