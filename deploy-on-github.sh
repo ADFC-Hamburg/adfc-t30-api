@@ -56,6 +56,9 @@ sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamb
 
 
 cat api.conf.php
+cd vendor
+ln -s adfc-hamburg ADFC-Hamburg
+cd ..
 ls -la vendor
 echo 'Call setup.php'
 mkdir ~/.screen ; chmod 700 ~/.screen
