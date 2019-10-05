@@ -4,7 +4,6 @@
 VERSION=$1
 T30_SEC_DIR="~/.t30-secret"
 sudo apt update
-sudo apt full-upgrade
 sudo apt install pwgen
 
 function get_secret {
