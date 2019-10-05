@@ -20,3 +20,16 @@ jobs:
       run: composer install
     - name: run deploy-on-github.sh
       run: ./deploy-on-github.sh
+    - name: Run Test
+      run: |
+       cd test
+       cp test/testConfig.example.json test/testConfig.json
+       npm install
+       npm test
+    - name: Kill screen
+      run: |
+       screen -X stuff ^C
+       sleep 1
+       screen -X quit
+    - name: Show screenlog
+      run: cat screenlog.*
