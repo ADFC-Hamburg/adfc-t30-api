@@ -65,3 +65,12 @@ sleep 2
 curl -v -H "Content-Type: application/json" -d '{ "resetSecret": "IBs1G38VUCiH6HEIlMrqXEGXkpaq9JKy", "adminPassword": "'"${T30_ADMIN}"'", "fillInTestData": true, "registerTestUser": true}'  "http://127.0.0.1:1234/setup.php"
 wget https://tools.adfc-hamburg.de/t30-paten/daten/geodaten.sql
 mysql "-u${DATABASE}" "-p${T30_PW}" "${DATABASE}" < geodaten.sql
+
+echo "== Run Tests =="
+cd test
+cp test/testConfig.example.json test/testConfig.json
+npm install
+npm test
+
+# Delete screen
+screen -X quit
