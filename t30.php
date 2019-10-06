@@ -88,7 +88,8 @@ class Institution extends IdEntity {
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
-            ['name' => 'status', 'type' => 'smallint']
+            ['name' => 'status', 'type' => 'smallint'],
+            ['name' => 'by_the_records', 'type' => 'text']
         ]);
     }
 
