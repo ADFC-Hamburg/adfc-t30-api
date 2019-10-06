@@ -18,7 +18,6 @@ class T30Factory extends DataModelFactory {
             new Street(),
             new UserData(),
             $institution,
-            new PoliceDepartment(),
             new Email(),
             new DemandedStreetSection(),
             new DistrictHamburg(),
@@ -32,7 +31,6 @@ class T30Factory extends DataModelFactory {
         $dataModel->addReference('demandedstreetsection.institution -> institution');
 
         $dataModel->addReference('email.person -> userdata');
-        $dataModel->addReference('email.police_department -> policedepartment');
         $dataModel->addReference('email.demanded_street_section -> demandedstreetsection');
 
         $dataModel->addObservation([
@@ -44,6 +42,16 @@ class T30Factory extends DataModelFactory {
             'observerName' => 'institution',
             'subjectName' => 'demandedstreetsection',
             'context' => ['onUpdate', 'onInsert', 'onDelete']
+        ]);
+        $dataModel->addObservation([
+            'observerName' => 'demandedstreetsection',
+            'subjectName' => 'demandedstreetsection',
+            'context' => ['onInsert', 'onUpdate']
+        ]);
+        $dataModel->addObservation([
+            'observerName' => 'email',
+            'subjectName' => 'email',
+            'context' => ['beforeInsert', 'onInsert', 'onUpdate']
         ]);
         return $dataModel;
     }
@@ -225,21 +233,6 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
   }
 }
 
-class PoliceDepartment extends IdEntity {
-    public function __construct() {
-        parent::__construct('policedepartment');
-        $this->addFields([
-            // ['name' => 'department_number', 'type' => 'int', 'primary' => true],
-            ['name' => 'region', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'street_house_no', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
-            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'phone', 'type' => 'varchar', 'length' => 20],
-            ['name' => 'email', 'type' => 'varchar', 'length' => 255],
-            // ['name' => 'area', 'type' => 'polygon']
-        ]);
-    }
-}
 
 // class Tempo30 extends IdEntity {
 //     public function __construct() {
@@ -274,7 +267,34 @@ class Email extends IdEntity {
         ]);
     }
 
-    public function observationUpdate($event) { }
+    public function observationUpdate($event) {
+      if ($event['context'] === 'beforeInsert') {
+        /**
+         * Checke, ob der Forderungsstraßenabschnitt angegeben ist und exisitiert.
+         */
+        if (!array_key_exists('demanded_street_section', $event['data'])) {
+          throw(new Exception('Missing demanded street section ID.', 400));
+        }
+        $sectionId = $event['data']['demanded_street_section'];
+        if(!FlexAPI::superAccess()->resourceExists('demandedstreetsection', ['id' => $sectionId])) {
+          throw(new Exception("No street section with ID = $sectionId found.", 400));
+        }
+      }
+      if ($event['context'] === 'onInsert') {
+        /**
+         * Ordne Email dem aktuellen Benutzer zu:
+         * email.person <- userData.id
+         */
+        $userData = FlexAPI::superAccess()->read('userdata', [
+          'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
+          'flatten' => 'singleResult'
+        ]);
+        FlexAPI::superAccess()->update('email', [
+          'id' => $event['insertId'],
+          'person' => $userData['id']
+        ]);
+      }
+    }
 }
 
 class DemandedStreetSection extends IdEntity {
@@ -284,25 +304,44 @@ class DemandedStreetSection extends IdEntity {
   const STATUS_T30_OK=2;
   const STATUS_T30_ABGELEHNT=4;
   const STATUS_T30_ANGEORDNET=5;
-    public function __construct() {
-        parent::__construct('demandedstreetsection');
-        $this->addFields([
-            ['name' => 'street', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
-            ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
-            ['name' => 'entrance', 'type' => 'smallint'],
-            ['name' => 'user_note', 'type' => 'text'],
-            ['name' => 'multilane', 'type' => 'smallint'],
-            ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
-            ['name' => 'much_bus_traffic', 'type' => 'smallint'],
-            ['name' => 'reason_slower_buses', 'type' => 'text'],
-            ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
-            ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
-            ['name' => 'person', 'type' => 'int'],
-            ['name' => 'institution', 'type' => 'int'],
-            ['name' => 'status', 'type' => 'int']
-        ]);
+
+  public function __construct() {
+      parent::__construct('demandedstreetsection');
+      $this->addFields([
+          ['name' => 'street', 'type' => 'varchar', 'length' => 255],
+          ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
+          ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
+          ['name' => 'entrance', 'type' => 'smallint'],
+          ['name' => 'user_note', 'type' => 'text'],
+          ['name' => 'multilane', 'type' => 'smallint'],
+          ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
+          ['name' => 'much_bus_traffic', 'type' => 'smallint'],
+          ['name' => 'reason_slower_buses', 'type' => 'text'],
+          ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
+          ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
+          ['name' => 'person', 'type' => 'int'],
+          ['name' => 'institution', 'type' => 'int'],
+          ['name' => 'status', 'type' => 'int'],
+          ['name' => 'mail_sent', 'type' => 'boolean']
+      ]);
+  }
+
+  public function observationUpdate($event) {
+    if ($event['context'] === 'onInsert') {
+      /**
+       * Ordne Straßenabschnitt dem aktuellen Benutzer zu:
+       * demandedstreetsection.person <- userData.id
+       */
+      $userData = FlexAPI::superAccess()->read('userdata', [
+        'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
+        'flatten' => 'singleResult'
+      ]);
+      FlexAPI::superAccess()->update('demandedstreetsection', [
+        'id' => $event['insertId'],
+        'person' => $userData['id']
+      ]);
     }
+  }
 }
 
 // class Status extends DataEntity {
