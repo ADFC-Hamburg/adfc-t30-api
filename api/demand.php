@@ -56,9 +56,9 @@ try {
         throw(new Exception('Es konnte kein zuständiges Polizeikommissariat gefunden werden.', 400));
     }
     $policeDepartment = $policeDepartment[0];
-    // $pdEmail = $policeDepartment['email'];
-    // $pdEmail = str_replace('polizei.hamburg.de', 'sven.anders.hamburg', $pdEmail);
-    $pdEmail = 'floderflo@web.de';
+    $pdEmail = $policeDepartment['email'];
+    // zum TEST:
+    $pdEmail = str_replace('polizei.hamburg.de', 'sven.anders.hamburg', $pdEmail);
 
     $demandMessage = implode("\n\n", [
         $demandEmail['mail_start'],
