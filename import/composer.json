@@ -1,0 +1,13 @@
+{
+  "name": "adfc-hamburg/adfc-t30-api/import",
+  "type": "project",
+  "require": {
+    "phpoffice/phpspreadsheet": "^1.9"
+  },
+  "authors": [
+    {
+      "name": "Sven Anders",
+      "email": "github2019@sven.anders.hamburg"
+    }
+  ]
+}
