@@ -261,7 +261,6 @@ class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
         $this->addFields([
-            ['name' => 'status_text', 'type' => 'text'],
             ['name' => 'mail_subject', 'type' => 'varchar', 'length' => 255],
             ['name' => 'mail_start', 'type' => 'text'],
             ['name' => 'mail_body', 'type' => 'text'],
@@ -300,7 +299,8 @@ class DemandedStreetSection extends IdEntity {
             ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
             ['name' => 'person', 'type' => 'int'],
             ['name' => 'institution', 'type' => 'int'],
-            ['name' => 'status', 'type' => 'int']
+            ['name' => 'status', 'type' => 'int'],
+            ['name' => 'progress_report', 'type' => 'text']
         ]);
     }
 }
