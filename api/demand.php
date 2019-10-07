@@ -88,13 +88,13 @@ try {
         'address' => $config['defaultFrom']['address'],
         'name' => $userData['first_name']." ".$userData['last_name']
     ]);
-    // $mailService->send(
-    //     $pdEmail,
-    //     $demandEmail['mail_subject'],
-    //     nl2br($demandMessage),   // HTML
-    //     $demandMessage,          // plain
-    //     [$userData['user'], $config['defaultFrom']['address']]        // CC
-    // );
+    $mailService->send(
+        $pdEmail,
+        $demandEmail['mail_subject'],
+        nl2br($demandMessage),   // HTML
+        $demandMessage,          // plain
+        [$userData['user'], $config['defaultFrom']['address']]        // CC
+    );
 
     FlexAPI::superAccess()->update('demandedstreetsection', [
         'id' => $demandEmail['demanded_street_section']['id'],
