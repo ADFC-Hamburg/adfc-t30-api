@@ -78,7 +78,7 @@ try {
         $demandEmail['mail_subject'],
         nl2br($demandMessage),   // HTML
         $demandMessage,          // plain
-        $userData['user']        // CC
+        [$userData['user'], $config['defaultFrom']['address']]        // CC
     );
 
     FlexAPI::superAccess()->update('demandedstreetsection', [
