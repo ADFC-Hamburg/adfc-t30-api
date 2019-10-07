@@ -308,22 +308,22 @@ class DemandedStreetSection extends IdEntity {
   public function __construct() {
       parent::__construct('demandedstreetsection');
       $this->addFields([
-        ['name' => 'street', 'type' => 'varchar', 'length' => 255],
-        ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
-        ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
-        ['name' => 'entrance', 'type' => 'smallint'],
-        ['name' => 'user_note', 'type' => 'text'],
-        ['name' => 'multilane', 'type' => 'smallint'],
-        ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
-        ['name' => 'much_bus_traffic', 'type' => 'smallint'],
-        ['name' => 'reason_slower_buses', 'type' => 'text'],
-        ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
-        ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
-        ['name' => 'person', 'type' => 'int'],
-        ['name' => 'institution', 'type' => 'int'],
-        ['name' => 'status', 'type' => 'int'],
-        ['name' => 'progress_report', 'type' => 'text'],
-        ['name' => 'mail_sent', 'type' => 'boolean']
+          ['name' => 'street', 'type' => 'varchar', 'length' => 255],
+          ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
+          ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
+          ['name' => 'entrance', 'type' => 'smallint'],
+          ['name' => 'user_note', 'type' => 'text'],
+          ['name' => 'multilane', 'type' => 'smallint'],
+          ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
+          ['name' => 'much_bus_traffic', 'type' => 'smallint'],
+          ['name' => 'reason_slower_buses', 'type' => 'text'],
+          ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
+          ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
+          ['name' => 'person', 'type' => 'int'],
+          ['name' => 'institution', 'type' => 'int'],
+          ['name' => 'status', 'type' => 'int'],
+          ['name' => 'progress_report', 'type' => 'text'],
+          ['name' => 'mail_sent', 'type' => 'boolean']
       ]);
   }
 
