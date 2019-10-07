@@ -46,7 +46,7 @@ class T30Factory extends DataModelFactory {
         $dataModel->addObservation([
             'observerName' => 'demandedstreetsection',
             'subjectName' => 'demandedstreetsection',
-            'context' => ['onInsert', 'onUpdate']
+            'context' => ['onInsert', 'beforeUpdate', 'onUpdate']
         ]);
         $dataModel->addObservation([
             'observerName' => 'email',
@@ -341,6 +341,21 @@ class DemandedStreetSection extends IdEntity {
         'id' => $event['insertId'],
         'person' => $userData['id']
       ]);
+    }
+    if ($event['context'] === 'beforeUpdate') {
+      $section = FlexAPI::superAccess()->read('demandedstreetsection', [
+        'filter' => [ 'id' => $event['data']['id'] ],
+        'selection' => ['mail_sent'],
+        'flatten' => 'singleResult'
+      ]);
+      if ($section['mail_sent']) {
+        $contains = array_key_exists('street', $event['data']);
+        $contains = $contains || array_key_exists('house_no_from', $event['data']);
+        $contains = $contains || array_key_exists('house_no_to', $event['data']);
+        if ($contains && !in_array('admin', FlexAPI::guard()->getUserRoles())) {
+          throw(new Exception("Fields 'street', 'house_no_from' and 'house_no_to' may not be changed after demand mail was sent.", 400));
+        }
+      }
     }
   }
 }
