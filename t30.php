@@ -1,11 +1,11 @@
 <?php
 
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModelFactory.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModel.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataEntity.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/IdEntity.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataModelFactory.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataModel.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataEntity.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/IdEntity.php';
 
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
 
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
@@ -96,7 +96,8 @@ class Institution extends IdEntity {
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point'],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
-            ['name' => 'status', 'type' => 'smallint']
+            ['name' => 'status', 'type' => 'smallint'],
+            ['name' => 'by_the_records', 'type' => 'text']
         ]);
     }
 
@@ -254,7 +255,6 @@ class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
         $this->addFields([
-            ['name' => 'status_text', 'type' => 'text'],
             ['name' => 'mail_subject', 'type' => 'varchar', 'length' => 255],
             ['name' => 'mail_start', 'type' => 'text'],
             ['name' => 'mail_body', 'type' => 'text'],
@@ -308,21 +308,22 @@ class DemandedStreetSection extends IdEntity {
   public function __construct() {
       parent::__construct('demandedstreetsection');
       $this->addFields([
-          ['name' => 'street', 'type' => 'varchar', 'length' => 255],
-          ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
-          ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
-          ['name' => 'entrance', 'type' => 'smallint'],
-          ['name' => 'user_note', 'type' => 'text'],
-          ['name' => 'multilane', 'type' => 'smallint'],
-          ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
-          ['name' => 'much_bus_traffic', 'type' => 'smallint'],
-          ['name' => 'reason_slower_buses', 'type' => 'text'],
-          ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
-          ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
-          ['name' => 'person', 'type' => 'int'],
-          ['name' => 'institution', 'type' => 'int'],
-          ['name' => 'status', 'type' => 'int'],
-          ['name' => 'mail_sent', 'type' => 'boolean']
+        ['name' => 'street', 'type' => 'varchar', 'length' => 255],
+        ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
+        ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
+        ['name' => 'entrance', 'type' => 'smallint'],
+        ['name' => 'user_note', 'type' => 'text'],
+        ['name' => 'multilane', 'type' => 'smallint'],
+        ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
+        ['name' => 'much_bus_traffic', 'type' => 'smallint'],
+        ['name' => 'reason_slower_buses', 'type' => 'text'],
+        ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
+        ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
+        ['name' => 'person', 'type' => 'int'],
+        ['name' => 'institution', 'type' => 'int'],
+        ['name' => 'status', 'type' => 'int'],
+        ['name' => 'progress_report', 'type' => 'text'],
+        ['name' => 'mail_sent', 'type' => 'boolean']
       ]);
   }
 
