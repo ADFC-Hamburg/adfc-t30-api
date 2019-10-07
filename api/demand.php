@@ -25,6 +25,7 @@ try {
         'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
         'flatten' => 'singleResult'
     ]);
+
     $demandEmail = FlexAPI::superAccess()->read('email', [
         'filter' => [
             'id' => $emailId,
@@ -33,7 +34,6 @@ try {
         'references' => ['format' => 'data'],
         'flatten' => 'singleResult'
     ]);
-
     if (!$demandEmail) {
         throw(new Exception('Keine Forderungs-Mail gefunden.', 400));
     }
@@ -44,7 +44,7 @@ try {
 
     $config = include(__DIR__."/../api.conf.php");
     $dbConnection = new PdoPreparedConnection($config['databaseCredentials']['data']);
-    
+
     $statement = $dbConnection->executeQuery(""
         . "SELECT policedepartment.email FROM policedepartment"
         . " JOIN institution ON ST_CONTAINS(policedepartment.geom, institution.position)"
@@ -67,7 +67,6 @@ try {
     ]);
 
     $response['message'] = 'Send demand to: '.$pdEmail;
-    
 
     $mailService = new SmtpMailService($config['mailing']['smtp'], [
         'address' => $config['defaultFrom']['address'],
@@ -83,7 +82,13 @@ try {
 
     FlexAPI::superAccess()->update('demandedstreetsection', [
         'id' => $demandEmail['demanded_street_section']['id'],
-        'mail_sent' => true
+        'mail_sent' => true,
+        'status' => DemandedStreetSection::STATUS_T30_FORDERUNG
+    ]);
+
+    FlexAPI::superAccess()->update('email', [
+        'id' => $emailId,
+        'sent_on' => date('Y-m-d h:i:s')
     ]);
 
 } catch (Exception $exc) {
