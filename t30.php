@@ -6,6 +6,7 @@ include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataEntity.php';
 include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/IdEntity.php';
 
 include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/pipes/IfEntityDataPipe.php';
 
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
@@ -273,8 +274,69 @@ class Email extends IdEntity {
             ['name' => 'demanded_street_section', 'type' => 'int'],
         ]);
     }
+}
 
-    public function observationUpdate($event) { }
+abstract class EmailPipe {
+  private $userId = null;
+  private $isAdmin = null;
+
+  protected function getUserId() {
+    if (!$this->userId) {
+      $userData = FlexAPI::superAccess()->read('userdata', [
+        'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
+        'flatten' => 'singleResult'
+      ]);
+      if ($userData) {
+        $this->userId = $userData['id'];
+      }
+    }
+    return $this->userId;
+  }
+
+  protected function isAdmin() {
+    if ($this->isAdmin === null) {
+      $this->isAdmin = in_array('admin', FlexAPI::guard()->getUserRoles());
+    }
+    return $this->isAdmin;
+  }
+}
+
+class FilterPrivateEmailFields extends EmailPipe implements IfEntityDataPipe {
+  public function transform($entity, $data) {
+      if ($entity->getName() === 'email') {
+        if (array_key_exists('person', $data)) {
+          $isPermitted = $this->isAdmin() || $this->getUserId() === $data['person'];
+          if (!$isPermitted) {
+            unset($data['mail_start']);
+            unset($data['mail_end']);
+          }
+        } else {
+          throw(new Exception("Field 'person' must be selected, when reading entity 'email'.", 400));
+        }
+      }
+      return $data;
+  }
+}
+
+class ProtectPrivateEmailFields extends EmailPipe implements IfEntityDataPipe {
+  public function transform($entity, $data) {
+      if ($entity->getName() === 'email') {
+        if (array_key_exists('id', $data)) {
+          if (array_key_exists('mail_start', $data) || array_key_exists('mail_end', $data)) {
+            $email = FlexAPI::superAccess()->read('email', [
+              'filter' => $entity->uniqueFilter($data['id']),
+              'flatten' => 'singleResult',
+              'selection' => ['id', 'person', 'mail_send']
+            ]);
+            $isPermitted = $this->isAdmin() || (!$email['mail_send'] && $this->getUserId() === $email['person']);
+            if (!$isPermitted) {
+              throw(new Exception("Not permitted to update field 'mail_start' or 'mail_end'", 403));
+            }
+          }
+        }
+      }
+      return $data;
+  }
 }
 
 class DemandedStreetSection extends IdEntity {

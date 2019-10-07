@@ -34,6 +34,8 @@ FlexAPI::define(function() {
         FlexAPI::config();
 
         FlexAPI::addPipe('input', new StripHtmlPipe());
+        FlexAPI::addPipe('input', new ProtectPrivateEmailFields());
+        FlexAPI::addPipe('output', new FilterPrivateEmailFields());
 
         if (FlexAPI::$env === 'prod') {
             $mailConfig = FlexAPI::get('mailing');
