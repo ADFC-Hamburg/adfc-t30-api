@@ -322,7 +322,7 @@ class DemandedStreetSection extends IdEntity {
           ['name' => 'person', 'type' => 'int'],
           ['name' => 'institution', 'type' => 'int'],
           ['name' => 'status', 'type' => 'int'],
-          ['name' => 'progress_report', 'type' => 'text']
+          ['name' => 'progress_report', 'type' => 'text'],
           ['name' => 'mail_sent', 'type' => 'boolean']
       ]);
   }
