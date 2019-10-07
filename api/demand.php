@@ -38,6 +38,22 @@ try {
         throw(new Exception('Keine Forderungs-Mail gefunden.', 400));
     }
 
+    $sonderAktion = FlexAPI::get('sonderAktion');
+    if (time() < $sonderAktion['expires']) {
+        $password = filter_input(INPUT_GET, 'sonderAktion');
+        if ($password === $sonderAktion['password']) {
+            $institution = FlexAPI::superAccess()->read('institution', [
+                'filter' => [ 'id' => $demandEmail['demanded_street_section']['institution'] ],
+                'flatten' => 'singleResult'
+            ]);
+            if (in_array($institution['type'], [3, 4])) {
+                throw(new Exception('Sonderaktion gilt leider nicht für Krankenhäuser und Pflegeheime.', 400));
+            }
+        } else {
+            throw(new Exception('Falsches Aktions-Passwort.', 400));
+        }
+    }
+
     if ($demandEmail['demanded_street_section']['mail_sent']) {
         throw(new Exception('Für den Straßenabschnitt wurde bereits eine Forderungsmail verschickt.', 400));
     }
@@ -72,13 +88,13 @@ try {
         'address' => $config['defaultFrom']['address'],
         'name' => $userData['first_name']." ".$userData['last_name']
     ]);
-    $mailService->send(
-        $pdEmail,
-        $demandEmail['mail_subject'],
-        nl2br($demandMessage),   // HTML
-        $demandMessage,          // plain
-        [$userData['user'], $config['defaultFrom']['address']]        // CC
-    );
+    // $mailService->send(
+    //     $pdEmail,
+    //     $demandEmail['mail_subject'],
+    //     nl2br($demandMessage),   // HTML
+    //     $demandMessage,          // plain
+    //     [$userData['user'], $config['defaultFrom']['address']]        // CC
+    // );
 
     FlexAPI::superAccess()->update('demandedstreetsection', [
         'id' => $demandEmail['demanded_street_section']['id'],
