@@ -276,8 +276,15 @@ class Email extends IdEntity {
           throw(new Exception('Missing demanded street section ID.', 400));
         }
         $sectionId = $event['data']['demanded_street_section'];
-        if(!FlexAPI::superAccess()->resourceExists('demandedstreetsection', ['id' => $sectionId])) {
+        $section = FlexAPI::superAccess()->read('demandedstreetsection', [
+          'filter' => [ 'id' => $sectionId ],
+          'flatten' => 'singleResult'
+        ]);
+        if (!$section) {
           throw(new Exception("No street section with ID = $sectionId found.", 400));
+        }
+        if ($section['mail_sent']) {
+          throw(new Excpetion("Demand mail already sent for given street section.", 400));
         }
       }
       if ($event['context'] === 'onInsert') {
