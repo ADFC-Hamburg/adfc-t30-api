@@ -2,6 +2,7 @@
 
 include_once __DIR__ . '/../api.php';
 include_once __DIR__ . '/../vendor/ADFC-Hamburg/flexapi/requestutils/jwt.php';
+include_once __DIR__ . '/../T30MailFactory.php';
 
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json; charset=utf-8');
@@ -38,12 +39,14 @@ try {
         throw(new Exception('Keine Forderungs-Mail gefunden.', 400));
     }
 
+    $section = $demandEmail['demanded_street_section'];
+
     $sonderAktion = FlexAPI::get('sonderAktion');
     if (time() < $sonderAktion['expires']) {
         $password = filter_input(INPUT_GET, 'sonderAktion');
         if ($password === $sonderAktion['password']) {
             $institution = FlexAPI::superAccess()->read('institution', [
-                'filter' => [ 'id' => $demandEmail['demanded_street_section']['institution'] ],
+                'filter' => [ 'id' => $section['institution'] ],
                 'flatten' => 'singleResult'
             ]);
             if (in_array($institution['type'], [3, 4])) {
@@ -54,7 +57,7 @@ try {
         }
     }
 
-    if ($demandEmail['demanded_street_section']['mail_sent']) {
+    if ($section['mail_sent']) {
         throw(new Exception('Für den Straßenabschnitt wurde bereits eine Forderungsmail verschickt.', 400));
     }
 
@@ -65,7 +68,7 @@ try {
         . "SELECT policedepartment.email FROM policedepartment"
         . " JOIN institution ON ST_CONTAINS(policedepartment.geom, institution.position)"
         . " WHERE institution.id = :institution",
-        [ 'institution' => $demandEmail['demanded_street_section']['institution'] ]
+        [ 'institution' => $section['institution'] ]
     );
     $policeDepartment = $statement->fetchAll();
     if (!count($policeDepartment)) {
@@ -84,28 +87,57 @@ try {
 
     $response['message'] = 'Send demand to: '.$pdEmail;
 
-    $mailService = new SmtpMailService($config['mailing']['smtp'], [
-        'address' => $config['defaultFrom']['address'],
-        'name' => $userData['first_name']." ".$userData['last_name']
-    ]);
+    $demandFrom = [
+        'address' => $userData['user'],
+        'name' => $userData['firstName']." ".$userData['lastName']
+    ];
+    if (FlexAPI::$env === 'dev') {
+        $demandFrom['address'] = $config['defaultFrom']['address'];
+    }
+
+    $mailService = new SmtpMailService($config['mailing']['smtp'], $demandFrom);
     $mailService->send(
         $pdEmail,
         $demandEmail['mail_subject'],
-        nl2br($demandMessage),   // HTML
-        $demandMessage,          // plain
+        null,            // no HTML
+        $demandMessage,  // plain
         [$userData['user'], $config['defaultFrom']['address']]        // CC
     );
 
     FlexAPI::superAccess()->update('demandedstreetsection', [
-        'id' => $demandEmail['demanded_street_section']['id'],
+        'id' => $section['id'],
         'mail_sent' => true,
         'status' => DemandedStreetSection::STATUS_T30_FORDERUNG
     ]);
 
     FlexAPI::superAccess()->update('email', [
         'id' => $emailId,
-        'sent_on' => date('Y-m-d h:i:s')
+        'sent_on' => date('Y-m-d h:i:s'),
+        'mail_send' => true
     ]);
+
+    $emailsWithSameSection = FlexAPI::superAccess()->read('email', [
+        'filter' => [ 'demanded_street_section' => $section['id'] ],
+        'references' => ['format' => 'data'],
+        'selection' => ['id', 'person']
+    ]);
+    $otherEmails = array_filter($emailsWithSameSection, function($m) use($emailId) { return $m['id'] != $emailId; });
+    $otherEmails = array_map(function($m) { return $m['person']['user']; }, $otherEmails);
+
+    $institution = FlexAPI::superAccess()->read('institution', [
+        'filter' => [ 'id' => $section['institution'] ],
+        'flatten' => 'singleResult'
+    ]);
+
+    $mailService = new SmtpMailService($config['mailing']['smtp'], $config['defaultFrom']);
+    foreach ($otherEmails as $to) {
+        $mailService->send(
+            $to,
+            'Tempo-30-Forderung: Jemand anderes war schneller.',
+            null, // no HTML
+            T30MailFactory::makeDemandSentNotificationMail($demandEmail, $institution, 'plain')
+        );
+    }
 
 } catch (Exception $exc) {
     $responseCode = $exc->getCode();
