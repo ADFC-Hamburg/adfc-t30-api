@@ -41,18 +41,15 @@ try {
 
     $section = $demandEmail['demanded_street_section'];
 
+    $institution = FlexAPI::superAccess()->read('institution', [
+        'filter' => [ 'id' => $section['institution'] ],
+        'flatten' => 'singleResult'
+    ]);
+
     $sonderAktion = FlexAPI::get('sonderAktion');
     if (time() < $sonderAktion['expires']) {
         $password = filter_input(INPUT_GET, 'sonderAktion');
-        if ($password === $sonderAktion['password']) {
-            $institution = FlexAPI::superAccess()->read('institution', [
-                'filter' => [ 'id' => $section['institution'] ],
-                'flatten' => 'singleResult'
-            ]);
-            if (in_array($institution['type'], [3, 4])) {
-                throw(new Exception('Sonderaktion gilt leider nicht für Krankenhäuser und Pflegeheime.', 400));
-            }
-        } else {
+        if (in_array($institution['type'], [1, 2]) && $password !== $sonderAktion['password']) {
             throw(new Exception('Falsches Aktions-Passwort.', 400));
         }
     }
@@ -123,11 +120,6 @@ try {
     ]);
     $otherEmails = array_filter($emailsWithSameSection, function($m) use($emailId) { return $m['id'] != $emailId; });
     $otherEmails = array_map(function($m) { return $m['person']['user']; }, $otherEmails);
-
-    $institution = FlexAPI::superAccess()->read('institution', [
-        'filter' => [ 'id' => $section['institution'] ],
-        'flatten' => 'singleResult'
-    ]);
 
     $mailService = new SmtpMailService($config['mailing']['smtp'], $config['defaultFrom']);
     foreach ($otherEmails as $to) {
