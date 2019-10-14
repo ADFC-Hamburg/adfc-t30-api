@@ -356,11 +356,19 @@ class DemandedStreetSection extends IdEntity {
         'flatten' => 'singleResult'
       ]);
       if ($section['mail_sent']) {
+        $allowedData = extractArray(
+          ['id', 'status', 'street', 'house_no_from', 'house_no_to'],
+          $event['data']
+        );
+        if (count($event['data']) !== count($allowedData)) {
+          throw(new Exception("Only fields 'status', 'street', 'house_no_from' and 'house_no_to' my be updated after demand mail was sent.", 400));
+        }
+
         $contains = array_key_exists('street', $event['data']);
         $contains = $contains || array_key_exists('house_no_from', $event['data']);
         $contains = $contains || array_key_exists('house_no_to', $event['data']);
         if ($contains && !in_array('admin', FlexAPI::guard()->getUserRoles())) {
-          throw(new Exception("Fields 'street', 'house_no_from' and 'house_no_to' may not be changed after demand mail was sent.", 400));
+          throw(new Exception("Fields 'street', 'house_no_from' and 'house_no_to' may not be changed by admin after demand mail was sent.", 400));
         }
       }
     }
