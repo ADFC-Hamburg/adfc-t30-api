@@ -234,23 +234,6 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
   }
 }
 
-
-// class Tempo30 extends IdEntity {
-//     public function __construct() {
-//         parent::__construct('tempo30');
-//         $this->addFields([
-//             ['name' => 'established on', 'type' => 'boolean'],
-//             ['name' => 'angeordnet_in', 'type' => 'boolean'],
-//             ['name' => 'eingerichtet_am', 'type' => 'date'],
-//             ['name' => 'angeordnet_am', 'type' => 'date'],
-//             ['name' => 'grund_tempo30', 'type' => 'varchar', 'length' => 1000],
-//             ['name' => 'ablehnungsgrund_tempo30', 'type' => 'varchar', 'length' => 1000],
-//             ['name' => 'zeitliche_beschraenkung', 'type' => 'smallint'],
-//             ['name' => 'abgelehnt_in', 'type' => 'boolean'],
-//         ]);
-//     }
-// }
-
 class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
@@ -374,26 +357,6 @@ class DemandedStreetSection extends IdEntity {
     }
   }
 }
-
-// class Status extends DataEntity {
-//     public function __construct() {
-//         parent::__construct('status');
-//         $this->addFields([
-//             ['name' => 'status_id', 'type' => 'smallint', 'primary' => true],
-//             ['name' => 'denotation', 'type' => 'varchar', 'length' => 1000],
-//         ]);
-//     }
-// }
-
-// class InstitutionType extends DataEntity {
-//     public function __construct() {
-//         parent::__construct('institutiontype');
-//         $this->addFields([
-//             ['name' => 'type_id', 'type' => 'smallint', 'primary' => true],
-//             ['name' => 'type', 'type' => 'varchar', 'length' => 255],
-//         ]);
-//     }
-// }
 
 class DistrictHamburg extends DataEntity {
     public function __construct() {
