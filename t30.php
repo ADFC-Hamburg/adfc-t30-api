@@ -95,9 +95,29 @@ class Institution extends IdEntity {
 
     public function observationUpdate($event) {
         if ($event['subjectName'] == 'demandedstreetsection') {
-          //$userDataId = $this->dataModel->idOf('userdata', [ 'user' => $event['user'] ]);
-          $instId= $event['data']['institution'];
-          $this->calcAndSetStatus($instId);
+          $instId = null;
+          if ($event['context'] === 'onInsert') {
+            if (!array_key_exists('institution', $event['data'])) {
+              throw(new Exception("Cannot create demanded street section without institution.", 400));
+            }
+            $instId= $event['data']['institution'];
+          } elseif ($event['context'] === 'onUpdate') {
+            if (array_key_exists('status', $event['data'])) {
+              if (array_key_exists('institution', $event['data'])) {
+                $instId = $event['data']['institution'];
+              } else {
+                $section = $this->dataModel->read('demandedstreetsection', [
+                  'filter' => ['institution' => $event['id']],
+                  'flatten' => 'singleResult',
+                  'selection' => ['institution']
+                ]);
+                $instId = $section['institution'];
+              }
+            }
+          }
+          if ($instId) {
+            $this->calcAndSetStatus($instId);
+          }
         }
     }
     public function calcAndSetStatus($id) {
