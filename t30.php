@@ -321,17 +321,18 @@ class FilterPrivateEmailFields extends EmailPipe implements IfEntityDataPipe {
 class ProtectPrivateEmailFields extends EmailPipe implements IfEntityDataPipe {
   public function transform($entity, $data) {
       if ($entity->getName() === 'email') {
-        if (array_key_exists('id', $data)) {
-          if (array_key_exists('mail_start', $data) || array_key_exists('mail_end', $data)) {
-            $email = FlexAPI::superAccess()->read('email', [
-              'filter' => $entity->uniqueFilter($data['id']),
-              'flatten' => 'singleResult',
-              'selection' => ['id', 'person', 'mail_send']
-            ]);
-            $isPermitted = $this->isAdmin() || (!$email['mail_send'] && $this->getUserId() === $email['person']);
-            if (!$isPermitted) {
-              throw(new Exception("Not permitted to update field 'mail_start' or 'mail_end'", 403));
-            }
+        $hasId = array_key_exists('id', $data);
+        $hasMailStart = array_key_exists('mail_start', $data);
+        $hasMailEnd = array_key_exists('mail_end', $data);
+        if ($hasId && ($hasMailStart || $hasMailEnd)) {
+          $email = FlexAPI::superAccess()->read('email', [
+            'filter' => $entity->uniqueFilter($data['id']),
+            'flatten' => 'singleResult',
+            'selection' => ['id', 'person', 'mail_send']
+          ]);
+          $isPermitted = $this->isAdmin() || (!$email['mail_send'] && $this->getUserId() === $email['person']);
+          if (!$isPermitted) {
+            throw(new Exception("Not permitted to update field 'mail_start' or 'mail_end'", 403));
           }
         }
       }
