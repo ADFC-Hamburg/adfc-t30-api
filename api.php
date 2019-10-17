@@ -1,16 +1,16 @@
 <?php
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/FlexAPI.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/PdoPreparedConnection.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/FilterParser.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/pipes/StripHtmlPipe.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/mail/SmtpMailService.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/RandomBytesTokenService.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/token/AlphaNumericTokenService.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/EmailVerificationService.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/TokenVerificationService.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/services/user-verification/MockVerificationService.php';
-include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/EntityMonitor.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/FlexAPI.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/database/PdoPreparedConnection.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/database/FilterParser.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/accesscontrol/ACL/ACLGuard.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/pipes/StripHtmlPipe.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/mail/SmtpMailService.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/token/RandomBytesTokenService.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/token/AlphaNumericTokenService.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/user-verification/EmailVerificationService.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/user-verification/TokenVerificationService.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/user-verification/MockVerificationService.php';
+include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/EntityMonitor.php';
 include_once __DIR__ . '/t30.php';
 include_once __DIR__ . '/T30MailFactory.php';
 
@@ -34,6 +34,8 @@ FlexAPI::define(function() {
         FlexAPI::config();
 
         FlexAPI::addPipe('input', new StripHtmlPipe());
+        FlexAPI::addPipe('input', new ProtectPrivateEmailFields());
+        FlexAPI::addPipe('output', new FilterPrivateEmailFields());
 
         if (FlexAPI::$env === 'prod') {
             $mailConfig = FlexAPI::get('mailing');
@@ -76,7 +78,6 @@ FlexApi::onSetup(function($request) {
 
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'street', false);
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'institution', false);
-    FlexAPI::guard()->allowCRUD('guest', 'cRud', 'policedepartment', false);
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'demandedstreetsection', false);
     FlexAPI::guard()->allowCRUD('admin', 'cRud', 'email'                , false);
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'userdata', true);
@@ -88,13 +89,13 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'street'               , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'userdata'             , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'institution'          , false);
-    FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'policedepartment'     , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'email'                , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'demandedstreetsection', false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'districthamburg'      , false);
     FlexAPI::guard()->allowCRUD('admin', 'CRUD', 'relationtoinstitution', false);
 
     FlexAPI::superAccess()->insert('districthamburg', include('./data/districtshamburg.php'));
+
 
     if (array_key_exists('fillInTestData', $request) && $request['fillInTestData']) {
         $institutions = (array) json_decode(file_get_contents(__DIR__."/test/data/institutions_reshaped.json"), true);
