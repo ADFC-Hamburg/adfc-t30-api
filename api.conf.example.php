@@ -51,5 +51,9 @@ return [
         "validityDuration" => 86000
     ],
     "passwordChangeValidityDuration" => 24*3600,
-    "reportDataChangesTo" => ["projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"]
+    "reportDataChangesTo" => ["projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"],
+    "sonderAktion" => [
+        "expires" => strtotime('2019-12-01 00:00:00'),
+        "password" => "aktion"
+    ]
 ];
