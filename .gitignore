@@ -10,6 +10,6 @@ vendor
 test/test/testConfig.json
 node_modules
 
-
+api.env.php
 
 api.conf.php
