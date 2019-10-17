@@ -38,6 +38,8 @@ sed -i -e "s/ADFC Hamburg/ADFC Hamburg Tempo30 vor sozialen Einrichtungen/" api.
 sed -i -e "s/\/adfc\/api-2019-07\/adfc-t30-api/\/t30-paten\/api\/version${VERSION}/" api.conf.php
 sed -i -e 's/"projekt-leiterin-t30@adfc-hamburg.de", "system-admin-t30@adfc-hamburg.de"/ "t30-changes@hamburg.adfc.de" /' api.conf.php
 
+cp api.env.dev.php api.env.php
+
 cd vendor
 ln -s adfc-hamburg ADFC-Hamburg
 cd ..
