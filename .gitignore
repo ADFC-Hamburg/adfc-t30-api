@@ -1,4 +1,6 @@
+
 userdata.json
+
 .gitignore
 local.env.json
 .vscode
@@ -7,8 +9,7 @@ composer.lock
 vendor
 test/test/testConfig.json
 node_modules
+
 api.env.php
+
 api.conf.php
-import/Daten_T30_Alle_sozEinr.xlsx
-import/vendor/
-import/geodaten.sql
