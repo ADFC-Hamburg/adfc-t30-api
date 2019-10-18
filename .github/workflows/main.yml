@@ -50,6 +50,9 @@ jobs:
        cp test/testConfig.example.json test/testConfig.json
        npm install
        npm test
+       echo == Log ==
+       cat screenlog.*
+       echo == Log ENDE ==
     - name: Kill screen
       continue-on-error: true
       env:
