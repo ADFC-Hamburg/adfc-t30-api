@@ -64,26 +64,6 @@ class T30MailFactory {
         };
     }
 
-    public static function makeDemandSentNotificationMail($demandMail, $institution, $format) {
-        $section = $demandMail['demanded_street_section'];
-        $message = ""
-        . "Hallo,"
-        . "\n\nfür den Straßenabschnitt"
-        . ' "'.$section['street']." ".$section['house_no_from']." - ".$section['house_no_to'].'"'." an der Einrichtung"
-        . "\n\n".$institution['name']
-        . "\n".$institution['street_house_no']
-        . "\n\nist nun bereits eine Forderungs-Email an das zuständige Polizeikommissariat versendet worden."
-        . "\n\nEs ist nun über das ADFC-Portal nicht mehr möglich eine weitere Forderung für diesen Abschnitt abzuschicken."
-        . "\nDu kannst aber gerne noch weitere Forderungsstraßenabschnitte für die oben genannte Institution einstellen."
-        . T30MailFactory::footer();
-
-        if ($format === 'html') {
-            return nl2br($message);
-        } else if ($format === 'plain') {
-            return $message;
-        }
-    }
-
     protected static function footer() {
         return ""
         . "\n\n--"

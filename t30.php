@@ -1,12 +1,11 @@
 <?php
 
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataModelFactory.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataModel.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/DataEntity.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/datamodel/IdEntity.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModelFactory.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataModel.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/DataEntity.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/datamodel/IdEntity.php';
 
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
-include_once __DIR__ . '/vendor/adfc-hamburg/flexapi/services/pipes/IfEntityDataPipe.php';
+include_once __DIR__ . '/vendor/ADFC-Hamburg/flexapi/database/queryfactories/AbstractReadQueryFactory.php';
 
 class T30Factory extends DataModelFactory {
     public function buildDataModel() {
@@ -19,6 +18,7 @@ class T30Factory extends DataModelFactory {
             new Street(),
             new UserData(),
             $institution,
+            new PoliceDepartment(),
             new Email(),
             new DemandedStreetSection(),
             new DistrictHamburg(),
@@ -32,6 +32,7 @@ class T30Factory extends DataModelFactory {
         $dataModel->addReference('demandedstreetsection.institution -> institution');
 
         $dataModel->addReference('email.person -> userdata');
+        $dataModel->addReference('email.police_department -> policedepartment');
         $dataModel->addReference('email.demanded_street_section -> demandedstreetsection');
 
         $dataModel->addObservation([
@@ -43,16 +44,6 @@ class T30Factory extends DataModelFactory {
             'observerName' => 'institution',
             'subjectName' => 'demandedstreetsection',
             'context' => ['onUpdate', 'onInsert', 'onDelete']
-        ]);
-        $dataModel->addObservation([
-            'observerName' => 'demandedstreetsection',
-            'subjectName' => 'demandedstreetsection',
-            'context' => ['onInsert', 'beforeUpdate', 'onUpdate']
-        ]);
-        $dataModel->addObservation([
-            'observerName' => 'email',
-            'subjectName' => 'email',
-            'context' => ['beforeInsert', 'onInsert', 'onUpdate']
         ]);
         return $dataModel;
     }
@@ -97,36 +88,15 @@ class Institution extends IdEntity {
             ['name' => 'city', 'type' => 'varchar', 'length' => 255],
             ['name' => 'position', 'type' => 'point', 'notNull' => false],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
-            ['name' => 'status', 'type' => 'smallint'],
-            ['name' => 'by_the_records', 'type' => 'text']
+            ['name' => 'status', 'type' => 'smallint']
         ]);
     }
 
     public function observationUpdate($event) {
         if ($event['subjectName'] == 'demandedstreetsection') {
-          $instId = null;
-          if ($event['context'] === 'onInsert') {
-            if (!array_key_exists('institution', $event['data'])) {
-              throw(new Exception("Cannot create demanded street section without institution.", 400));
-            }
-            $instId= $event['data']['institution'];
-          } elseif ($event['context'] === 'onUpdate') {
-            if (array_key_exists('status', $event['data'])) {
-              if (array_key_exists('institution', $event['data'])) {
-                $instId = $event['data']['institution'];
-              } else {
-                $section = $this->dataModel->read('demandedstreetsection', [
-                  'filter' => ['institution' => $event['id']],
-                  'flatten' => 'singleResult',
-                  'selection' => ['institution']
-                ]);
-                $instId = $section['institution'];
-              }
-            }
-          }
-          if ($instId) {
-            $this->calcAndSetStatus($instId);
-          }
+          //$userDataId = $this->dataModel->idOf('userdata', [ 'user' => $event['user'] ]);
+          $instId= $event['data']['institution'];
+          $this->calcAndSetStatus($instId);
         }
     }
     public function calcAndSetStatus($id) {
@@ -255,6 +225,38 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
   }
 }
 
+class PoliceDepartment extends IdEntity {
+    public function __construct() {
+        parent::__construct('policedepartment');
+        $this->addFields([
+            // ['name' => 'department_number', 'type' => 'int', 'primary' => true],
+            ['name' => 'region', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'street_house_no', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'zip', 'type' => 'varchar', 'length' => 5],
+            ['name' => 'city', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'phone', 'type' => 'varchar', 'length' => 20],
+            ['name' => 'email', 'type' => 'varchar', 'length' => 255],
+            // ['name' => 'area', 'type' => 'polygon']
+        ]);
+    }
+}
+
+// class Tempo30 extends IdEntity {
+//     public function __construct() {
+//         parent::__construct('tempo30');
+//         $this->addFields([
+//             ['name' => 'established on', 'type' => 'boolean'],
+//             ['name' => 'angeordnet_in', 'type' => 'boolean'],
+//             ['name' => 'eingerichtet_am', 'type' => 'date'],
+//             ['name' => 'angeordnet_am', 'type' => 'date'],
+//             ['name' => 'grund_tempo30', 'type' => 'varchar', 'length' => 1000],
+//             ['name' => 'ablehnungsgrund_tempo30', 'type' => 'varchar', 'length' => 1000],
+//             ['name' => 'zeitliche_beschraenkung', 'type' => 'smallint'],
+//             ['name' => 'abgelehnt_in', 'type' => 'boolean'],
+//         ]);
+//     }
+// }
+
 class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
@@ -271,106 +273,8 @@ class Email extends IdEntity {
             ['name' => 'demanded_street_section', 'type' => 'int'],
         ]);
     }
-  
-    public function observationUpdate($event) {
-      if ($event['context'] === 'beforeInsert') {
-        /**
-         * Checke, ob der Forderungsstraßenabschnitt angegeben ist und exisitiert.
-         */
-        if (!array_key_exists('demanded_street_section', $event['data'])) {
-          throw(new Exception('Missing demanded street section ID.', 400));
-        }
-        $sectionId = $event['data']['demanded_street_section'];
-        $section = FlexAPI::superAccess()->read('demandedstreetsection', [
-          'filter' => [ 'id' => $sectionId ],
-          'flatten' => 'singleResult'
-        ]);
-        if (!$section) {
-          throw(new Exception("No street section with ID = $sectionId found.", 400));
-        }
-        if ($section['mail_sent']) {
-          throw(new Excpetion("Demand mail already sent for given street section.", 400));
-        }
-      }
-      if ($event['context'] === 'onInsert') {
-        /**
-         * Ordne Email dem aktuellen Benutzer zu:
-         * email.person <- userData.id
-         */
-        $userData = FlexAPI::superAccess()->read('userdata', [
-          'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
-          'flatten' => 'singleResult'
-        ]);
-        FlexAPI::superAccess()->update('email', [
-          'id' => $event['insertId'],
-          'person' => $userData['id']
-        ]);
-      }
-    }
-}
 
-abstract class EmailPipe {
-  private $userId = null;
-  private $isAdmin = null;
-
-  protected function getUserId() {
-    if (!$this->userId) {
-      $userData = FlexAPI::superAccess()->read('userdata', [
-        'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
-        'flatten' => 'singleResult'
-      ]);
-      if ($userData) {
-        $this->userId = $userData['id'];
-      }
-    }
-    return $this->userId;
-  }
-
-  protected function isAdmin() {
-    if ($this->isAdmin === null) {
-      $this->isAdmin = in_array('admin', FlexAPI::guard()->getUserRoles());
-    }
-    return $this->isAdmin;
-  }
-}
-
-class FilterPrivateEmailFields extends EmailPipe implements IfEntityDataPipe {
-  public function transform($entity, $data) {
-      if ($entity->getName() === 'email') {
-        if (array_key_exists('person', $data)) {
-          $isPermitted = $this->isAdmin() || $this->getUserId() === $data['person'];
-          if (!$isPermitted) {
-            unset($data['mail_start']);
-            unset($data['mail_end']);
-          }
-        } else {
-          throw(new Exception("Field 'person' must be selected, when reading entity 'email'.", 400));
-        }
-      }
-      return $data;
-  }
-}
-
-class ProtectPrivateEmailFields extends EmailPipe implements IfEntityDataPipe {
-  public function transform($entity, $data) {
-      if ($entity->getName() === 'email') {
-        $hasId = array_key_exists('id', $data);
-        $hasMailStart = array_key_exists('mail_start', $data);
-        $hasMailEnd = array_key_exists('mail_end', $data);
-        if ($hasId && ($hasMailStart || $hasMailEnd)) {
-          $email = FlexAPI::superAccess()->read('email', [
-            'filter' => $entity->uniqueFilter($data['id']),
-            'flatten' => 'singleResult',
-            'selection' => ['id', 'person', 'mail_send']
-          ]);
-          $isPermitted = $this->isAdmin() || (!$email['mail_send'] && $this->getUserId() === $email['person']);
-          if (!$isPermitted) {
-            throw(new Exception("Not permitted to update field 'mail_start' or 'mail_end'", 403));
-          }
-        }
-      }
-      return $data;
-  }
+    public function observationUpdate($event) { }
 }
 
 class DemandedStreetSection extends IdEntity {
@@ -380,69 +284,46 @@ class DemandedStreetSection extends IdEntity {
   const STATUS_T30_OK=2;
   const STATUS_T30_ABGELEHNT=4;
   const STATUS_T30_ANGEORDNET=5;
-
-  public function __construct() {
-      parent::__construct('demandedstreetsection');
-      $this->addFields([
-          ['name' => 'street', 'type' => 'varchar', 'length' => 255],
-          ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
-          ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
-          ['name' => 'entrance', 'type' => 'smallint'],
-          ['name' => 'user_note', 'type' => 'text'],
-          ['name' => 'multilane', 'type' => 'smallint'],
-          ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
-          ['name' => 'much_bus_traffic', 'type' => 'smallint'],
-          ['name' => 'reason_slower_buses', 'type' => 'text'],
-          ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
-          ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
-          ['name' => 'person', 'type' => 'int'],
-          ['name' => 'institution', 'type' => 'int'],
-          ['name' => 'status', 'type' => 'int'],
-          ['name' => 'progress_report', 'type' => 'text'],
-          ['name' => 'mail_sent', 'type' => 'boolean']
-      ]);
-  }
-
-  public function observationUpdate($event) {
-    if ($event['context'] === 'onInsert') {
-      /**
-       * Ordne Straßenabschnitt dem aktuellen Benutzer zu:
-       * demandedstreetsection.person <- userData.id
-       */
-      $userData = FlexAPI::superAccess()->read('userdata', [
-        'filter' => [ 'user' => FlexAPI::guard()->getUsername() ],
-        'flatten' => 'singleResult'
-      ]);
-      FlexAPI::superAccess()->update('demandedstreetsection', [
-        'id' => $event['insertId'],
-        'person' => $userData['id']
-      ]);
+    public function __construct() {
+        parent::__construct('demandedstreetsection');
+        $this->addFields([
+            ['name' => 'street', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
+            ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
+            ['name' => 'entrance', 'type' => 'smallint'],
+            ['name' => 'user_note', 'type' => 'text', 'notNull' => false],
+            ['name' => 'multilane', 'type' => 'smallint'],
+            ['name' => 'bus_lines', 'type' => 'varchar', 'length' => 255],
+            ['name' => 'much_bus_traffic', 'type' => 'smallint'],
+            ['name' => 'reason_slower_buses', 'type' => 'text', 'notNull' => false],
+            ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
+            ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
+            ['name' => 'person', 'type' => 'int'],
+            ['name' => 'institution', 'type' => 'int'],
+            ['name' => 'status', 'type' => 'int']
+        ]);
     }
-    if ($event['context'] === 'beforeUpdate') {
-      $section = FlexAPI::superAccess()->read('demandedstreetsection', [
-        'filter' => [ 'id' => $event['data']['id'] ],
-        'selection' => ['mail_sent'],
-        'flatten' => 'singleResult'
-      ]);
-      if ($section['mail_sent']) {
-        $allowedData = extractArray(
-          ['id', 'status', 'street', 'house_no_from', 'house_no_to'],
-          $event['data']
-        );
-        if (count($event['data']) !== count($allowedData)) {
-          throw(new Exception("Only fields 'status', 'street', 'house_no_from' and 'house_no_to' my be updated after demand mail was sent.", 400));
-        }
-
-        $contains = array_key_exists('street', $event['data']);
-        $contains = $contains || array_key_exists('house_no_from', $event['data']);
-        $contains = $contains || array_key_exists('house_no_to', $event['data']);
-        if ($contains && !in_array('admin', FlexAPI::guard()->getUserRoles())) {
-          throw(new Exception("Fields 'street', 'house_no_from' and 'house_no_to' may not be changed by admin after demand mail was sent.", 400));
-        }
-      }
-    }
-  }
 }
+
+// class Status extends DataEntity {
+//     public function __construct() {
+//         parent::__construct('status');
+//         $this->addFields([
+//             ['name' => 'status_id', 'type' => 'smallint', 'primary' => true],
+//             ['name' => 'denotation', 'type' => 'varchar', 'length' => 1000],
+//         ]);
+//     }
+// }
+
+// class InstitutionType extends DataEntity {
+//     public function __construct() {
+//         parent::__construct('institutiontype');
+//         $this->addFields([
+//             ['name' => 'type_id', 'type' => 'smallint', 'primary' => true],
+//             ['name' => 'type', 'type' => 'varchar', 'length' => 255],
+//         ]);
+//     }
+// }
 
 class DistrictHamburg extends DataEntity {
     public function __construct() {
