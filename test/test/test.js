@@ -51,6 +51,7 @@ describe('API SETUP', function() {
             .set('Content-Type', 'application/json')
             .send(setupPayload)
             .end((err, res) => {
+                console.log(res.body.message);
                 res.should.have.status(200);
                 done();
         });
