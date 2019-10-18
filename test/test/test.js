@@ -42,7 +42,10 @@ let institutionsSlice1 = institutions.slice(5,12);
 let institutionsSlice2 = institutions.slice(12,20);
 
 describe('API SETUP', function() {
+    this.timeout(30000);
     step('it should setup API', function(done) {
+        this.timeout(30000);
+        setTimeout(done, 30000);
         chai.request(server)
             .post('/setup.php')
             .set('Content-Type', 'application/json')
