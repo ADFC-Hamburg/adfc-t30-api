@@ -98,7 +98,7 @@ class Institution extends IdEntity {
             ['name' => 'position', 'type' => 'point', 'notNull' => false],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint'],
-            ['name' => 'by_the_records', 'type' => 'text']
+            ['name' => 'by_the_records', 'type' => 'text', 'notNull' => false]
         ]);
     }
 
@@ -271,7 +271,7 @@ class Email extends IdEntity {
             ['name' => 'demanded_street_section', 'type' => 'int'],
         ]);
     }
-  
+
     public function observationUpdate($event) {
       if ($event['context'] === 'beforeInsert') {
         /**
