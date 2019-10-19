@@ -259,7 +259,6 @@ class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
         $this->addFields([
-            ['name' => 'status_text', 'type' => 'text', 'notNull' => false],
             ['name' => 'mail_subject', 'type' => 'varchar', 'length' => 255],
             ['name' => 'mail_start', 'type' => 'text', 'notNull' => false],
             ['name' => 'mail_body', 'type' => 'text', 'notNull' => false],
