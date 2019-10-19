@@ -98,7 +98,7 @@ class Institution extends IdEntity {
             ['name' => 'position', 'type' => 'point', 'notNull' => false],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint'],
-            ['name' => 'by_the_records', 'type' => 'text']
+            ['name' => 'by_the_records', 'type' => 'text', 'notNull' => false]
         ]);
     }
 
@@ -259,7 +259,6 @@ class Email extends IdEntity {
     public function __construct() {
         parent::__construct('email');
         $this->addFields([
-            ['name' => 'status_text', 'type' => 'text', 'notNull' => false],
             ['name' => 'mail_subject', 'type' => 'varchar', 'length' => 255],
             ['name' => 'mail_start', 'type' => 'text', 'notNull' => false],
             ['name' => 'mail_body', 'type' => 'text', 'notNull' => false],
@@ -271,7 +270,7 @@ class Email extends IdEntity {
             ['name' => 'demanded_street_section', 'type' => 'int'],
         ]);
     }
-  
+
     public function observationUpdate($event) {
       if ($event['context'] === 'beforeInsert') {
         /**
@@ -398,7 +397,7 @@ class DemandedStreetSection extends IdEntity {
           ['name' => 'person', 'type' => 'int'],
           ['name' => 'institution', 'type' => 'int'],
           ['name' => 'status', 'type' => 'int'],
-          ['name' => 'progress_report', 'type' => 'text'],
+          ['name' => 'progress_report', 'type' => 'text', 'notNull' => false],
           ['name' => 'mail_sent', 'type' => 'boolean']
       ]);
   }

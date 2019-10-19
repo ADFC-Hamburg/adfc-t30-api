@@ -26629,12 +26629,12 @@
     },
     {
         "position": [
-            null,
-            null
+            "10.0857736",
+            "53.6695616"
         ],
         "type": 1,
         "name": "KiTa Jim Knopf",
-        "street_house_no": "Ohlendieckshöhe 30",
+        "street_house_no": "Ohlendiekshöhe 30",
         "city": "Hamburg",
         "zip": 22399,
         "streetsection_complete": 0,
