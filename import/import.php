@@ -65,7 +65,9 @@ $colToField= [
         return getVal($w,'C',$i);
     },
     "street_house_no" => function ($w,$i) {
-        return getVal($w,'D',$i)." ".getVal($w,'E',$i);;
+        $rtn=getVal($w,'D',$i)." ".getVal($w,'E',$i);
+        $rtn=str_replace('Ohlendiecksh','Ohlendieksh',$rtn);
+        return $rtn;
     },
     "city" => function ($w, $i) {
         return "Hamburg";
