@@ -5,7 +5,7 @@
   "main": "run.js",
   "scripts": {
     "start": "SET NODE_ENV=dev",
-    "test": "mocha --require mocha-steps"
+    "test": "mocha --exit --require mocha-steps"
   },
   "author": "",
   "license": "ISC",
