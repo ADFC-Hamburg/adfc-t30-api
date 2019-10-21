@@ -384,8 +384,8 @@ class DemandedStreetSection extends IdEntity {
       parent::__construct('demandedstreetsection');
       $this->addFields([
           ['name' => 'street', 'type' => 'varchar', 'length' => 255],
-          ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 8],
-          ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 8],
+          ['name' => 'house_no_from', 'type' => 'varchar', 'length' => 255],
+          ['name' => 'house_no_to', 'type' => 'varchar', 'length' => 255],
           ['name' => 'entrance', 'type' => 'smallint'],
           ['name' => 'user_note', 'type' => 'text', 'notNull' => false],
           ['name' => 'multilane', 'type' => 'smallint'],
