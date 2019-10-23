@@ -393,7 +393,6 @@ class DemandedStreetSection extends IdEntity {
           ['name' => 'much_bus_traffic', 'type' => 'smallint'],
           ['name' => 'reason_slower_buses', 'type' => 'text', 'notNull' => false],
           ['name' => 'time_restriction', 'type' => 'varchar', 'length' => 1000],
-          ['name' => 'other_streets_checked', 'type' => 'varchar', 'length' => 1000],
           ['name' => 'person', 'type' => 'int'],
           ['name' => 'institution', 'type' => 'int'],
           ['name' => 'status', 'type' => 'int'],
@@ -423,20 +422,15 @@ class DemandedStreetSection extends IdEntity {
         'selection' => ['mail_sent'],
         'flatten' => 'singleResult'
       ]);
+      $allowedValues=['id', 'entrance', 'user_note', ',multilane', 'bus_lines', 'much_bus_traffic',
+      'reason_slower_buses', 'time_restriction', 'progress_report'];
       if ($section['mail_sent']) {
         $allowedData = extractArray(
-          ['id', 'status', 'street', 'house_no_from', 'house_no_to'],
+          $allowedValues,
           $event['data']
         );
-        if (count($event['data']) !== count($allowedData)) {
-          throw(new Exception("Only fields 'status', 'street', 'house_no_from' and 'house_no_to' my be updated after demand mail was sent.", 400));
-        }
-
-        $contains = array_key_exists('street', $event['data']);
-        $contains = $contains || array_key_exists('house_no_from', $event['data']);
-        $contains = $contains || array_key_exists('house_no_to', $event['data']);
-        if ($contains && !in_array('admin', FlexAPI::guard()->getUserRoles())) {
-          throw(new Exception("Fields 'street', 'house_no_from' and 'house_no_to' may not be changed by admin after demand mail was sent.", 400));
+        if ((count($event['data']) !== count($allowedData)) && (!in_array('admin', FlexAPI::guard()->getUserRoles()))) {
+          throw(new Exception("Only fields ". join(", ", $allowedValues) ." may be updated after demand mail was sent.", 400));
         }
       }
     }
