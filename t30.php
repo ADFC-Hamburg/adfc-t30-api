@@ -98,7 +98,8 @@ class Institution extends IdEntity {
             ['name' => 'position', 'type' => 'point', 'notNull' => false],
             ['name' => 'streetsection_complete', 'type' => 'boolean'],
             ['name' => 'status', 'type' => 'smallint'],
-            ['name' => 'by_the_records', 'type' => 'text', 'notNull' => false]
+            ['name' => 'by_the_records', 'type' => 'text', 'notNull' => false],
+            ['name' => 'company', 'type' => 'int']
         ]);
     }
 
@@ -422,7 +423,7 @@ class DemandedStreetSection extends IdEntity {
         'selection' => ['mail_sent'],
         'flatten' => 'singleResult'
       ]);
-      $allowedValues=['id', 'entrance', 'user_note', ',multilane', 'bus_lines', 'much_bus_traffic',
+      $allowedValues=['id', 'entrance','status', 'user_note', ',multilane', 'bus_lines', 'much_bus_traffic',
       'reason_slower_buses', 'time_restriction', 'progress_report'];
       if ($section['mail_sent']) {
         $allowedData = extractArray(
