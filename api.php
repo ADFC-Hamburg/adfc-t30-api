@@ -181,6 +181,16 @@ FlexAPI::onEvent('after-user-verification', function($event) {
     // }
 });
 
+FlexAPI::onEvent('after-email-change', function($event) {
+    if ($event['result']['emailChangeSuccessfull']) {
+        $userData = FlexAPI::superAccess()->read('userdata', [
+            'filter' => ['user' => $event['result']['oldEmail']],
+            'flatten' => 'singleResult'
+        ]);
+        $userData['user'] = $event['result']['newEmail'];
+        FlexAPI::superAccess()->update('userdata', $userData);
+    }
+});
 
 FlexAPI::onEvent('before-user-unregistration', function($event) {
     if (in_array($event['username'], ['admin', 'guest'])) {
