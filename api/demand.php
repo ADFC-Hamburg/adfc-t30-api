@@ -77,22 +77,20 @@ try {
     $pdEmail = str_replace('polizei.hamburg.de', 'sven.anders.hamburg', $pdEmail);
 
     $demandMessage = implode("\n\n", [
+        T30MailFactory::demandHeader($userData[user],$config['defaultFrom']['address']),
         $demandEmail['mail_start'],
         $demandEmail['mail_body'],
-        $demandEmail['mail_end']
+        $demandEmail['mail_end'],
+        T30MailFactory::demandFooter(),
     ]);
 
     $response['message'] = 'Send demand to: '.$pdEmail;
 
-    $demandFrom = [
-        'address' => $userData['user'],
-        'name' => $userData['firstName']." ".$userData['lastName']
-    ];
-    if (FlexAPI::$env === 'dev') {
-        $demandFrom['address'] = $config['defaultFrom']['address'];
-    }
-
+    $demandFrom = $config['demandFrom'];
     $mailService = new SmtpMailService($config['mailing']['smtp'], $demandFrom);
+
+    $mailService->addReplyTo($userData['user'], $userData['firstName']." ".$userData['lastName']);
+    $mailService->addReplyTo($config['defaultFrom']['address'], $config['defaultFrom']['name']);
     $mailService->send(
         $pdEmail,
         $demandEmail['mail_subject'],

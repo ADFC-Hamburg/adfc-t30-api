@@ -83,8 +83,19 @@ class T30MailFactory {
             return $message;
         }
     }
-
-    protected static function footer() {
+    public static function demandHeader($userMail, $t30mail) {
+        return ""
+        . "\nDiese E-Mail wurde mit Hilfe des Online-Tools \"Tempo 30 an sozialen Einrichtungen\" des ADFC Hamburg verschickt."
+        . "\nBitte senden Sie Ihre Antwort auf das Gesuch an ". $userMail." und ".$t30mail. "."
+        . "\n\n\n";
+    }
+    public static function demandFooter() {
+      return ""
+      ."\n\n--"
+      ."\nMehr Informationen zur Kampagne \"Tempo 30 an sozialen Einrichtungen\" des ADFC Hamburg:"
+      ."\nhttps://hamburg.adfc.de/tempo30sozial";
+    }
+    public static function footer() {
         return ""
         . "\n\n--"
         . "\nTempo 30 an sozialen Einrichtungen"
