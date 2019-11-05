@@ -39,6 +39,10 @@ return [
       "address" => "adfc@ben-steffen.de",
       "name" => "ADFC Hamburg"
     ],
+    "demandFrom" => [
+      "address" => "bitte-nicht-antworten-t30f@tools.adfc-hamburg.de",
+      "name" => "ADFC Hamburg Bitte nicht an diese Addresse antworten"
+    ],
     "defaultUrlScheme" => 'http',
     "basePath" => "/adfc/api-2019-07/adfc-t30-api",
     "apiPath" => "/api",
