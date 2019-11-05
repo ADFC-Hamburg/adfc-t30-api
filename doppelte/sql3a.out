@@ -1,0 +1,3 @@
+UPDATE institution SET position=ST_GeomFromText("POINT(10.018705999999998 53.551051)") WHERE id=1348;
+UPDATE institution SET position=ST_GeomFromText("POINT(10.132388999999998 53.49445)") WHERE id=1841;
+UPDATE institution SET position=ST_GeomFromText("POINT(10.147908 53.528512)") WHERE id=1811;
