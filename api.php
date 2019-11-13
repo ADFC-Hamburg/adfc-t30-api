@@ -82,7 +82,7 @@ FlexApi::onSetup(function($request) {
     FlexAPI::guard()->allowCRUD('guest', 'cRud', 'email'                , false);
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'userdata', true);
     FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'institution', false);
-    FlexAPI::guard()->allowCRUD('registered', 'CRUd', 'demandedstreetsection', false);
+    FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'demandedstreetsection', false);
     FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'email'                , false);
     FlexAPI::guard()->allowCRUD('registered', 'CRUD', 'relationtoinstitution', false);
 
