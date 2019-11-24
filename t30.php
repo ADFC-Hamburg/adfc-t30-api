@@ -205,7 +205,6 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
       //array_push($fieldSelection, 'policedepartment');
     }
     $addDistrict = false;
-    $addPK = false;
     if (in_array('district', $fieldSelection)) {
       $addDistrict = true;
       $index = array_search('district', $fieldSelection);
@@ -213,6 +212,7 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
         unset($fieldSelection[$index]);
       }
     }
+    $addPK = false;
     if (in_array('policedepartment', $fieldSelection)) {
       $addPK = true;
       $index = array_search('policedepartment', $fieldSelection);
@@ -225,13 +225,25 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
     });
     if ($addDistrict) {
       $fieldSequence->addItem(Sql::Column('district', 'township', null, 'string', 'district'));
-      //$fieldSequence->addItem(Sql::Column('name', 'township', null, 'string', 'township));
     }
     if ($addPK) {
         $fieldSequence->addItem(Sql::Column('name', 'polzeikommiseriate', null, 'string', 'policedepartment'));
-        //$fieldSequence->addItem(Sql::Column('policedepartment_email', 'email', null, 'string', 'polzeikommiseriate'));
-
     }
+
+    if (in_array('updated', $fieldSelection)) {
+      $index = array_search('updated', $fieldSelection);
+      if ($index !== false) {
+        unset($fieldSelection[$index]);
+      }
+    }
+    $fieldSequence->addItem(Sql::Column('timeStamp', 'changemetadata', null, 'string', 'updated'));
+
+    // falls Filter einfache Condition mit 'updated' ist: [updated,<oprator>,<timestamp>]
+    if (get_class($filter['tree']) === 'QueryCondition' && $filter['tree']->itemA->name) {
+      $filter['tree']->itemA->name = 'timeStamp';
+      $filter['tree']->itemA->table = 'changemetadata';
+    }
+
     $select = 'SELECT';
     if ($distinct) {
         $select .= ' DISTINCT';
@@ -244,9 +256,12 @@ class InstitutionSqlReadQueryFactory extends AbstractReadQueryFactory {
     if (count($pagination) > 0) {
         $paginationQuery = ' '.Sql::Pagination($pagination)->toQuery();
     }
-    return sprintf("%s %s FROM `institution` JOIN `township` ON ST_CONTAINS(`township`.`geom`,`institution`.`position`) ".
-                                            //"JOIN `polzeikommiseriate` ON ST_CONTAINS(`polzeikommiseriate`.`geom`,`institution`.`position`) ".
-                                            "WHERE %s%s%s",
+    return sprintf(""
+      . "%s %s FROM `institution`"
+      . " JOIN `township` ON ST_CONTAINS(`township`.`geom`,`institution`.`position`)"
+      . " LEFT OUTER JOIN `entitychange` ON entitychange.entityName = 'institution' and entitychange.entityId = institution.id"
+      . " LEFT OUTER JOIN `changemetadata` ON entitychange.meta = changemetadata.id"
+      . " WHERE %s%s%s",
         $select,
         $fieldSequence->toQuery(),
         Sql::attachCreator($filter['tree'])->toQuery(),
