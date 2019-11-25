@@ -47,7 +47,7 @@ class T30Factory extends DataModelFactory {
         $dataModel->addObservation([
             'observerName' => 'demandedstreetsection',
             'subjectName' => 'demandedstreetsection',
-            'context' => ['onInsert', 'beforeUpdate', 'onUpdate']
+            'context' => ['onInsert', 'beforeUpdate', 'onUpdate', 'beforeDelete']
         ]);
         $dataModel->addObservation([
             'observerName' => 'email',
@@ -432,6 +432,19 @@ class DemandedStreetSection extends IdEntity {
         );
         if ((count($event['data']) !== count($allowedData)) && (!in_array('admin', FlexAPI::guard()->getUserRoles()))) {
           throw(new Exception("Only fields ". join(", ", $allowedValues) ." may be updated after demand mail was sent.", 400));
+        }
+      }
+    }
+    if ($event['context'] === 'beforeDelete') {
+      $sections = FlexAPI::superAccess()->read('demandedstreetsection', [
+        'filter' => $event['filter']
+      ]);
+      if (!$sections) { // nothing to delete
+        return;
+      }
+      foreach ($sections as $section) {
+        if ($section['mail_sent']) {
+          throw(new Exception('Cannot delete section with id = '.$section['id'].', because mail was already sent for this section.', 400));
         }
       }
     }
