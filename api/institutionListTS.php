@@ -19,6 +19,9 @@ function map_func($row) {
 }
 if ($statement2->execute()) {
     $stamp = intval($statement2->fetch(PDO::FETCH_NUM)[0]);
+    if ($stamp == 0) {
+      $stamp=1;
+    }
     $data = [];
      if ($stamp != $timestamp) {
          if($statement->execute()) {
