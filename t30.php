@@ -104,6 +104,7 @@ class Institution extends IdEntity {
     }
 
     public function observationUpdate($event) {
+        // file_put_contents("php://stdout", "\nRequested: ".json_encode($event));
         if ($event['subjectName'] == 'demandedstreetsection') {
           $instId = null;
           if ($event['context'] === 'onInsert') {
@@ -117,7 +118,7 @@ class Institution extends IdEntity {
                 $instId = $event['data']['institution'];
               } else {
                 $section = $this->dataModel->read('demandedstreetsection', [
-                  'filter' => ['institution' => $event['id']],
+                  'filter' => ['id' => $event['data']['id']],
                   'flatten' => 'singleResult',
                   'selection' => ['institution']
                 ]);
@@ -131,6 +132,7 @@ class Institution extends IdEntity {
         }
     }
     public function calcAndSetStatus($id) {
+
         $d_result = $this->dataModel->read('demandedstreetsection',
           [
             'filter' => ['institution' => $id],
@@ -187,10 +189,12 @@ class Institution extends IdEntity {
                 break;
             }
         }
-        if ($i_result[0]['status'] !=$newstatus) {
+        $oldstatus= $i_result[0]['status'];
+        // file_put_contents("php://stdout", "\nStatus Inst $id: $oldstatus -> $newstatus ");
+        if ($oldstatus != $newstatus) {
             $this->dataModel->update('institution',
             [
-              'id' =>$id,
+              'id' => $id,
               'status' => $newstatus
             ]);
         }
